@@ -48,7 +48,7 @@ const GR="She ___ to school every day.|goes|go|going|gone|مع she بنزود s 
 const rnd=a=>a[Math.random()*a.length|0],shuf=a=>[...a].sort(()=>Math.random()-.5);
 const opts=(c,p)=>{const o=new Set([c]);let t=0;while(o.size<4&&t++<300)o.add(rnd(p));return shuf([...o])};
 const B=[['placed','🎓','اجتاز اختبار المستوى'],['first','🥇','أول اختبار'],['perfect','💯','نتيجة كاملة'],['c100','🪙','100 كوين'],['c500','💰','500 كوين'],['w20','📚','20 كلمة في مخزنك'],['l5','🚀','مستوى 5'],['s50','⭐','50 نجمة'],['g3','💎','3 ماسات'],['sw3','⚔️','3 سيوف'],['m10','👻','فارس الشبح: المستوى 10']];
-const lv=()=>1+Math.floor(U.xp/100);
+const lv=()=>1+Math.floor(((U.xp||0)+(U.cx||0))/100);
 const EM="apple,🍎,تفاحة;banana,🍌,موزة;cat,🐱,قطة;dog,🐶,كلب;fish,🐟,سمكة;bird,🐦,عصفورة;cow,🐄,بقرة;lion,🦁,أسد;monkey,🐒,قرد;elephant,🐘,فيل;rabbit,🐰,أرنب;duck,🦆,بطة;frog,🐸,ضفدع;horse,🐴,حصان;pig,🐷,خنزير;sun,☀️,شمس;moon,🌙,قمر;star,⭐,نجمة;tree,🌳,شجرة;flower,🌸,وردة;house,🏠,بيت;car,🚗,عربية;bus,🚌,أتوبيس;ball,⚽,كورة;book,📚,كتاب;egg,🥚,بيضة;milk,🥛,لبن;cake,🎂,تورتة;grapes,🍇,عنب;orange,🍊,برتقالة;lemon,🍋,ليمونة;pizza,🍕,بيتزا;hat,🎩,قبعة;shoe,👟,جزمة;key,🔑,مفتاح;bed,🛏️,سرير;bell,🔔,جرس;kite,🪁,طيارة ورق;rain,🌧️,مطر;heart,❤️,قلب;crown,👑,تاج;fire,🔥,نار;snake,🐍,تعبان;bee,🐝,نحلة;turtle,🐢,سلحفاة".split(';').map(x=>x.split(','));
 const RK=[['🛡️','حارس'],['⚔️','فارس'],['👻','فارس الشبح'],['☁️','سيّد السحاب'],['💎','صائد الماس'],['🐉','فارس التنين'],['👑','ملك الكلمات']];
 function rk(){const n=Math.floor((lv()-1)/5),r=RK[n%7];return[r[0],r[1]+(n>=7?' ×'+(Math.floor(n/7)+1):'')]}
@@ -114,10 +114,35 @@ if(m.length>=N&&op.length>=N)return resV(d,m,op,s);
 if(Date.now()<d.t0)return '<div class="card c"><div class="kg">'+Math.ceil((d.t0-Date.now())/1000)+'</div><p>استعد!</p></div>';
 if(m.length>=N)return '<div class="card c"><h3>خلصت! ⏳ بانتظار الخصم ('+op.length+'/'+N+')</h3><p>نتيجتك '+sc(m)+'</p></div>';
 const qi=CH.fb?m.length-1:m.length,q=d.qs[qi],a=CH.fb?m[qi]:null;
-return '<div class="card"><div class="row" style="justify-content:space-between"><b>أنت '+sc(m)+'</b><span class="mu">'+(qi+1)+'/'+N+'</span><b>'+esc(s==='1'?d.n2:d.n1)+' '+sc(op)+'</b></div><div class="bar"><i id="tb" style="width:100%"></i></div><p class="big2 '+(q.en?'en':'')+'" style="font-weight:700" dir="auto">'+esc(q.p)+'</p>'+q.o.map((x,j)=>'<button dir="auto" class="b2 o '+(a?(x===q.a?'ok':(j===a.k?'no':'')):'')+'" '+(a?'disabled':'')+' onclick="ans('+j+')">'+esc(x)+'</button>').join('')+'</div>'}
+return '<div class="card"><div class="row" style="justify-content:space-between"><b>أنت '+sc(m)+'</b><span class="mu">'+(qi+1)+'/'+N+'</span><b>'+esc(s==='1'?d.n2:d.n1)+' '+sc(op)+'</b></div><div class="bar"><i id="tb" style="width:100%"></i></div><p class="big2 '+(q.en?'en':'')+'" style="font-weight:700" dir="auto">'+esc(q.p)+'</p>'+q.o.map((x,j)=>'<button dir="auto" class="b2 o '+(a?(x===a.a?'ok':(j===a.k?'no':'')):'')+'" '+(a?'disabled':'')+' onclick="ans('+j+')">'+esc(x)+'</button>').join('')+'</div>'}
 const o=oth();return CH.inv.map((x,i)=>'<div class="card"><b>⚔️ '+esc(x.n1)+' بيتحداك!</b><div class="row"><button class="b ok" onclick="acc('+i+',1)">قبول</button><button class="b2" onclick="acc('+i+',0)">رفض</button></div></div>').join('')+
 '<div class="card c"><div style="font-size:44px">⚔️</div><h3>تحدّي طالب</h3><p class="mu">7 أسئلة · 15 ثانية لكل سؤال · الأسرع والأدق بيكسب</p><button class="b" onclick="chI(0)">🔍 دوّر على خصم بنفس مستواي</button></div><h3>أونلاين دلوقتي ('+o.length+')</h3>'+
 (o.length?o.map((p,i)=>'<div class="card w"><div><b>'+esc(p.n)+'</b> · مستوى '+esc(p.l)+(i===0?' <span class="mu">⭐ مقترح</span>':'')+'</div><button class="b" style="width:auto;margin:0;padding:8px 14px" onclick="chI('+i+')">تحدّي</button></div>').join(''):'<p class="mu c">مفيش حد تاني فاتح التطبيق دلوقتي</p>')}
+/* online challenge on Supabase (overrides the claude.ai-only versions above) */
+async function chInit(){if(!SB||!ST.id||CH.i===ST.id)return;CH.i=ST.id;CH.db=SB;CH.room=1;CH.me=ST.id;
+const L=SB.channel('lobby',{config:{private:true,presence:{key:ST.id}}});CH.L=L;
+L.on('presence',{event:'sync'},()=>{CH.peers=Object.values(L.presenceState()).flat().map(p=>({isMe:p.id===ST.id,presence:p}));if(S.tab==='c'&&!CH.cur&&!S.z)render()}).subscribe(s=>{if(s==='SUBSCRIBED'){CH.pk='';pres()}});
+const ld=async()=>{const r=await SB.from('challenges').select('id,n1,created_at').eq('p2',ST.id).eq('st','invite');CH.inv=(r.data||[]).filter(x=>Date.now()-new Date(x.created_at)<300000);if(S.tab==='c'&&!CH.cur&&!S.z)render()};
+ld();SB.channel('inv'+ST.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'challenges',filter:'p2=eq.'+ST.id},ld).subscribe()}
+function pres(){const k=ST.id+'|'+(U?lv():0);if(CH.L&&ST.p&&CH.pk!==k){CH.pk=k;CH.L.track({id:ST.id,n:ST.p.full_name.split(' ')[0],l:lv()})}}
+async function ch(id){try{const qs=[],keys=[];for(let i=0;i<7;i++){const q=mkQ(rnd(['w1','w2','s1','gr','w1','s1','gr']),DW);qs.push({p:q.p,o:q.o,en:q.en?1:0});keys.push(q.a)}
+const r=await SB.rpc('create_challenge',{p2:id,qs,keys});if(r.error)throw r.error;chOpen(r.data)}catch(e){S.note='تعذّر إرسال التحدي';render()}}
+function chOpen(cid){CH.cur=cid;CH.d=null;CH.my=[];CH.fb=0;CH.qs=0;CH.t0=0;CH.paid=0;CH.busy=0;if(CH.un)SB.removeChannel(CH.un);clearInterval(CH.t);
+const set=d=>{if(d.st==='play'&&!CH.t0)CH.t0=Date.now()+3000;d.t0=CH.t0||0;CH.d=d;render()};
+SB.from('challenges').select('*').eq('id',cid).single().then(r=>{if(r.data)set(r.data)});
+CH.un=SB.channel('c'+cid).on('postgres_changes',{event:'UPDATE',schema:'public',table:'challenges',filter:'id=eq.'+cid},p=>set(p.new)).subscribe();
+CH.t=setInterval(tick,200);render()}
+async function acc(i,y){const x=CH.inv[i];if(!x)return;const r=await SB.rpc('respond_challenge',{cid:x.id,y:!!y});if(r.error){S.note='تعذّر الرد على التحدي';return render()}CH.inv.splice(i,1);if(y)chOpen(x.id);else render()}
+function chLeave(){if(CH.un)SB.removeChannel(CH.un);CH.un=null;clearInterval(CH.t);CH.cur=null;CH.d=null;render()}
+async function ans(i){const d=CH.d;if(!d||CH.fb||CH.busy)return;CH.busy=1;const idx=CH.my.length,q=d.qs[idx],ms=Math.min(Date.now()-CH.qs,15000);
+const r=await SB.rpc('answer',{cid:CH.cur,qi:idx,choice:i>=0?q.o[i]:'',ms}),x=r.data||{};
+CH.my.push({k:i,ok:!!x.ok,ms,a:x.a||''});CH.fb=1;CH.busy=0;render();setTimeout(()=>{CH.fb=0;CH.qs=Date.now();render()},900)}
+function pay(w){if(!U.ch.includes(CH.cur)){U.ch.push(CH.cur);U.coins+=w===1?30:10;if(w===1)U.gems=(U.gems||0)+1;chk();save()}
+SB.from('profiles').select('ch_xp').eq('id',ST.id).single().then(r=>{if(r.data){U.cx=r.data.ch_xp;pres();render()}})}
+function resV(d,m,o,s){const a=sc(m),b=sc(o),w=a>b?1:a<b?0:2;if(!CH.paid){CH.paid=1;pay(w)}
+const bad=d.qs.map((q,i)=>[q,m[i]]).filter(x=>x[1]&&!x[1].ok);
+return '<div class="card c"><h2>'+(w===1?'🏆 فزت!':w===2?'🤝 تعادل':'💪 حظ أوفر')+'</h2><p>أنت '+a+' · '+esc(s==='1'?d.n2:d.n1)+' '+b+'</p><p class="mu">مستواك '+lv()+' · +'+(w===1?30:10)+' 🪙</p></div>'+
+(bad.length?'<h3>راجع أخطاءك</h3>'+bad.map(x=>'<div class="card"><p dir="auto">'+esc(x[0].p)+'</p><p>الصح: <b dir="auto" style="color:var(--ok)">'+esc(x[1].a)+'</b></p></div>').join(''):'<p class="c">ولا غلطة! 💯</p>')+'<button class="b" onclick="chLeave()">رجوع للتحديات</button>'}
 function setSt(s){U.stage=s;save();render()}
 function mapV(){const st=U.stage||'gen',L=U.lvl||1;let n='';
 for(let i=Math.max(1,L-2);i<=L+4;i++)n+='<span class="nd '+(i<L?'dn':i===L?'cu':'')+'">'+(i<L?'⭐':i===L?'⚔️':i%5===0?'👻':'🔒')+'</span>';
@@ -163,7 +188,7 @@ return '<div class="card c"><h2>'+(z.p>=.7?'🎉 ممتاز!':'💪 كمّل!')+
 (z.bad.length?'<h3>راجع أخطاءك</h3>'+z.bad.map(q=>'<div class="card"><p dir="auto">'+esc(q.p)+'</p><p>إجابتك: <b dir="auto" style="color:var(--no)">'+esc(q.v)+'</b>'+(q.ty&&lev(String(q.v).toLowerCase(),q.a)<=2?' — قريبة! تقصد «'+esc(q.a)+'»':'')+'</p><p>الصح: <b dir="auto" style="color:var(--ok)">'+esc(q.a)+'</b></p><p class="mu" dir="auto">'+esc(q.e)+'</p></div>').join(''):'<p class="c">ولا غلطة! 💯</p>')+
 '<button class="b" onclick="S.z=null;S.tab=\'p\';render()">تمام</button>'}
 function placeV(){return '<div class="card c"><div style="font-size:48px">🎓</div><h2>اختبار المستوى</h2><p>12 سؤال في الكلمات والجمل والقواعد. لو جبت 70% أو أكتر هتاخد شارة وكوينز.</p><button class="b" onclick="qstart(\'place\')">ابدأ الاختبار</button><button class="b2" onclick="U.placed=1;U.stage=\'kg1\';S.tab=\'m\';save();render()">🧒 أنا في KG1 / KG2</button><button class="b2" onclick="U.placed=1;save();render()">تخطي الآن</button></div>'}
-function badgeV(){return '<div class="card c"><div class="big">'+rk()[0]+' '+rk()[1]+' · مستوى '+lv()+'</div><div class="bar"><i style="width:'+(U.xp%100)+'%"></i></div><p>🪙 '+U.coins+' كوين · ⭐'+(U.stars||0)+' · ⚔️'+(U.swords||0)+' · 💎'+(U.gems||0)+' · '+(U.lvn||'—')+'</p></div><div class="g">'+B.map(b=>'<div class="card c" style="opacity:'+(U.badges.includes(b[0])?1:.35)+'"><div style="font-size:34px">'+b[1]+'</div><div class="mu">'+b[2]+'</div></div>').join('')+'</div><button class="b2" onclick="qstart(\'place\')">إعادة اختبار المستوى</button>'}
+function badgeV(){return '<div class="card c"><div class="big">'+rk()[0]+' '+rk()[1]+' · مستوى '+lv()+'</div><div class="bar"><i style="width:'+(((U.xp||0)+(U.cx||0))%100)+'%"></i></div><p>🪙 '+U.coins+' كوين · ⭐'+(U.stars||0)+' · ⚔️'+(U.swords||0)+' · 💎'+(U.gems||0)+' · '+(U.lvn||'—')+'</p></div><div class="g">'+B.map(b=>'<div class="card c" style="opacity:'+(U.badges.includes(b[0])?1:.35)+'"><div style="font-size:34px">'+b[1]+'</div><div class="mu">'+b[2]+'</div></div>').join('')+'</div><button class="b2" onclick="qstart(\'place\')">إعادة اختبار المستوى</button>'}
 function viewV(){if(S.z)return quizV2();if(!U.placed)return placeV();return S.tab==='c'?chV():S.tab==='m'?mapV():S.tab==='p'?pracV():S.tab==='b'?badgeV():wordsV()}
 try{DB=JSON.parse(localStorage.getItem('kh')||'{}')}catch(e){DB={}}
 DB.users=DB.users||{};
@@ -212,7 +237,7 @@ async function cLoad(user){const{data:p,error}=await SB.from('profiles').select(
 if(error||!p){await SB.auth.signOut();throw new Error('الحساب غير مكتمل')}
 if(p.banned){await SB.auth.signOut();throw new Error('الحساب موقوف، تواصل مع الإدارة')}
 let url=null;if(p.avatar_url){const r=await SB.storage.from('avatars').createSignedUrl(p.avatar_url,3600);url=r.data&&r.data.signedUrl}
-ST={id:user.id,p,url};DB.cur='cloud:'+user.id;U=DB.users[DB.cur]=Object.assign({words:[],coins:0,xp:0,badges:[]},p.progress||{});S.tab='w';S.reg=0;render()}
+ST={id:user.id,p,url};DB.cur='cloud:'+user.id;U=DB.users[DB.cur]=Object.assign({words:[],coins:0,xp:0,badges:[]},p.progress||{});U.cx=p.ch_xp||0;S.tab='w';S.reg=0;render()}
 async function cInit(){if(!SB)return;try{const{data}=await SB.auth.getSession();if(data.session)await cLoad(data.session.user)}catch(e){}}
 /* auth */
 function auth(){const n=$('#un').value.trim().toLowerCase(),p=$('#pn').value,er=$('.er');
@@ -220,7 +245,7 @@ if(!n||p.length<4){er.textContent='اكتب الاسم ورقم سري 4 أرق�
 if(S.reg){if(DB.users[n]){er.textContent='الاسم ده موجود، جرّب اسم تاني';return}DB.users[n]={pin:p,words:[]}}
 else if(!DB.users[n]||DB.users[n].pin!==p){er.textContent='الاسم أو الرقم السري غلط';return}
 DB.cur=n;U=DB.users[n];S.tab='w';save();render()}
-function out(){if(SB)SB.auth.signOut();ST={};DB.cur=null;U=null;S.m=null;save();render()}
+function out(){if(SB){SB.removeAllChannels();CH.i=0;CH.L=null;CH.cur=null;CH.pk='';SB.auth.signOut()}ST={};DB.cur=null;U=null;S.m=null;save();render()}
 /* words */
 function hint(){const v=$('#en').value.trim().toLowerCase(),h=$('#hint');if(!v){h.textContent='';return}
 const f=fix(v);h.textContent=f!==v?'تقصد: '+f+'؟ (هنسألك قبل الحفظ)':(D[v]?'المعنى: '+D[v]:'')}
