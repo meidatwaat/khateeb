@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<html lang="ar" dir="rtl"><head><script>window.addEventListener("error",function(e){var d=document.getElementById("app");if(d&&!d.innerHTML)d.innerHTML='<pre style="direction:ltr;white-space:pre-wrap;padding:12px;color:#c00;font:13px monospace">'+String(e.message)+"\n"+String(e.filename||"").split("/").pop()+":"+e.lineno+"</pre>"});</script><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>خطيب - تعلّم الإنجليزية</title>
 <link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#5b2a9e"><link rel="icon" href="icons/favicon.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="خطيب">
@@ -36,7 +36,7 @@ nav button{flex:1;background:none;color:var(--mu);padding:8px;font-weight:700}na
 .upd{position:fixed;top:0;left:0;right:0;z-index:99;background:#5b2a9e;color:#fff;text-align:center;padding:calc(10px + env(safe-area-inset-top,0px)) 10px 10px;font-weight:700}.upd button{margin-inline-start:10px;background:#f5c542;color:#2b1650;padding:6px 14px;font-weight:800}
 @media (min-width:768px){#app{max-width:760px}.g{grid-template-columns:repeat(4,1fr)}}
 #ib{position:fixed;top:0;left:0;right:0;z-index:100;padding:calc(8px + env(safe-area-inset-top,0px)) 10px 0}.ibx{display:flex;align-items:center;gap:10px;background:var(--cd);border:2px solid var(--pr);border-radius:16px;padding:10px;box-shadow:0 6px 24px #0006;max-width:560px;margin:0 auto}
-</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script></head><body><div id="app"></div>
+</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script></head><body><div id="app"></div><div class="mu c" style="padding:6px;font-size:11px">v10-b</div>
 <script>
 const D={};
 "apple:تفاحة|book:كتاب|water:مياه|house:بيت|school:مدرسة|teacher:مدرس|student:طالب|friend:صديق|family:عائلة|mother:أم|father:أب|brother:أخ|sister:أخت|child:طفل|man:رجل|woman:سيدة|day:يوم|night:ليل|morning:صباح|evening:مساء|time:وقت|week:أسبوع|month:شهر|year:سنة|today:النهارده|tomorrow:بكرة|yesterday:امبارح|food:أكل|bread:عيش|milk:لبن|coffee:قهوة|tea:شاي|breakfast:فطار|lunch:غدا|dinner:عشا|eat:ياكل|drink:يشرب|sleep:ينام|walk:يمشي|run:يجري|read:يقرأ|write:يكتب|speak:يتكلم|listen:يسمع|look:ينظر|see:يشوف|come:يجي|give:يدّي|take:ياخد|make:يعمل|work:يشتغل|play:يلعب|study:يذاكر|learn:يتعلم|teach:يعلّم|understand:يفهم|know:يعرف|think:يفكر|want:يريد|need:يحتاج|love:يحب|like:يُعجبه|help:يساعد|open:يفتح|close:يقفل|buy:يشتري|sell:يبيع|big:كبير|small:صغير|good:كويس|bad:وحش|new:جديد|old:قديم|hot:سخن|cold:بارد|happy:سعيد|sad:حزين|beautiful:جميل|easy:سهل|difficult:صعب|fast:سريع|slow:بطيء|early:بدري|late:متأخر|red:أحمر|blue:أزرق|green:أخضر|black:أسود|white:أبيض|city:مدينة|street:شارع|car:عربية|door:باب|window:شباك|table:ترابيزة|chair:كرسي|room:أوضة|money:فلوس|price:سعر|phone:تليفون|computer:كمبيوتر|doctor:دكتور|hospital:مستشفى|hand:إيد|head:راس|eye:عين|heart:قلب|important:مهم|because:لأن|always:دايمًا|never:أبدًا|sometimes:أحيانًا|question:سؤال|answer:إجابة|word:كلمة|sentence:جملة|language:لغة|english:إنجليزي|arabic:عربي|country:بلد|world:عالم|life:حياة|people:ناس|name:اسم|number:رقم|example:مثال|problem:مشكلة|idea:فكرة|dream:حلم|travel:يسافر|remember:يتذكر|forget:ينسى|where:فين|when:امتى|which:أنهي|their:بتاعهم|would:كنت هـ|about:عن|there:هناك|these:دي|those:دول|really:فعلًا|every:كل|before:قبل|after:بعد"
@@ -235,7 +235,7 @@ function fixS(s){return s.replace(/[A-Za-z]+/g,(m,o)=>{if(m.length<4||(o>0&&m[0]
 function say(t){try{const u=new SpeechSynthesisUtterance(t);u.lang='en-US';speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
 function sayId(id){const w=U.words.find(x=>x.id===id);if(w)say(w.en)}
 /* cloud accounts (Supabase) */
-const CF=window.KH_CONFIG||{},SB=(CF.url&&CF.key&&window.supabase)?window.supabase.createClient(CF.url,CF.key):null;
+const CF=window.KH_CONFIG||{},SB=(()=>{try{return CF.url&&CF.key&&window.supabase?window.supabase.createClient(CF.url,CF.key):null}catch(e){return null}})();
 let ST={},ct;
 const em=u=>u+'@'+(CF.domain||'khateeb.app'),AV={m:'👦',f:'👧'};
 const dn=()=>ST.p?ST.p.full_name.split(' ')[0]:DB.cur;
