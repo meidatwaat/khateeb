@@ -36,7 +36,10 @@ nav button{flex:1;background:none;color:var(--mu);padding:8px;font-weight:700}na
 .upd{position:fixed;top:0;left:0;right:0;z-index:99;background:#5b2a9e;color:#fff;text-align:center;padding:calc(10px + env(safe-area-inset-top,0px)) 10px 10px;font-weight:700}.upd button{margin-inline-start:10px;background:#f5c542;color:#2b1650;padding:6px 14px;font-weight:800}
 @media (min-width:768px){#app{max-width:760px}.g{grid-template-columns:repeat(4,1fr)}}
 #ib{position:fixed;top:0;left:0;right:0;z-index:100;padding:calc(8px + env(safe-area-inset-top,0px)) 10px 0}.ibx{display:flex;align-items:center;gap:10px;background:var(--cd);border:2px solid var(--pr);border-radius:16px;padding:10px;box-shadow:0 6px 24px #0006;max-width:560px;margin:0 auto}
-</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script></head><body><div id="app"></div><div class="mu c" style="padding:6px;font-size:11px">v10-b</div>
+#cf{position:fixed;inset:0;pointer-events:none;z-index:120;overflow:hidden}#cf i{position:absolute;top:-20px;width:9px;height:14px;animation:cfd linear forwards}@keyframes cfd{to{transform:translateY(105vh) rotate(720deg)}}
+.chip{display:inline-block;padding:8px 14px;margin:4px;border-radius:20px;background:var(--bg);border:1px solid var(--bd);color:var(--tx);font-weight:700;cursor:pointer}.chip.on{background:var(--pr);color:#fff;border-color:var(--pr)}
+.ltr{min-width:44px;padding:10px;margin:4px;border-radius:10px;background:var(--bg);border:1px solid var(--bd);font-size:22px;font-weight:800;color:var(--tx)}.ltr:disabled{opacity:.3}
+</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script><script src="content.js"></script></head><body><div id="app"></div><div class="mu c" style="padding:6px;font-size:11px">v10-b</div>
 <script>
 const D={};
 "apple:تفاحة|book:كتاب|water:مياه|house:بيت|school:مدرسة|teacher:مدرس|student:طالب|friend:صديق|family:عائلة|mother:أم|father:أب|brother:أخ|sister:أخت|child:طفل|man:رجل|woman:سيدة|day:يوم|night:ليل|morning:صباح|evening:مساء|time:وقت|week:أسبوع|month:شهر|year:سنة|today:النهارده|tomorrow:بكرة|yesterday:امبارح|food:أكل|bread:عيش|milk:لبن|coffee:قهوة|tea:شاي|breakfast:فطار|lunch:غدا|dinner:عشا|eat:ياكل|drink:يشرب|sleep:ينام|walk:يمشي|run:يجري|read:يقرأ|write:يكتب|speak:يتكلم|listen:يسمع|look:ينظر|see:يشوف|come:يجي|give:يدّي|take:ياخد|make:يعمل|work:يشتغل|play:يلعب|study:يذاكر|learn:يتعلم|teach:يعلّم|understand:يفهم|know:يعرف|think:يفكر|want:يريد|need:يحتاج|love:يحب|like:يُعجبه|help:يساعد|open:يفتح|close:يقفل|buy:يشتري|sell:يبيع|big:كبير|small:صغير|good:كويس|bad:وحش|new:جديد|old:قديم|hot:سخن|cold:بارد|happy:سعيد|sad:حزين|beautiful:جميل|easy:سهل|difficult:صعب|fast:سريع|slow:بطيء|early:بدري|late:متأخر|red:أحمر|blue:أزرق|green:أخضر|black:أسود|white:أبيض|city:مدينة|street:شارع|car:عربية|door:باب|window:شباك|table:ترابيزة|chair:كرسي|room:أوضة|money:فلوس|price:سعر|phone:تليفون|computer:كمبيوتر|doctor:دكتور|hospital:مستشفى|hand:إيد|head:راس|eye:عين|heart:قلب|important:مهم|because:لأن|always:دايمًا|never:أبدًا|sometimes:أحيانًا|question:سؤال|answer:إجابة|word:كلمة|sentence:جملة|language:لغة|english:إنجليزي|arabic:عربي|country:بلد|world:عالم|life:حياة|people:ناس|name:اسم|number:رقم|example:مثال|problem:مشكلة|idea:فكرة|dream:حلم|travel:يسافر|remember:يتذكر|forget:ينسى|where:فين|when:امتى|which:أنهي|their:بتاعهم|would:كنت هـ|about:عن|there:هناك|these:دي|those:دول|really:فعلًا|every:كل|before:قبل|after:بعد"
@@ -73,9 +76,9 @@ if(q.map[x]===e){q.dn.push(e);q.sl=null;if(q.dn.length===q.L.length)return zfin(
 function kgV(q){const z=S.z;let h='<div class="card c"><div class="mu">'+(z.i+1)+'/'+z.qs.length+' · ⭐'+(U.stars||0)+' · 🪙'+U.coins+'</div><p class="mu">'+esc(q.h)+'</p><div class="kg">'+esc(q.p)+'</div>';
 if(q.mt){const lk=e=>q.dn.includes(e)||q.r!=null;h+='<div class="g"><div>'+q.L.map((e,i)=>'<button class="b2 ob o'+(q.dn.includes(e)?' ok':'')+'"'+(lk(e)?' disabled':'')+' style="'+(q.sl===i?'outline:3px solid var(--pr)':'')+'" onclick="mL('+i+')">'+e+'</button>').join('')+'</div><div>'+q.R.map((x,j)=>'<button dir="ltr" class="b2 o'+(q.dn.includes(q.map[x])?' ok':'')+'" style="padding:22px 8px"'+(lk(q.map[x])?' disabled':'')+' onclick="mR('+j+')">'+esc(x)+'</button>').join('')+'</div></div><p class="mu">الأخطاء: '+q.er+'</p>'}
 else h+=q.o.map((o,i)=>'<button class="b2 o'+(q.oe?' ob':'')+' '+(q.r!=null?(o===q.a?'ok':(i===q.pk?'no':'')):'')+'" '+(q.r!=null?'disabled':'')+' onclick="zpick('+i+')">'+esc(o)+'</button>').join('');
-if(q.r!=null)h+='<div class="fb '+(q.r?'ok':'no')+'">'+(q.r?'برافو! ⭐ +5 🪙':'مش مشكلة ✘ — الصح: '+esc(q.a))+'</div><p class="mu">'+esc(q.e)+'</p><button class="b" onclick="znext()">'+(z.i+1>=z.qs.length?'النتيجة':'التالي')+'</button>';
+if(q.r!=null)h+='<div class="fb '+(q.r?'ok':'no')+'">'+(q.r?'برافو! ⭐ +5 🪙':'مش مشكلة ✘ — الصح: '+esc(q.a))+'</div><p class="mu">'+esc(q.e)+'</p><button class="b2" onclick="znext()">⏭</button>';
 return h+'</div>'}
-function quizV2(){const z=S.z,q=z.qs[z.i];return q&&q.kg?kgV(q):quizV()}
+function quizV2(){const z=S.z,q=z.qs[z.i];return q&&q.nt?newV(q):q&&q.kg?kgV(q):quizV()}
 const CH={peers:[],inv:[]};
 async function chInit(){if(CH.i)return;CH.i=1;try{const c=window.claude,[u,r,d]=await Promise.all([c.use('user'),c.use('room'),c.use('db')]);CH.db=d;CH.room=r;CH.me=u?await u.id():null;pres();
 if(r)r.onPeers(()=>{CH.peers=r.peers();if(S.tab==='c'&&!CH.cur&&!S.z)render()});
@@ -171,6 +174,65 @@ return !(await SB.rpc('save_push',{ep:j.endpoint,k:j.keys.p256dh,a:j.keys.auth})
 async function enablePush(){const p=await Notification.requestPermission();if(p!=='granted'){S.note='الإشعارات مقفولة، افتحها من إعدادات المتصفح';return render()}S.note=(await syncPush())?'تم تفعيل إشعارات التحدي 🔔':'تعذّر تفعيل الإشعارات';render()}
 function pushCard(){if(!CF.vapid||!('PushManager' in window)||!('Notification' in window)||Notification.permission==='granted')return '';
 return '<div class="card c"><p>🔔 فعّل الإشعارات عشان توصلك دعوات التحدي حتى لو التطبيق مقفول</p><button class="b" onclick="enablePush()">فعّل الإشعارات</button><p class="mu">على الآيفون: ثبّت التطبيق على الشاشة الرئيسية الأول</p></div>'}
+/* v11: curriculum stages, new question types, auto-advance, win effects, forfeit penalty */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+const STG=[['kg1','KG1'],['kg2','KG2'],['pri','ابتدائي'],['prep','إعدادي'],['sec','ثانوي'],['gen','عام'],['adv','متقدم']],GN={pri:6,prep:3,sec:3};
+const trk=()=>{const s=U.stage||'gen';return GN[s]?s+'-'+(U.gr||1)+'-'+(U.tm||1):s};
+const getL=()=>((U.pl||{})[trk()])||1;
+function setGr(g){U.gr=g;save();render()}function setTm(t){U.tm=t;save();render()}
+function syncCc(v){const x=(v||0)-(U.ccs||0);if(x){U.coins=Math.max(0,U.coins+x);U.ccs=v||0}}
+function win(){try{const A=CH.ac||(CH.ac=new(window.AudioContext||window.webkitAudioContext)());A.resume();[523,659,784,1047,784,1047].forEach((f,i)=>{const t=A.currentTime+i*.14,o=A.createOscillator(),g=A.createGain();o.type='triangle';o.frequency.value=f;o.connect(g);g.connect(A.destination);g.gain.setValueAtTime(.3,t);g.gain.exponentialRampToValueAtTime(.001,t+.35);o.start(t);o.stop(t+.4)})}catch(e){}
+const c=document.createElement('div');c.id='cf';const cl=['#f5c542','#6b34c9','#e2494a','#2bb673','#3b82f6','#ff8fb1'];
+for(let i=0;i<70;i++){const p=document.createElement('i');p.style.cssText='left:'+Math.random()*100+'%;background:'+cl[i%6]+';animation-duration:'+(2+Math.random()*2.5)+'s;animation-delay:'+Math.random()*.8+'s';c.appendChild(p)}
+document.body.appendChild(c);setTimeout(()=>c.remove(),5500)}
+function zfin(ok,v){const z=S.z,q=z.qs[z.i];q.r=ok?1:0;q.v=v;
+if(ok){z.sc++;U.coins+=5;U.xp+=10;U.stars=(U.stars||0)+1;z.st=(z.st||0)+1;if(z.st%5===0)U.gems=(U.gems||0)+1}else{z.st=0;z.bad.push(q)}
+if(q.w){const w=U.words.find(x=>x.en===q.w.en);if(w)w.lv=Math.max(0,Math.min(5,w.lv+(ok?1:-1)))}
+chk();save();render();const i=z.i;setTimeout(()=>{if(S.z===z&&z.i===i)znext()},ok?900:1700)}
+function mkC(t,B){if(!B)return mkQ(t,DW);const W=B.w.map(x=>({en:x[0],ar:x[1],em:x[2]})),w=rnd(W),S2=B.s||[],arP=W.map(x=>x.ar),enP=W.map(x=>x.en),e=x=>x.en+' = '+x.ar;
+if(t==='pic'){const E=W.filter(x=>x.em);if(E.length<3)t='w1';else{const x=rnd(E);return{h:'اختار الصورة المناسبة',p:x.en,kg:1,oe:1,o:op(x.em,E.map(y=>y.em),4),a:x.em,e:e(x)}}}
+if(t==='say'&&!SR)t='sp';if((t==='s1'||t==='fill')&&!S2.length)t='w2';
+if(t==='w1')return{p:'ما معنى «'+w.en+'»؟',o:op(w.ar,arP.concat(Object.values(D)),4),a:w.ar,e:e(w)};
+if(t==='w2')return{p:'«'+w.ar+'» بالإنجليزي؟',o:op(w.en,enP.concat(Object.keys(D)),4),a:w.en,e:e(w)};
+if(t==='sp')return{p:'اكتب بالإنجليزي: '+w.ar,ty:1,a:w.en,e:e(w)};
+if(t==='scr')return{nt:'scr',h:'رتّب الحروف',p:w.ar+(w.em?' '+w.em:''),a:w.en,L:shuf(w.en.split('')),u:[],cur:'',e:e(w)};
+if(t==='say')return{nt:'say',h:'اضغط 🎤 وقول الكلمة',p:w.en,a:w.en,e:e(w)};
+if(t==='lis')return{nt:'lis',h:'اسمع واختار المعنى',p:'🔊',sp:w.en,o:op(w.ar,arP,4),a:w.ar,e:e(w)};
+const g=rnd(S2);if(t==='fill'){const ws=g[0].replace(/[.,!?]/g,'').split(' ').filter(x=>x.length>2),k=ws.length?rnd(ws):null;
+if(k)return{p:g[0].replace(new RegExp('\\b'+k+'\\b'),'_____')+' — '+g[1],ty:1,a:k,en:1,e:g[0]+' = '+g[1]}}
+return{p:g[0],o:op(g[1],S2.map(x=>x[1]),4),a:g[1],en:1,e:g[0]+' = '+g[1]}}
+function fbk(q){return '<div class="fb '+(q.r?'ok':'no')+'">'+(q.r?'برافو! ⭐ +5 🪙':'✘ الصح: '+esc(q.a))+'</div><p class="mu" dir="auto">'+esc(q.e)+'</p>'}
+function newV(q){const z=S.z,sp='<button class="ic" style="font-size:40px" onclick="say(S.z.qs[S.z.i].sp||S.z.qs[S.z.i].p)">🔊</button>';
+let h='<div class="card c"><div class="mu">'+(z.i+1)+'/'+z.qs.length+' · ⭐'+(U.stars||0)+' · 🪙'+U.coins+'</div><p class="mu">'+esc(q.h)+'</p>';
+if(q.nt==='scr')h+='<div class="kg" style="font-size:38px">'+esc(q.p)+'</div><div class="big" dir="ltr" style="letter-spacing:6px;min-height:46px">'+esc(q.cur)+'</div><div dir="ltr">'+q.L.map((c,i)=>'<button class="ltr"'+(q.u.includes(i)||q.r!=null?' disabled':'')+' onclick="scp('+i+')">'+esc(c)+'</button>').join('')+'</div>'+(q.r==null?'<button class="b2" onclick="scp(-1)">مسح ↺</button>':'');
+if(q.nt==='say')h+='<div class="big" dir="ltr">'+esc(q.p)+'</div>'+sp+(q.r==null?'<button class="b" onclick="listen()">🎤 اضغط وقول الكلمة</button><p class="mu" id="hear"></p>':'<p class="mu">سمعت: '+esc(q.v)+'</p>');
+if(q.nt==='lis')h+='<div class="kg">'+sp+'</div>'+q.o.map((o,i)=>'<button dir="auto" class="b2 o '+(q.r!=null?(o===q.a?'ok':(i===q.pk?'no':'')):'')+'" '+(q.r!=null?'disabled':'')+' onclick="zpick('+i+')">'+esc(o)+'</button>').join('');
+return h+(q.r!=null?fbk(q):'')+'</div>'}
+function scp(i){const q=S.z.qs[S.z.i];if(q.r!=null)return;if(i<0){q.u=[];q.cur='';return render()}if(q.u.includes(i))return;q.u.push(i);q.cur+=q.L[i];
+if(q.u.length===q.L.length)zfin(q.cur.toLowerCase()===q.a.toLowerCase(),q.cur);else render()}
+function listen(){const q=S.z.qs[S.z.i];if(q.r!=null||!SR)return;const r=new SR(),a=q.a.toLowerCase(),m=x=>{const h=$('#hear');if(h)h.textContent=x};let got=0;r.lang='en-US';r.maxAlternatives=3;
+r.onresult=ev=>{got=1;const t=Array.from(ev.results[0]).map(x=>x.transcript.toLowerCase().trim());zfin(t.some(x=>x.replace(/[^a-z ]/g,'')===a||x.includes(a)),t[0])};
+r.onerror=()=>m('ما سمعتش كويس، جرّب تاني 🎤');r.onend=()=>{if(!got)m('ما سمعتش حاجة، جرّب تاني')};try{r.start();m('بسمعك… 🎤')}catch(e){}}
+function lstart2(){const st=U.stage||'gen';if(st==='kg1'||st==='kg2')return lstart();if(st==='gen')return qstart('lvl');
+let T,B=null;if(st==='adv')T=['gr','gr','s1','sp','gr','s1','w1','gr','sp','s1'];
+else{B=(window.KH_CONTENT||{})[trk()];if(!B)return;T=shuf(['pic','pic','w1','w2','sp','scr','scr','say','lis','s1','fill']).slice(0,10)}
+S.z={k:'lvl',qs:T.map(t=>mkC(t,B)),i:0,sc:0,bad:[]};S.m=null;render()}
+function mapV2(){const st=U.stage||'gen',L=getL(),cp=(a,on,f)=>'<span class="chip'+(on?' on':'')+'" onclick="'+f+'">'+a+'</span>';let n='',sub='';
+for(let i=Math.max(1,L-2);i<=L+4;i++)n+='<span class="nd '+(i<L?'dn':i===L?'cu':'')+'">'+(i<L?'⭐':i===L?'⚔️':i%5===0?'👻':'🔒')+'</span>';
+if(GN[st])sub='<div>'+Array.from({length:GN[st]},(_,i)=>cp('الصف '+(i+1),(U.gr||1)===i+1,'setGr('+(i+1)+')')).join('')+'</div><div>'+[1,2].map(t=>cp('الفصل '+t,(U.tm||1)===t,'setTm('+t+')')).join('')+'</div>';
+const nob=GN[st]&&!(window.KH_CONTENT||{})[trk()];
+return '<div class="card c">'+STG.map(s=>cp(s[1],st===s[0],"setSt('"+s[0]+"')")).join('')+sub+'</div><div class="card c"><h3>'+rk()[0]+' '+rk()[1]+'</h3><div>'+n+'</div>'+(nob?'<p class="mu">محتوى المرحلة دي لسه متضافش 📚 جرّب صف تاني أو «عام»</p>':'<p class="mu">انجح بـ 70% لتفتح المستوى اللي بعده، ومفيش نهاية للمستويات!</p><button class="b" onclick="lstart2()">ابدأ المستوى '+L+' ⚔️</button>')+'</div>'}
+async function chFf(){const pen=Math.min(35,Math.max(0,U.coins|0));
+if(!confirm('لو انسحبت هتخسر التحدي'+(pen?' وهتخسر '+pen+' كوين من رصيدك وهتروح للخصم':'')+'.\nمتأكد من الانسحاب؟'))return;
+const r=await SB.rpc('forfeit',{cid:CH.cur,bal:U.coins|0});if(r.error)S.note='تعذّر الانسحاب: '+esc(r.error.message);else if(CH.d){CH.d.st='done';CH.d.ff=CH.me}render()}
+function pay(w){const c={1:30,2:15,0:10,'-1':0}[w];if(!U.ch.includes(CH.cur)){U.ch.push(CH.cur);U.coins+=c;if(w===1)U.gems=(U.gems||0)+1;chk();save()}
+SB.from('profiles').select('ch_xp,ch_coins').eq('id',ST.id).single().then(r=>{if(r.data){U.cx=r.data.ch_xp;syncCc(r.data.ch_coins);save();pres();render()}})}
+function resV(d,m,o,s){const a=sc(m),b=sc(o),w=a>b?1:a<b?0:2;if(!CH.paid){CH.paid=1;pay(w);if(w===1)win()}
+const bad=d.qs.map((q,i)=>[q,m[i]]).filter(x=>x[1]&&!x[1].ok);
+return '<div class="card c"><h2>'+(w===1?'🏆 فزت!':w===2?'🤝 تعادل':'💪 حظ أوفر')+'</h2><div class="row" style="justify-content:space-around">'+pl(d,s,a,1)+'<b style="align-self:center">VS</b>'+pl(d,s,b,0)+'</div><p class="mu">مستواك '+lv()+' · +'+(w===1?30:w===2?15:10)+' 🪙</p></div>'+
+(bad.length?'<h3>راجع أخطاءك</h3>'+bad.map(x=>'<div class="card"><p dir="auto">'+esc(x[0].p)+'</p><p>الصح: <b dir="auto" style="color:var(--ok)">'+esc(x[1].a)+'</b></p></div>').join(''):'<p class="c">ولا غلطة! 💯</p>')+'<button class="b" onclick="chLeave()">رجوع للتحديات</button>'}
+function forfV(d,s){const won=d.ff!==CH.me;if(!CH.paid){CH.paid=1;pay(won?1:-1);if(won)win()}
+return '<div class="card c"><h2>'+(won?'🏆 الخصم انسحب، فزت!':'🏳️ انسحبت من التحدي')+'</h2><div class="row" style="justify-content:space-around">'+pl(d,s,'',1)+pl(d,s,'',0)+'</div><p class="mu">'+(won?'+40 XP · +'+(d.pen||0)+' كوين من الخصم':'خسرت '+(d.pen||0)+' كوين وراحوا للخصم')+'</p></div><button class="b" onclick="chLeave()">رجوع</button>'}
 function setSt(s){U.stage=s;save();render()}
 function mapV(){const st=U.stage||'gen',L=U.lvl||1;let n='';
 for(let i=Math.max(1,L-2);i<=L+4;i++)n+='<span class="nd '+(i<L?'dn':i===L?'cu':'')+'">'+(i<L?'⭐':i===L?'⚔️':i%5===0?'👻':'🔒')+'</span>';
@@ -202,14 +264,14 @@ if(q.w){const w=U.words.find(x=>x.en===q.w.en);if(w)w.lv=Math.max(0,Math.min(5,w
 chk();save();render()}
 function zpick(i){const q=S.z.qs[S.z.i];q.pk=i;zfin(q.o[i]===q.a,q.o[i])}
 function zans(){const q=S.z.qs[S.z.i],v=$('#ans').value.trim();zfin(v.toLowerCase()===q.a.toLowerCase(),v||'—')}
-function znext(){const z=S.z;z.i++;if(z.i>=z.qs.length){const p=z.sc/z.qs.length;z.p=p;U.coins+=20;
+function znext(){const z=S.z;z.i++;if(z.i>=z.qs.length){const p=z.sc/z.qs.length;z.p=p;U.coins+=20;if(p>=.7)setTimeout(win,250);
 if(z.k==='place'){U.placed=1;U.lvn=p>=.9?'متقدم':p>=.7?'متوسط':'مبتدئ';if(p>=.7)gb('placed')}
-gb('first');if(z.sc===z.qs.length)gb('perfect');if(z.k==='lvl'&&p>=.7){U.lvl=(U.lvl||1)+1;U.swords=(U.swords||0)+1;z.up=1}chk();save()}render()}
+gb('first');if(z.sc===z.qs.length)gb('perfect');if(z.k==='lvl'&&p>=.7){U.pl=U.pl||{};U.pl[trk()]=getL()+1;U.lvl=(U.lvl||1)+1;U.swords=(U.swords||0)+1;z.up=1}chk();save()}render()}
 function quizV(){const z=S.z;if(z.i>=z.qs.length)return doneV();
 const q=z.qs[z.i];let h='<div class="card"><div class="mu">'+(z.k==='place'?'اختبار المستوى · ':'')+(z.i+1)+'/'+z.qs.length+' · 🪙 '+U.coins+'</div><p class="big2 '+(q.en?'en':'')+'" style="font-weight:700">'+esc(q.p)+'</p>';
 if(q.ty){if(q.r==null)h+='<input id="ans" dir="ltr" autocomplete="off" autocapitalize="off" onkeydown="if(event.key===\'Enter\')zans()"><button class="b" onclick="zans()">تحقق</button>'}
 else h+=q.o.map((o,i)=>'<button dir="auto" class="b2 o '+(q.r!=null?(o===q.a?'ok':(i===q.pk?'no':'')):'')+'" '+(q.r!=null?'disabled':'')+' onclick="zpick('+i+')">'+esc(o)+'</button>').join('');
-if(q.r!=null)h+='<div class="fb '+(q.r?'ok':'no')+'">'+(q.r?'صح ✔ +5 🪙':'غلط ✘ — الصح: '+esc(q.a))+'</div><p class="mu">'+esc(q.e)+'</p><button class="b" onclick="znext()">'+(z.i+1>=z.qs.length?'النتيجة':'التالي')+'</button>';
+if(q.r!=null)h+='<div class="fb '+(q.r?'ok':'no')+'">'+(q.r?'صح ✔ +5 🪙':'غلط ✘ — الصح: '+esc(q.a))+'</div><p class="mu">'+esc(q.e)+'</p><button class="b2" onclick="znext()">⏭</button>';
 return h+'</div>'}
 function doneV(){const z=S.z;
 return '<div class="card c"><h2>'+(z.p>=.7?'🎉 ممتاز!':'💪 كمّل!')+'</h2><p>نتيجتك '+z.sc+' من '+z.qs.length+' ('+Math.round(z.p*100)+'%) · +20 🪙 مكافأة'+(z.up?' · ⚔️ +1 · فتحت المستوى '+U.lvl:'')+'</p>'+(z.k==='place'?'<p>مستواك: <b>'+U.lvn+'</b>'+(z.p>=.7?' · 🎓 حصلت على شارة اجتياز الاختبار':'')+'</p>':'')+'</div>'+
@@ -217,7 +279,7 @@ return '<div class="card c"><h2>'+(z.p>=.7?'🎉 ممتاز!':'💪 كمّل!')+
 '<button class="b" onclick="S.z=null;S.tab=\'p\';render()">تمام</button>'}
 function placeV(){return '<div class="card c"><div style="font-size:48px">🎓</div><h2>اختبار المستوى</h2><p>12 سؤال في الكلمات والجمل والقواعد. لو جبت 70% أو أكتر هتاخد شارة وكوينز.</p><button class="b" onclick="qstart(\'place\')">ابدأ الاختبار</button><button class="b2" onclick="U.placed=1;U.stage=\'kg1\';S.tab=\'m\';save();render()">🧒 أنا في KG1 / KG2</button><button class="b2" onclick="U.placed=1;save();render()">تخطي الآن</button></div>'}
 function badgeV(){return '<div class="card c"><div class="big">'+rk()[0]+' '+rk()[1]+' · مستوى '+lv()+'</div><div class="bar"><i style="width:'+(((U.xp||0)+(U.cx||0))%100)+'%"></i></div><p>🪙 '+U.coins+' كوين · ⭐'+(U.stars||0)+' · ⚔️'+(U.swords||0)+' · 💎'+(U.gems||0)+' · '+(U.lvn||'—')+'</p></div><div class="g">'+B.map(b=>'<div class="card c" style="opacity:'+(U.badges.includes(b[0])?1:.35)+'"><div style="font-size:34px">'+b[1]+'</div><div class="mu">'+b[2]+'</div></div>').join('')+'</div><button class="b2" onclick="qstart(\'place\')">إعادة اختبار المستوى</button>'}
-function viewV(){if(S.z)return quizV2();if(!U.placed)return placeV();return S.tab==='c'?chV():S.tab==='m'?mapV():S.tab==='p'?pracV():S.tab==='b'?badgeV():wordsV()}
+function viewV(){if(S.z)return quizV2();if(!U.placed)return placeV();return S.tab==='c'?chV():S.tab==='m'?mapV2():S.tab==='p'?pracV():S.tab==='b'?badgeV():wordsV()}
 try{DB=JSON.parse(localStorage.getItem('kh')||'{}')}catch(e){DB={}}
 DB.users=DB.users||{};
 if(DB.cur&&DB.users[DB.cur])U=DB.users[DB.cur];
@@ -265,7 +327,7 @@ async function cLoad(user){const{data:p,error}=await SB.from('profiles').select(
 if(error||!p){await SB.auth.signOut();throw new Error('الحساب غير مكتمل')}
 if(p.banned){await SB.auth.signOut();throw new Error('الحساب موقوف، تواصل مع الإدارة')}
 let url=null;if(p.avatar_url){const r=await SB.storage.from('avatars').createSignedUrl(p.avatar_url,3600);url=r.data&&r.data.signedUrl}
-ST={id:user.id,p,url};DB.cur='cloud:'+user.id;U=DB.users[DB.cur]=Object.assign({words:[],coins:0,xp:0,badges:[]},p.progress||{});U.cx=p.ch_xp||0;S.tab='w';S.reg=0;render()}
+ST={id:user.id,p,url};DB.cur='cloud:'+user.id;U=DB.users[DB.cur]=Object.assign({words:[],coins:0,xp:0,badges:[]},p.progress||{});U.cx=p.ch_xp||0;syncCc(p.ch_coins);S.tab='w';S.reg=0;render()}
 async function cInit(){if(!SB)return;try{const{data}=await SB.auth.getSession();if(data.session)await cLoad(data.session.user)}catch(e){}}
 /* auth */
 function auth(){const n=$('#un').value.trim().toLowerCase(),p=$('#pn').value,er=$('.er');
