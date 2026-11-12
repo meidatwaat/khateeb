@@ -76,7 +76,7 @@ if(q.map[x]===e){q.dn.push(e);q.sl=null;if(q.dn.length===q.L.length)return zfin(
 function kgV(q){const z=S.z;let h='<div class="card c"><div class="mu">'+(z.i+1)+'/'+z.qs.length+' · ⭐'+(U.stars||0)+' · 🪙'+U.coins+'</div><p class="mu">'+esc(q.h)+'</p><div class="kg">'+esc(q.p)+'</div>';
 if(q.mt){const lk=e=>q.dn.includes(e)||q.r!=null;h+='<div class="g"><div>'+q.L.map((e,i)=>'<button class="b2 ob o'+(q.dn.includes(e)?' ok':'')+'"'+(lk(e)?' disabled':'')+' style="'+(q.sl===i?'outline:3px solid var(--pr)':'')+'" onclick="mL('+i+')">'+e+'</button>').join('')+'</div><div>'+q.R.map((x,j)=>'<button dir="ltr" class="b2 o'+(q.dn.includes(q.map[x])?' ok':'')+'" style="padding:22px 8px"'+(lk(q.map[x])?' disabled':'')+' onclick="mR('+j+')">'+esc(x)+'</button>').join('')+'</div></div><p class="mu">الأخطاء: '+q.er+'</p>'}
 else h+=q.o.map((o,i)=>'<button class="b2 o'+(q.oe?' ob':'')+' '+(q.r!=null?(o===q.a?'ok':(i===q.pk?'no':'')):'')+'" '+(q.r!=null?'disabled':'')+' onclick="zpick('+i+')">'+esc(o)+'</button>').join('');
-if(q.r!=null)h+='<div class="fb '+(q.r?'ok':'no')+'">'+(q.r?'برافو! ⭐ +5 🪙':'مش مشكلة ✘ — الصح: '+esc(q.a))+'</div><p class="mu">'+esc(q.e)+'</p><button class="b2" onclick="znext()">⏭</button>';
+if(q.r!=null)h+='<div class="fb '+(q.r?'ok':'no')+'">'+(q.r?'برافو! ⭐ +5 🪙':'مش مشكلة ✘ — الصح: '+esc(q.a))+'</div><p class="mu">'+esc(q.e)+'</p>';
 return h+'</div>'}
 function quizV2(){const z=S.z,q=z.qs[z.i];return q&&q.nt?newV(q):q&&q.kg?kgV(q):quizV()}
 const CH={peers:[],inv:[]};
@@ -185,10 +185,6 @@ function win(){try{const A=CH.ac||(CH.ac=new(window.AudioContext||window.webkitA
 const c=document.createElement('div');c.id='cf';const cl=['#f5c542','#6b34c9','#e2494a','#2bb673','#3b82f6','#ff8fb1'];
 for(let i=0;i<70;i++){const p=document.createElement('i');p.style.cssText='left:'+Math.random()*100+'%;background:'+cl[i%6]+';animation-duration:'+(2+Math.random()*2.5)+'s;animation-delay:'+Math.random()*.8+'s';c.appendChild(p)}
 document.body.appendChild(c);setTimeout(()=>c.remove(),5500)}
-function zfin(ok,v){const z=S.z,q=z.qs[z.i];q.r=ok?1:0;q.v=v;
-if(ok){z.sc++;U.coins+=5;U.xp+=10;U.stars=(U.stars||0)+1;z.st=(z.st||0)+1;if(z.st%5===0)U.gems=(U.gems||0)+1}else{z.st=0;z.bad.push(q)}
-if(q.w){const w=U.words.find(x=>x.en===q.w.en);if(w)w.lv=Math.max(0,Math.min(5,w.lv+(ok?1:-1)))}
-chk();save();render();const i=z.i;setTimeout(()=>{if(S.z===z&&z.i===i)znext()},ok?900:1700)}
 function mkC(t,B){if(!B)return mkQ(t,DW);const W=B.w.map(x=>({en:x[0],ar:x[1],em:x[2]})),SW1=W.filter(x=>/^[a-z]{3,12}$/i.test(x.en)),w=(['sp','scr','say'].includes(t)&&SW1.length)?rnd(SW1):rnd(W),S2=B.s||[],arP=W.map(x=>x.ar),enP=W.map(x=>x.en),e=x=>x.en+' = '+x.ar;
 if(t==='pic'){const E=W.filter(x=>x.em);if(E.length<3)t='w1';else{const x=rnd(E);return{h:'اختار الصورة المناسبة',p:x.en,kg:1,oe:1,o:op(x.em,E.map(y=>y.em),4),a:x.em,e:e(x)}}}
 if(t==='say'&&!SR)t='sp';if((t==='s1'||t==='fill')&&!S2.length)t='w2';
@@ -213,7 +209,7 @@ if(q.u.length===q.L.length)zfin(q.cur.toLowerCase()===q.a.toLowerCase(),q.cur);e
 function listen(){const q=S.z.qs[S.z.i];if(q.r!=null||!SR)return;const r=new SR(),a=q.a.toLowerCase(),m=x=>{const h=$('#hear');if(h)h.textContent=x};let got=0;r.lang='en-US';r.maxAlternatives=3;
 r.onresult=ev=>{got=1;const t=Array.from(ev.results[0]).map(x=>x.transcript.toLowerCase().trim());zfin(t.some(x=>x.replace(/[^a-z ]/g,'')===a||x.includes(a)),t[0])};
 r.onerror=()=>m('ما سمعتش كويس، جرّب تاني 🎤');r.onend=()=>{if(!got)m('ما سمعتش حاجة، جرّب تاني')};try{r.start();m('بسمعك… 🎤')}catch(e){}}
-function lstart2(){const st=U.stage||'gen';if(st==='kg1'||st==='kg2')return lstart();if(st==='gen')return qstart('lvl');
+function lstart2(){S.last=null;S.rv=0;const st=U.stage||'gen';if(st==='kg1'||st==='kg2')return lstart();if(st==='gen')return qstart('lvl');
 let T,B=null;if(st==='adv')T=['gr','gr','s1','sp','gr','s1','w1','gr','sp','s1'];
 else{B=(window.KH_CONTENT||{})[trk()];if(!B)return;T=shuf(['pic','pic','w1','w2','sp','scr','scr','say','lis','s1','fill']).slice(0,10)}
 S.z={k:'lvl',qs:T.map(t=>mkC(t,B)),i:0,sc:0,bad:[]};S.m=null;render()}
@@ -221,7 +217,7 @@ function mapV2(){const st=U.stage||'gen',L=getL(),cp=(a,on,f)=>'<span class="chi
 for(let i=Math.max(1,L-2);i<=L+4;i++)n+='<span class="nd '+(i<L?'dn':i===L?'cu':'')+'">'+(i<L?'⭐':i===L?'⚔️':i%5===0?'👻':'🔒')+'</span>';
 if(GN[st])sub='<div>'+Array.from({length:GN[st]},(_,i)=>cp('الصف '+(i+1),(U.gr||1)===i+1,'setGr('+(i+1)+')')).join('')+'</div><div>'+[1,2].map(t=>cp('الفصل '+t,(U.tm||1)===t,'setTm('+t+')')).join('')+'</div>';
 const nob=GN[st]&&!(window.KH_CONTENT||{})[trk()];
-return '<div class="card c">'+STG.map(s=>cp(s[1],st===s[0],"setSt('"+s[0]+"')")).join('')+sub+'</div><div class="card c"><h3>'+rk()[0]+' '+rk()[1]+'</h3><div>'+n+'</div>'+(nob?'<p class="mu">محتوى المرحلة دي لسه متضافش 📚 جرّب صف تاني أو «عام»</p>':'<p class="mu">انجح بـ 70% لتفتح المستوى اللي بعده، ومفيش نهاية للمستويات!</p><button class="b" onclick="lstart2()">ابدأ المستوى '+L+' ⚔️</button>')+'</div>'}
+return lastV()+'<div class="card c">'+STG.map(s=>cp(s[1],st===s[0],"setSt('"+s[0]+"')")).join('')+sub+'</div><div class="card c"><h3>'+rk()[0]+' '+rk()[1]+'</h3><div>'+n+'</div>'+(nob?'<p class="mu">محتوى المرحلة دي لسه متضافش 📚 جرّب صف تاني أو «عام»</p>':'<p class="mu">انجح بـ 70% لتفتح المستوى اللي بعده، ومفيش نهاية للمستويات!</p><button class="b" onclick="lstart2()">ابدأ المستوى '+L+' ⚔️</button>')+'</div>'}
 async function chFf(){const pen=Math.min(35,Math.max(0,U.coins|0));
 if(!confirm('لو انسحبت هتخسر التحدي'+(pen?' وهتخسر '+pen+' كوين من رصيدك وهتروح للخصم':'')+'.\nمتأكد من الانسحاب؟'))return;
 const r=await SB.rpc('forfeit',{cid:CH.cur,bal:U.coins|0});if(r.error)S.note='تعذّر الانسحاب: '+esc(r.error.message);else if(CH.d){CH.d.st='done';CH.d.ff=CH.me}render()}
@@ -233,6 +229,9 @@ return '<div class="card c"><h2>'+(w===1?'🏆 فزت!':w===2?'🤝 تعادل':
 (bad.length?'<h3>راجع أخطاءك</h3>'+bad.map(x=>'<div class="card"><p dir="auto">'+esc(x[0].p)+'</p><p>الصح: <b dir="auto" style="color:var(--ok)">'+esc(x[1].a)+'</b></p></div>').join(''):'<p class="c">ولا غلطة! 💯</p>')+'<button class="b" onclick="chLeave()">رجوع للتحديات</button>'}
 function forfV(d,s){const won=d.ff!==CH.me;if(!CH.paid){CH.paid=1;pay(won?1:-1);if(won)win()}
 return '<div class="card c"><h2>'+(won?'🏆 الخصم انسحب، فزت!':'🏳️ انسحبت من التحدي')+'</h2><div class="row" style="justify-content:space-around">'+pl(d,s,'',1)+pl(d,s,'',0)+'</div><p class="mu">'+(won?'+40 XP · +'+(d.pen||0)+' كوين من الخصم':'خسرت '+(d.pen||0)+' كوين وراحوا للخصم')+'</p></div><button class="b" onclick="chLeave()">رجوع</button>'}
+function lastV(){const l=S.last;if(!l)return '';
+if(S.rv)return '<h3>راجع أخطاءك</h3>'+l.bad.map(q=>'<div class="card"><p dir="auto">'+esc(q.p)+'</p><p>إجابتك: <b dir="auto" style="color:var(--no)">'+esc(q.v)+'</b></p><p>الصح: <b dir="auto" style="color:var(--ok)">'+esc(q.a)+'</b></p><p class="mu" dir="auto">'+esc(q.e)+'</p></div>').join('')+'<button class="b" onclick="S.rv=0;render()">رجوع للمغامرة</button>';
+return '<div class="card c"><h3>'+(l.p>=.7?'🎉 ممتاز! فتحت المستوى '+getL():'💪 قرّبت! حاول تاني')+'</h3><p>نتيجتك '+l.sc+' من '+l.n+' ('+Math.round(l.p*100)+'%) · +20 🪙</p>'+(l.bad.length?'<button class="b2" onclick="S.rv=1;render()">راجع أخطاءك ('+l.bad.length+')</button>':'')+'<button class="b2" onclick="S.last=null;render()">تمام</button></div>'}
 function setSt(s){U.stage=s;save();render()}
 function mapV(){const st=U.stage||'gen',L=U.lvl||1;let n='';
 for(let i=Math.max(1,L-2);i<=L+4;i++)n+='<span class="nd '+(i<L?'dn':i===L?'cu':'')+'">'+(i<L?'⭐':i===L?'⚔️':i%5===0?'👻':'🔒')+'</span>';
@@ -266,12 +265,12 @@ function zpick(i){const q=S.z.qs[S.z.i];q.pk=i;zfin(q.o[i]===q.a,q.o[i])}
 function zans(){const q=S.z.qs[S.z.i],v=$('#ans').value.trim();zfin(v.toLowerCase()===q.a.toLowerCase(),v||'—')}
 function znext(){const z=S.z;z.i++;if(z.i>=z.qs.length){const p=z.sc/z.qs.length;z.p=p;U.coins+=20;if(p>=.7)setTimeout(win,250);
 if(z.k==='place'){U.placed=1;U.lvn=p>=.9?'متقدم':p>=.7?'متوسط':'مبتدئ';if(p>=.7)gb('placed')}
-gb('first');if(z.sc===z.qs.length)gb('perfect');if(z.k==='lvl'&&p>=.7){U.pl=U.pl||{};U.pl[trk()]=getL()+1;U.lvl=(U.lvl||1)+1;U.swords=(U.swords||0)+1;z.up=1}chk();save()}render()}
+gb('first');if(z.sc===z.qs.length)gb('perfect');if(z.k==='lvl'&&p>=.7){U.pl=U.pl||{};U.pl[trk()]=getL()+1;U.lvl=(U.lvl||1)+1;U.swords=(U.swords||0)+1;z.up=1}chk();save();if(z.k==='lvl'){S.last={sc:z.sc,n:z.qs.length,p,bad:z.bad};S.rv=0;S.z=null;S.tab='m'}}render()}
 function quizV(){const z=S.z;if(z.i>=z.qs.length)return doneV();
 const q=z.qs[z.i];let h='<div class="card"><div class="mu">'+(z.k==='place'?'اختبار المستوى · ':'')+(z.i+1)+'/'+z.qs.length+' · 🪙 '+U.coins+'</div><p class="big2 '+(q.en?'en':'')+'" style="font-weight:700">'+esc(q.p)+'</p>';
 if(q.ty){if(q.r==null)h+='<input id="ans" dir="ltr" autocomplete="off" autocapitalize="off" onkeydown="if(event.key===\'Enter\')zans()"><button class="b" onclick="zans()">تحقق</button>'}
 else h+=q.o.map((o,i)=>'<button dir="auto" class="b2 o '+(q.r!=null?(o===q.a?'ok':(i===q.pk?'no':'')):'')+'" '+(q.r!=null?'disabled':'')+' onclick="zpick('+i+')">'+esc(o)+'</button>').join('');
-if(q.r!=null)h+='<div class="fb '+(q.r?'ok':'no')+'">'+(q.r?'صح ✔ +5 🪙':'غلط ✘ — الصح: '+esc(q.a))+'</div><p class="mu">'+esc(q.e)+'</p><button class="b2" onclick="znext()">⏭</button>';
+if(q.r!=null)h+='<div class="fb '+(q.r?'ok':'no')+'">'+(q.r?'صح ✔ +5 🪙':'غلط ✘ — الصح: '+esc(q.a))+'</div><p class="mu">'+esc(q.e)+'</p>';
 return h+'</div>'}
 function doneV(){const z=S.z;
 return '<div class="card c"><h2>'+(z.p>=.7?'🎉 ممتاز!':'💪 كمّل!')+'</h2><p>نتيجتك '+z.sc+' من '+z.qs.length+' ('+Math.round(z.p*100)+'%) · +20 🪙 مكافأة'+(z.up?' · ⚔️ +1 · فتحت المستوى '+U.lvl:'')+'</p>'+(z.k==='place'?'<p>مستواك: <b>'+U.lvn+'</b>'+(z.p>=.7?' · 🎓 حصلت على شارة اجتياز الاختبار':'')+'</p>':'')+'</div>'+
@@ -388,7 +387,7 @@ q.opts.map((o,i)=>'<button class="b2 o '+(q.res!=null?(o===w.ar?'ok':(i===q.pk?'
 else{h+=S.m==='spell'?'<p class="mu">اكتب الكلمة بالإنجليزي:</p><div class="big ar">'+esc(w.ar)+'</div><div class="c"><button class="ic" onclick="sayId('+w.id+')">🔊 اسمع</button></div>':
 '<p class="en big2">'+esc(q.blank)+'</p><p class="mu">ترجمة الجملة: '+esc(w.xa||'—')+'</p><p class="mu">معنى الكلمة الناقصة: '+esc(w.ar)+'</p>';
 if(q.res==null)h+='<input id="ans" dir="ltr" autocomplete="off" autocapitalize="off" onkeydown="if(event.key===\'Enter\')ans()"><button class="b" onclick="ans()">تحقق</button>'}
-if(q.res!=null&&S.m!=='card')h+='<div class="fb '+(q.res?'ok':'no')+'">'+(q.res?'صح ✔':'غلط ✘ — الصح: '+esc(w.en))+'</div>'+(w.ex?'<p class="en">'+esc(w.ex)+'</p><p>'+esc(w.xa)+'</p>':'')+'<button class="b" onclick="next()">التالي</button>';
+if(q.res!=null&&S.m!=='card')h+='<div class="fb '+(q.res?'ok':'no')+'">'+(q.res?'صح ✔':'غلط ✘ — الصح: '+esc(w.en))+'</div>'+(w.ex?'<p class="en">'+esc(w.ex)+'</p><p>'+esc(w.xa)+'</p>':'')+'';
 return h+'</div>'}
 function render(){const a=$('#app');
 if(!U){a.innerHTML=SB?cAuthV():authV();return}U.coins=U.coins||0;U.xp=U.xp||0;U.badges=U.badges||[];U.ch=U.ch||[];chInit();pres();
@@ -396,6 +395,12 @@ a.innerHTML='<header><b class="logo s">خطيب</b>'+avH()+'<span class="mu">'+e
 (S.note?'<div class="fb ok">'+S.note+'</div>':'')+viewV()+
 '<nav><button class="'+(S.tab==='w'?'on':'')+'" onclick="S.tab=\'w\';render()">📚 كلماتي</button><button class="'+(S.tab==='p'?'on':'')+'" onclick="S.tab=\'p\';S.m=null;render()">🎯 تدريب</button><button class="'+(S.tab==='c'?'on':'')+'" onclick="S.tab=\'c\';render()">⚔️ تحدي</button><button class="'+(S.tab==='m'?'on':'')+'" onclick="S.tab=\'m\';render()">🗺️ مغامرة</button><button class="'+(S.tab==='b'?'on':'')+'" onclick="S.tab=\'b\';render()">🏆 إنجازاتي</button></nav>';
 S.note=''}
+/* final overrides: must stay last */
+function zfin(ok,v){const z=S.z,q=z.qs[z.i];q.r=ok?1:0;q.v=v;
+if(ok){z.sc++;U.coins+=5;U.xp+=10;U.stars=(U.stars||0)+1;z.st=(z.st||0)+1;if(z.st%5===0)U.gems=(U.gems||0)+1}else{z.st=0;z.bad.push(q)}
+if(q.w){const w=U.words.find(x=>x.en===q.w.en);if(w)w.lv=Math.max(0,Math.min(5,w.lv+(ok?1:-1)))}
+chk();save();render();const i=z.i;setTimeout(()=>{if(S.z===z&&z.i===i)znext()},ok?900:2000)}
+function fin(ok){const q=S.q,w=q.w;rew(ok);q.res=ok?1:0;w.lv=Math.max(0,Math.min(5,w.lv+(ok?1:-1)));if(ok)S.sc++;S.n++;save();render();setTimeout(()=>{if(S.q===q)next()},ok?900:2000)}
 cInit();render();
 </script><script>
 if('serviceWorker' in navigator&&location.protocol!=='file:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').then(reg=>{
