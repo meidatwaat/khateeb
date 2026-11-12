@@ -39,6 +39,7 @@ nav button{flex:1;background:none;color:var(--mu);padding:8px;font-weight:700}na
 #cf{position:fixed;inset:0;pointer-events:none;z-index:120;overflow:hidden}#cf i{position:absolute;top:-20px;width:9px;height:14px;animation:cfd linear forwards}@keyframes cfd{to{transform:translateY(105vh) rotate(720deg)}}
 .chip{display:inline-block;padding:8px 14px;margin:4px;border-radius:20px;background:var(--bg);border:1px solid var(--bd);color:var(--tx);font-weight:700;cursor:pointer}.chip.on{background:var(--pr);color:#fff;border-color:var(--pr)}
 .ltr{min-width:44px;padding:10px;margin:4px;border-radius:10px;background:var(--bg);border:1px solid var(--bd);font-size:22px;font-weight:800;color:var(--tx)}.ltr:disabled{opacity:.3}
+#ins{position:fixed;left:10px;right:10px;bottom:calc(70px + env(safe-area-inset-bottom,0px));z-index:99;background:#5b2a9e;color:#fff;border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 24px #0007;max-width:540px;margin:0 auto;font-weight:700;line-height:1.5}#ins button{background:#f5c542;color:#2b1650;padding:8px 14px;font-weight:800;border-radius:10px;border:0}#ins button.x{background:none;color:#fff;font-size:20px;padding:0 6px}
 </style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script><script src="content.js"></script></head><body><div id="app"></div><div class="mu c" style="padding:6px;font-size:11px">v10-b</div>
 <script>
 const D={};
@@ -410,4 +411,17 @@ reg.addEventListener('updatefound',()=>{const w=reg.installing;w.addEventListene
 setInterval(()=>reg.update(),1800000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)reg.update()});
 let r;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(r)return;r=1;location.reload()})}));
+</script><script>
+(function(){var ua=navigator.userAgent,ls=function(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){}};
+var sa=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true;
+if(sa||+ls('kh_ins')>Date.now())return;
+var ios=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1),inapp=/FBAN|FBAV|FB_IAB|Instagram|Line\/|Snapchat|TikTok|MicroMessenger|; wv\)/i.test(ua),dp=null;
+function hide(){var b=document.getElementById('ins');if(b)b.remove()}
+function show(msg,btn,fn){hide();var b=document.createElement('div');b.id='ins';var i=document.createElement('img');i.src='icons/favicon.png';i.width=36;i.height=36;i.style.borderRadius='8px';var t=document.createElement('span');t.style.flex='1';t.textContent=msg;b.appendChild(i);b.appendChild(t);
+if(btn){var k=document.createElement('button');k.textContent=btn;k.onclick=fn;b.appendChild(k)}
+var x=document.createElement('button');x.className='x';x.textContent='✕';x.onclick=function(){ls('kh_ins',String(Date.now()+3*864e5));hide()};b.appendChild(x);document.body.appendChild(b)}
+if(inapp){setTimeout(function(){if(/Android/.test(ua))show('افتح الرابط في Chrome عشان تقدر تثبّت التطبيق','فتح في Chrome',function(){location.href='intent://'+location.host+location.pathname+location.search+'#Intent;scheme=https;package=com.android.chrome;end'});else show('افتح الرابط في Safari (اضغط ⋯ ثم فتح في Safari) عشان تثبّت التطبيق')},1200);return}
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();dp=e;show('📲 ثبّت تطبيق خطيب على موبايلك','تثبيت',function(){dp.prompt();dp.userChoice.then(function(){dp=null;hide()})})});
+window.addEventListener('appinstalled',hide);
+if(ios)setTimeout(function(){show('لتثبيت التطبيق: اضغط زرار المشاركة ⬆️ ثم «إضافة إلى الشاشة الرئيسية»')},1500)})();
 </script></body></html>
