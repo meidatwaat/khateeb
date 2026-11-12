@@ -5,5 +5,6 @@ window.KH_CONFIG={
   key:'sb_publishable_hgcPeLBjAnxk1It7JEHerg_5TVQrAxh',
   domain:'khateeb.app',
   vapid:'BEJPuGNOGnRk68ROszgboO2UyiCgOB8eVPLl28FUCrNqrUQ9hUofZdBAQ1Q_m5ufCNga1rdMBpbdD5aMCc84i40'
+  adminFn:'hyper-processor'
 };
  
