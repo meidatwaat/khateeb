@@ -26,17 +26,17 @@ header{display:flex;align-items:center;justify-content:space-between;gap:8px;pad
 .big{font-size:30px;font-weight:800;text-align:center;margin:16px 0;cursor:pointer}.big.ar{color:var(--pr)}
 .en{direction:ltr;text-align:left;font-weight:600}.big2{font-size:20px}
 .fb{padding:10px;border-radius:12px;margin:8px 0;font-weight:700}
-.fb.ok{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
-.fb.no{background:color-mix(in srgb,var(--no) 18%,transparent);color:var(--no)}
+.fb.ok{background:rgba(43,182,115,.2);color:var(--ok)}
+.fb.no{background:rgba(230,80,70,.2);color:var(--no)}
 .row{display:flex;gap:8px}.er{color:var(--no);text-align:center;min-height:22px}
-.nd{display:inline-flex;width:54px;height:54px;border-radius:50%;align-items:center;justify-content:center;margin:4px;background:var(--bd);font-size:22px}.nd.dn{background:color-mix(in srgb,#f5c542 40%,transparent)}.nd.cu{background:var(--pr);color:#fff}.kg{font-size:56px;text-align:center;line-height:1.3;margin:8px 0}.ob{font-size:38px;padding:12px}
+.nd{display:inline-flex;width:54px;height:54px;border-radius:50%;align-items:center;justify-content:center;margin:4px;background:var(--bd);font-size:22px}.nd.dn{background:rgba(245,197,66,.4)}.nd.cu{background:var(--pr);color:#fff}.kg{font-size:56px;text-align:center;line-height:1.3;margin:8px 0}.ob{font-size:38px;padding:12px}
 .bar{height:10px;background:var(--bd);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--pr)}
-nav{position:fixed;inset:auto 0 0 0;display:flex;background:var(--cd);border-top:1px solid var(--bd);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--cd);border-top:1px solid var(--bd);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
 nav button{flex:1;background:none;color:var(--mu);padding:8px;font-weight:700}nav button.on{color:var(--pr)}
 .upd{position:fixed;top:0;left:0;right:0;z-index:99;background:#5b2a9e;color:#fff;text-align:center;padding:calc(10px + env(safe-area-inset-top,0px)) 10px 10px;font-weight:700}.upd button{margin-inline-start:10px;background:#f5c542;color:#2b1650;padding:6px 14px;font-weight:800}
 @media (min-width:768px){#app{max-width:760px}.g{grid-template-columns:repeat(4,1fr)}}
 #ib{position:fixed;top:0;left:0;right:0;z-index:100;padding:calc(8px + env(safe-area-inset-top,0px)) 10px 0}.ibx{display:flex;align-items:center;gap:10px;background:var(--cd);border:2px solid var(--pr);border-radius:16px;padding:10px;box-shadow:0 6px 24px #0006;max-width:560px;margin:0 auto}
-#cf{position:fixed;inset:0;pointer-events:none;z-index:120;overflow:hidden}#cf i{position:absolute;top:-20px;width:9px;height:14px;animation:cfd linear forwards}@keyframes cfd{to{transform:translateY(105vh) rotate(720deg)}}
+#cf{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:120;overflow:hidden}#cf i{position:absolute;top:-20px;width:9px;height:14px;animation:cfd linear forwards}@keyframes cfd{to{transform:translateY(105vh) rotate(720deg)}}
 .chip{display:inline-block;padding:8px 14px;margin:4px;border-radius:20px;background:var(--bg);border:1px solid var(--bd);color:var(--tx);font-weight:700;cursor:pointer}.chip.on{background:var(--pr);color:#fff;border-color:var(--pr)}
 .ltr{min-width:44px;padding:10px;margin:4px;border-radius:10px;background:var(--bg);border:1px solid var(--bd);font-size:22px;font-weight:800;color:var(--tx)}.ltr:disabled{opacity:.3}
 #ins{position:fixed;left:10px;right:10px;bottom:calc(70px + env(safe-area-inset-bottom,0px));z-index:99;background:#5b2a9e;color:#fff;border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 24px #0007;max-width:540px;margin:0 auto;font-weight:700;line-height:1.5}#ins button{background:#f5c542;color:#2b1650;padding:8px 14px;font-weight:800;border-radius:10px;border:0}#ins button.x{background:none;color:#fff;font-size:20px;padding:0 6px}
@@ -83,7 +83,7 @@ function quizV2(){const z=S.z,q=z.qs[z.i];return q&&q.nt?newV(q):q&&q.kg?kgV(q):
 const CH={peers:[],inv:[]};
 async function chInit(){if(CH.i)return;CH.i=1;try{const c=window.claude,[u,r,d]=await Promise.all([c.use('user'),c.use('room'),c.use('db')]);CH.db=d;CH.room=r;CH.me=u?await u.id():null;pres();
 if(r)r.onPeers(()=>{CH.peers=r.peers();if(S.tab==='c'&&!CH.cur&&!S.z)render()});
-if(d&&CH.me)d.collection('challenges').where('p2','==',CH.me).where('st','==','invite').onSnapshot(s=>{CH.inv=s.docs.map(x=>({id:x.id,...x.data()}));if(S.tab==='c'&&!CH.cur&&!S.z)render()},()=>{});render()}catch(e){}}
+if(d&&CH.me)d.collection('challenges').where('p2','==',CH.me).where('st','==','invite').onSnapshot(s=>{CH.inv=s.docs.map(x=>Object.assign({id:x.id},x.data()));if(S.tab==='c'&&!CH.cur&&!S.z)render()},()=>{});render()}catch(e){}}
 function pres(){const k=DB.cur+'|'+(U?lv():0)+'|'+CH.me;if(CH.room&&CH.me&&CH.pk!==k){CH.pk=k;CH.room.presence({n:DB.cur,l:lv(),id:CH.me})}}
 const oth=()=>CH.peers.filter(p=>!p.isMe&&p.presence&&p.presence.id&&p.presence.id!==CH.me).map(p=>p.presence).filter((p,i,a)=>a.findIndex(x=>x.id===p.id)===i).sort((a,b)=>Math.abs(a.l-lv())-Math.abs(b.l-lv()));
 const side=()=>CH.d&&CH.d.p1===CH.me?'1':'2';
@@ -127,7 +127,7 @@ const o=oth();return pushCard()+CH.inv.map((x,i)=>'<div class="card"><b>⚔️ '
 /* online challenge on Supabase (overrides the claude.ai-only versions above) */
 async function chInit(){if(!SB||!ST.id||CH.i===ST.id)return;CH.i=ST.id;CH.db=SB;CH.room=1;CH.me=ST.id;CH.sh=CH.sh||{};
 const L=SB.channel('lobby',{config:{private:true,presence:{key:ST.id}}});CH.L=L;
-L.on('presence',{event:'sync'},()=>{CH.peers=Object.values(L.presenceState()).flat().map(p=>({isMe:p.id===ST.id,presence:p}));if(S.tab==='c'&&!CH.cur&&!S.z)render()}).subscribe(s=>{if(s==='SUBSCRIBED'){CH.pk='';pres()}});
+L.on('presence',{event:'sync'},()=>{CH.peers=[].concat.apply([],Object.values(L.presenceState())).map(p=>({isMe:p.id===ST.id,presence:p}));if(S.tab==='c'&&!CH.cur&&!S.z)render()}).subscribe(s=>{if(s==='SUBSCRIBED'){CH.pk='';pres()}});
 const ld=async()=>{const r=await SB.from('challenges').select('id,n1,p1,g1,v1,created_at').eq('p2',ST.id).eq('st','invite');CH.inv=(r.data||[]).filter(x=>Date.now()-new Date(x.created_at)<300000);CH.inv.forEach(x=>showInv(x));if(S.tab==='c'&&!CH.cur&&!S.z)render()};
 CH.ld=ld;ld();SB.channel('inv'+ST.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'challenges',filter:'p2=eq.'+ST.id},ld).subscribe();
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&CH.ld&&CH.i)CH.ld()});
