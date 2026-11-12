@@ -189,7 +189,7 @@ function zfin(ok,v){const z=S.z,q=z.qs[z.i];q.r=ok?1:0;q.v=v;
 if(ok){z.sc++;U.coins+=5;U.xp+=10;U.stars=(U.stars||0)+1;z.st=(z.st||0)+1;if(z.st%5===0)U.gems=(U.gems||0)+1}else{z.st=0;z.bad.push(q)}
 if(q.w){const w=U.words.find(x=>x.en===q.w.en);if(w)w.lv=Math.max(0,Math.min(5,w.lv+(ok?1:-1)))}
 chk();save();render();const i=z.i;setTimeout(()=>{if(S.z===z&&z.i===i)znext()},ok?900:1700)}
-function mkC(t,B){if(!B)return mkQ(t,DW);const W=B.w.map(x=>({en:x[0],ar:x[1],em:x[2]})),w=rnd(W),S2=B.s||[],arP=W.map(x=>x.ar),enP=W.map(x=>x.en),e=x=>x.en+' = '+x.ar;
+function mkC(t,B){if(!B)return mkQ(t,DW);const W=B.w.map(x=>({en:x[0],ar:x[1],em:x[2]})),SW1=W.filter(x=>/^[a-z]{3,12}$/i.test(x.en)),w=(['sp','scr','say'].includes(t)&&SW1.length)?rnd(SW1):rnd(W),S2=B.s||[],arP=W.map(x=>x.ar),enP=W.map(x=>x.en),e=x=>x.en+' = '+x.ar;
 if(t==='pic'){const E=W.filter(x=>x.em);if(E.length<3)t='w1';else{const x=rnd(E);return{h:'اختار الصورة المناسبة',p:x.en,kg:1,oe:1,o:op(x.em,E.map(y=>y.em),4),a:x.em,e:e(x)}}}
 if(t==='say'&&!SR)t='sp';if((t==='s1'||t==='fill')&&!S2.length)t='w2';
 if(t==='w1')return{p:'ما معنى «'+w.en+'»؟',o:op(w.ar,arP.concat(Object.values(D)),4),a:w.ar,e:e(w)};
