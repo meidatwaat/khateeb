@@ -234,7 +234,7 @@ function lastV(){const l=S.last;if(!l)return '';
 if(S.rv)return '<h3>راجع أخطاءك</h3>'+l.bad.map(q=>'<div class="card"><p dir="auto">'+esc(q.p)+'</p><p>إجابتك: <b dir="auto" style="color:var(--no)">'+esc(q.v)+'</b></p><p>الصح: <b dir="auto" style="color:var(--ok)">'+esc(q.a)+'</b></p><p class="mu" dir="auto">'+esc(q.e)+'</p></div>').join('')+'<button class="b" onclick="S.rv=0;render()">رجوع للمغامرة</button>';
 return '<div class="card c"><h3>'+(l.p>=.7?'🎉 ممتاز! فتحت المستوى '+getL():'💪 قرّبت! حاول تاني')+'</h3><p>نتيجتك '+l.sc+' من '+l.n+' ('+Math.round(l.p*100)+'%) · +20 🪙</p>'+(l.bad.length?'<button class="b2" onclick="S.rv=1;render()">راجع أخطاءك ('+l.bad.length+')</button>':'')+'<button class="b2" onclick="S.last=null;render()">تمام</button></div>'}
 /* owner admin console */
-async function adm(a,x){const r=await SB.functions.invoke('admin-users',{body:Object.assign({action:a},x||{})});
+async function adm(a,x){const r=await SB.functions.invoke(CF.adminFn||'admin-users',{body:Object.assign({action:a},x||{})});
 if(r.error||(r.data&&r.data.error)){S.note='خطأ: '+esc((r.data&&r.data.error)||r.error.message);render();return null}return r.data}
 async function admLoad(){S.aul=1;const d=await adm('list');if(d){S.au=d.users;render()}}
 function admRows(){const q=(S.aq||'').toLowerCase().trim(),L=(S.au||[]).filter(u=>!q||(u.username+' '+u.full_name+' '+(u.phone||'')+' '+(u.guardian_phone||'')).toLowerCase().includes(q));
