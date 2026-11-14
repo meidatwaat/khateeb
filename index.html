@@ -13,7 +13,7 @@ body{background:var(--bg);color:var(--tx);font:16px/1.6 "Segoe UI",Tahoma,Arial,
 .logo{font-size:44px;font-weight:800;color:var(--pr);text-align:center;margin:30px 0 0}.logo.s{font-size:26px;margin:0}
 .c{text-align:center}.mu{color:var(--mu);font-size:14px}
 .card{background:var(--cd);border:1px solid var(--bd);border-radius:16px;padding:14px;margin:10px 0}
-input,select{width:100%;padding:12px;margin:6px 0;border:1px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--tx);font:inherit}
+input,select,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--tx);font:inherit}
 button{font:inherit;cursor:pointer;border-radius:12px;border:0}
 .b{width:100%;padding:12px;margin:6px 0;background:var(--pr);color:#fff;font-weight:700}
 .b2{width:100%;padding:12px;margin:6px 0;background:var(--bg);color:var(--tx);border:1px solid var(--bd)}
@@ -40,6 +40,8 @@ nav button{flex:1;background:none;color:var(--mu);padding:8px;font-weight:700}na
 .chip{display:inline-block;padding:8px 14px;margin:4px;border-radius:20px;background:var(--bg);border:1px solid var(--bd);color:var(--tx);font-weight:700;cursor:pointer}.chip.on{background:var(--pr);color:#fff;border-color:var(--pr)}
 .ltr{min-width:44px;padding:10px;margin:4px;border-radius:10px;background:var(--bg);border:1px solid var(--bd);font-size:22px;font-weight:800;color:var(--tx)}.ltr:disabled{opacity:.3}
 #ins{position:fixed;left:10px;right:10px;bottom:calc(70px + env(safe-area-inset-bottom,0px));z-index:99;background:#5b2a9e;color:#fff;border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 24px #0007;max-width:540px;margin:0 auto;font-weight:700;line-height:1.5}#ins button{background:#f5c542;color:#2b1650;padding:8px 14px;font-weight:800;border-radius:10px;border:0}#ins button.x{background:none;color:#fff;font-size:20px;padding:0 6px}
+.dt{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:5px;vertical-align:middle;background:#9aa0ac}.dt.on{background:#2bb673;box-shadow:0 0 0 3px rgba(43,182,115,.25)}
+#nc{position:fixed;top:0;left:0;right:0;z-index:101;padding:calc(8px + env(safe-area-inset-top,0px)) 10px 0;pointer-events:none}#nc .ibx{pointer-events:auto}
 </style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script><script src="content.js"></script></head><body><div id="app"></div><div class="mu c" style="padding:6px;font-size:11px">v10-b</div>
 <script>
 const D={};
@@ -116,14 +118,14 @@ if(CH.cur){const s=side(),o=s==='1'?'2':'1',N=d.qs.length,m=CH.my,op=d['a'+o]||[
 if(d.st==='invite')return '<div class="card c"><h3>⏳ بانتظار رد الخصم…</h3><button class="b2" onclick="chLeave()">إلغاء</button></div>';
 if(d.st==='no')return '<div class="card c"><p>الخصم رفض التحدي</p><button class="b" onclick="chLeave()">رجوع</button></div>';
 if(d.st==='done'&&d.ff)return forfV(d,s);
-if(m.length>=N&&op.length>=N)return resV(d,m,op,s);
+if((d['a'+s]||[]).length>=N&&op.length>=N)return resV(d,m,op,s);
 if(Date.now()<d.t0)return '<div class="card c"><div class="kg">'+Math.ceil((d.t0-Date.now())/1000)+'</div><p>استعد!</p></div>';
-if(m.length>=N)return '<div class="card c"><h3>خلصت! ⏳ بانتظار الخصم ('+op.length+'/'+N+')</h3><p>نتيجتك '+sc(m)+'</p></div>';
+if(m.length>=N)return oppBan()+'<div class="card c"><h3>خلصت! ⏳ بانتظار الخصم ('+op.length+'/'+N+')</h3><p>نتيجتك '+sc(m)+'</p></div>';
 const qi=CH.fb?m.length-1:m.length,q=d.qs[qi],a=CH.fb?m[qi]:null;
-return '<div class="card"><div class="row" style="justify-content:space-between">'+pl(d,s,sc(m),1)+'<span class="mu">'+(qi+1)+'/'+N+'</span>'+pl(d,s,sc(op),0)+'</div><div class="bar"><i id="tb" style="width:100%"></i></div><p class="big2 '+(q.en?'en':'')+'" style="font-weight:700" dir="auto">'+esc(q.p)+'</p>'+q.o.map((x,j)=>'<button dir="auto" class="b2 o '+(a?(x===a.a?'ok':(j===a.k?'no':'')):'')+'" '+(a?'disabled':'')+' onclick="chAns('+j+')">'+esc(x)+'</button>').join('')+'<button class="b2" style="margin-top:14px" onclick="chFf()">🏳️ انسحاب من التحدي</button></div>'}
+return oppBan()+'<div class="card"><div class="row" style="justify-content:space-between">'+pl(d,s,sc(m),1)+'<span class="mu">'+(qi+1)+'/'+N+'</span>'+pl(d,s,sc(op),0)+'</div><div class="bar"><i id="tb" style="width:100%"></i></div><p class="big2 '+(q.en?'en':'')+'" style="font-weight:700" dir="auto">'+esc(q.p)+'</p>'+q.o.map((x,j)=>'<button dir="auto" class="b2 o '+(a?(x===a.a?'ok':(j===a.k?'no':'')):'')+'" '+(a?'disabled':'')+' onclick="chAns('+j+')">'+esc(x)+'</button>').join('')+'<button class="b2" style="margin-top:14px" onclick="chFf()">🏳️ انسحاب من التحدي</button></div>'}
 const o=oth();return pushCard()+CH.inv.map((x,i)=>'<div class="card"><b>⚔️ '+esc(x.n1)+' بيتحداك!</b><div class="row"><button class="b ok" onclick="acc('+i+',1)">قبول</button><button class="b2" onclick="acc('+i+',0)">رفض</button></div></div>').join('')+
 '<div class="card c"><div style="font-size:44px">⚔️</div><h3>تحدّي طالب</h3><p class="mu">7 أسئلة · 30 ثانية لكل سؤال · الأسرع والأدق بيكسب</p><button class="b" onclick="chI(0)">🔍 دوّر على خصم بنفس مستواي</button></div><h3>أونلاين دلوقتي ('+o.length+')</h3>'+
-(o.length?o.map((p,i)=>'<div class="card w"><div><b>'+esc(p.n)+'</b> · مستوى '+esc(p.l)+(i===0?' <span class="mu">⭐ مقترح</span>':'')+'</div><button class="b" style="width:auto;margin:0;padding:8px 14px" onclick="chI('+i+')">تحدّي</button></div>').join(''):'<p class="mu c">مفيش حد تاني فاتح التطبيق دلوقتي</p>')}
+(o.length?o.map((p,i)=>'<div class="card w"><div style="display:flex;align-items:center;gap:8px">'+av(p.id,p.g,38)+'<span>'+dot(p.id)+'<b>'+esc(p.n)+'</b> · مستوى '+esc(p.l)+(i===0?' <span class="mu">⭐ مقترح</span>':'')+'</span></div><button class="b" style="width:auto;margin:0;padding:8px 14px" onclick="chI('+i+')">تحدّي</button></div>').join(''):'<p class="mu c">مفيش حد تاني فاتح التطبيق دلوقتي</p>')}
 /* online challenge on Supabase (overrides the claude.ai-only versions above) */
 async function chInit(){if(!SB||!ST.id||CH.i===ST.id)return;CH.i=ST.id;CH.db=SB;CH.room=1;CH.me=ST.id;CH.sh=CH.sh||{};
 const L=SB.channel('lobby',{config:{private:true,presence:{key:ST.id}}});CH.L=L;
@@ -411,7 +413,7 @@ if(q.res!=null&&S.m!=='card')h+='<div class="fb '+(q.res?'ok':'no')+'">'+(q.res?
 return h+'</div>'}
 function render(){const a=$('#app');
 if(!U){a.innerHTML=SB?cAuthV():authV()+cfgWarn();return}U.coins=U.coins||0;U.xp=U.xp||0;U.badges=U.badges||[];U.ch=U.ch||[];chInit();pres();
-a.innerHTML='<header><b class="logo s">خطيب</b>'+avH()+'<span class="mu">'+esc(dn())+' · '+rk()[0]+lv()+' · 🪙'+U.coins+'</span><button class="ic" onclick="out()">خروج</button></header>'+
+a.innerHTML='<header><b class="logo s">خطيب</b>'+avH()+'<span class="mu">'+(ST.p?'<i class="dt on"></i>':'')+esc(dn())+' · '+rk()[0]+lv()+' · 🪙'+U.coins+'</span><button class="ic" onclick="out()">خروج</button></header>'+
 (S.note?'<div class="fb ok">'+S.note+'</div>':'')+viewV()+
 '<nav><button class="'+(S.tab==='w'?'on':'')+'" onclick="S.tab=\'w\';render()">📚 كلماتي</button><button class="'+(S.tab==='p'?'on':'')+'" onclick="S.tab=\'p\';S.m=null;render()">🎯 تدريب</button><button class="'+(S.tab==='c'?'on':'')+'" onclick="S.tab=\'c\';render()">⚔️ تحدي</button><button class="'+(S.tab==='m'?'on':'')+'" onclick="S.tab=\'m\';render()">🗺️ مغامرة</button><button class="'+(S.tab==='b'?'on':'')+'" onclick="S.tab=\'b\';render()">🏆 إنجازاتي</button>'+(ST.p&&ST.p.role==='admin'?'<button class="'+(S.tab==='a'?'on':'')+'" onclick="S.tab=\'a\';S.au=null;S.aul=0;render()">🛠️</button>':'')+'</nav>';
 S.note=''}
@@ -421,6 +423,66 @@ if(ok){z.sc++;U.coins+=5;U.xp+=10;U.stars=(U.stars||0)+1;z.st=(z.st||0)+1;if(z.s
 if(q.w){const w=U.words.find(x=>x.en===q.w.en);if(w)w.lv=Math.max(0,Math.min(5,w.lv+(ok?1:-1)))}
 chk();save();render();const i=z.i;setTimeout(()=>{if(S.z===z&&z.i===i)znext()},ok?900:2000)}
 function fin(ok){const q=S.q,w=q.w;rew(ok);q.res=ok?1:0;w.lv=Math.max(0,Math.min(5,w.lv+(ok?1:-1)));if(ok)S.sc++;S.n++;save();render();setTimeout(()=>{if(S.q===q)next()},ok?900:2000)}
+/* v12 overrides: presence dots, avatars everywhere, challenge fixes, admin notifications */
+const dot=u=>'<i class="dt '+(CH.on&&CH.on.has(u)?'on':'off')+'"></i>';
+function pres(){const k=ST.id+'|'+(U?lv():0)+'|'+(ST.p&&ST.p.avatar_url);if(CH.L&&ST.p&&CH.pk!==k){CH.pk=k;CH.L.track({id:ST.id,n:ST.p.full_name.split(' ')[0],l:lv(),v:!!ST.p.avatar_url,g:ST.p.gender})}}
+async function avBatch(list){CH.av=CH.av||{};CH.avx=CH.avx||{};const need=list.filter(x=>x[0]&&x[1]&&!CH.av[x[0]]&&!CH.avx[x[0]]);if(!need.length)return;need.forEach(x=>CH.avx[x[0]]=1);
+try{const r=await SB.storage.from('avatars').createSignedUrls(need.map(x=>x[0]+'/avatar.jpg'),3600);let n=0;(r.data||[]).forEach(o=>{if(o.signedUrl){CH.av[o.path.split('/')[0]]=o.signedUrl;n++}});if(n&&(S.tab==='a'||S.tab==='c')&&!S.z)render()}catch(e){}}
+async function loadAv(d){avBatch([[d.p1,d.v1],[d.p2,d.v2]])}
+function pl(d,s,sco,me){const k=me?s:(s==='1'?'2':'1'),u=k==='1'?d.p1:d.p2;return '<div style="text-align:center">'+av(u,d['g'+k],44)+'<div>'+dot(u)+'<b>'+esc(d['n'+k])+'</b></div><div class="mu">'+sco+'</div></div>'}
+async function chInit(){if(!SB||!ST.id||CH.i===ST.id)return;CH.i=ST.id;CH.db=SB;CH.room=1;CH.me=ST.id;CH.sh=CH.sh||{};CH.on=new Set([ST.id]);CH.av=CH.av||{};
+const L=SB.channel('lobby',{config:{private:true,presence:{key:ST.id}}});CH.L=L;
+L.on('presence',{event:'sync'},()=>{CH.peers=[].concat.apply([],Object.values(L.presenceState())).map(p=>({isMe:p.id===ST.id,presence:p}));CH.on=new Set([ST.id].concat(CH.peers.map(p=>p.presence.id)));
+avBatch(CH.peers.map(p=>[p.presence.id,p.presence.v]));if(S.tab==='a'&&S.au){admStat();admList()}else if(S.tab==='c'&&!CH.cur&&!S.z)render()}).subscribe(s=>{if(s==='SUBSCRIBED'){CH.pk='';pres()}});
+const ld=async()=>{const r=await SB.from('challenges').select('id,n1,p1,g1,v1,created_at').eq('p2',ST.id).eq('st','invite');CH.inv=(r.data||[]).filter(x=>Date.now()-new Date(x.created_at)<300000);CH.inv.forEach(x=>showInv(x));if(S.tab==='c'&&!CH.cur&&!S.z)render()};
+CH.ld=ld;ld();SB.channel('inv'+ST.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'challenges',filter:'p2=eq.'+ST.id},ld).subscribe();
+SB.channel('nt'+ST.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'notices'},p=>showNotice(p.new)).subscribe();
+loadNotices();resume();
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){if(CH.ld)CH.ld();if(CH.cur)hb();else resume()}});
+if('Notification' in window&&Notification.permission==='granted')syncPush()}
+async function resume(){if(CH.cur||!ST.id)return;const r=await SB.from('challenges').select('id,created_at').eq('st','play').or('p1.eq.'+ST.id+',p2.eq.'+ST.id).order('created_at',{ascending:false}).limit(1),x=r.data&&r.data[0];
+if(x&&Date.now()-new Date(x.created_at)<1800000){S.z=null;S.tab='c';chOpen(x.id)}}
+function chOpen(cid){CH.cur=cid;{const b=$('#ib');if(b)b.innerHTML=''}CH.d=null;CH.my=[];CH.fb=0;CH.qs=0;CH.t0=0;CH.paid=0;CH.busy=0;CH.oppAge=0;CH.hn=0;if(CH.un)SB.removeChannel(CH.un);clearInterval(CH.t);clearInterval(CH.hbT);
+const set=d=>{const mine=d[d.p1===CH.me?'a1':'a2']||[];if(!CH.my.length&&mine.length)CH.my=mine.map(x=>({k:-2,ok:!!x.ok,ms:x.ms,a:''}));
+if(d.st==='play'&&!CH.t0)CH.t0=mine.length?1:Date.now()+3000;CH.d=Object.assign(CH.d||{},d);CH.d.t0=CH.t0||0;render()};
+SB.from('challenges').select('*').eq('id',cid).single().then(r=>{if(r.data){set(r.data);loadAv(r.data)}});
+CH.un=SB.channel('c'+cid).on('postgres_changes',{event:'UPDATE',schema:'public',table:'challenges',filter:'id=eq.'+cid},p=>set(p.new)).subscribe();
+CH.t=setInterval(tick,200);CH.hbT=setInterval(hb,5000);hb();render()}
+function chLeave(){if(CH.un)SB.removeChannel(CH.un);CH.un=null;clearInterval(CH.t);clearInterval(CH.hbT);CH.cur=null;CH.d=null;render()}
+async function hb(){const d=CH.d;if(!CH.cur||!d||d.st!=='play'||document.hidden)return;try{await SB.rpc('ping',{cid:CH.cur});CH.hn=(CH.hn||0)+1;
+if(CH.hn%2===0){const r=await SB.rpc('check_timeout',{cid:CH.cur});if(r.data){CH.oppAge=r.data.age||0;if(r.data.state==='forfeit'){const x=await SB.from('challenges').select('*').eq('id',CH.cur).single();if(x.data)CH.d=Object.assign(CH.d,x.data)}render()}}}catch(e){}}
+function oppBan(){const a=CH.oppAge|0;if(!CH.d||CH.d.st!=='play'||a<15)return '';return '<div class="fb no">⏳ الخصم خرج من التطبيق من '+a+' ثانية… لو ما رجعش خلال '+Math.max(0,45-a)+' ثانية هتفوز تلقائيًا</div>'}
+async function chAns(i){const d=CH.d;if(!d||!d.qs||CH.fb||CH.busy)return;CH.busy=1;let x={};const ms=Math.min(Date.now()-CH.qs,30000);
+try{const idx=CH.my.length,q=d.qs[idx],r=await SB.rpc('answer',{cid:CH.cur,qi:idx,choice:i>=0?q.o[i]:'',ms});x=r.data||{};if(r.error)S.note='تعذّر تسجيل الإجابة: '+esc(r.error.message)}catch(e){S.note='خطأ في الاتصال: '+esc(e.message||e)}
+CH.my.push({k:i,ok:!!x.ok,ms,a:x.a||''});CH.fb=1;CH.busy=0;render();setTimeout(()=>{CH.fb=0;CH.qs=Date.now();render()},900)}
+function resV(d,m,o,s){const t=s==='1'?'2':'1',a=sc(d['a'+s]),b=sc(d['a'+t]),w=a>b?1:a<b?0:2;if(!CH.paid){CH.paid=1;pay(w);if(w===1)win()}
+const bad=d.qs.map((q,i)=>[q,m[i]]).filter(x=>x[1]&&!x[1].ok);
+return '<div class="card c"><h2>'+(w===1?'🏆 فزت!':w===2?'🤝 تعادل':'💪 حظ أوفر')+'</h2><div class="row" style="justify-content:space-around">'+pl(d,s,a,1)+'<b style="align-self:center">VS</b>'+pl(d,s,b,0)+'</div><p class="mu">مستواك '+lv()+' · +'+(w===1?30:w===2?15:10)+' 🪙</p></div>'+
+(bad.length?'<h3>راجع أخطاءك</h3>'+bad.map(x=>'<div class="card"><p dir="auto">'+esc(x[0].p)+'</p>'+(x[1].a?'<p>الصح: <b dir="auto" style="color:var(--ok)">'+esc(x[1].a)+'</b></p>':'')+'</div>').join(''):'<p class="c">ولا غلطة! 💯</p>')+'<button class="b" onclick="chLeave()">رجوع للتحديات</button>'}
+function forfV(d,s){const won=d.ff!==CH.me;if(!CH.paid){CH.paid=1;pay(won?1:-1);if(won)win()}
+return '<div class="card c"><h2>'+(won?'🏆 الخصم انقطع أو انسحب، فزت!':'🏳️ خسرت التحدي (انسحاب أو انقطاع)')+'</h2><div class="row" style="justify-content:space-around">'+pl(d,s,'',1)+pl(d,s,'',0)+'</div><p class="mu">'+(won?'+40 XP'+(d.pen?' · +'+d.pen+' كوين من الخصم':''):(d.pen?'خسرت '+d.pen+' كوين وراحوا للخصم':'ما خدتش نقاط التحدي'))+'</p></div><button class="b" onclick="chLeave()">رجوع</button>'}
+/* in-app notices from the admin */
+function showNotice(n){if(!n)return;beep();let c=$('#nc');if(!c){c=document.createElement('div');c.id='nc';document.body.appendChild(c)}
+const e=document.createElement('div');e.className='ibx';e.style.marginTop='8px';e.innerHTML='<span style="font-size:26px">📢</span><div style="flex:1"><b>'+esc(n.title)+'</b><div class="mu" style="color:inherit">'+esc(n.body)+'</div></div>';
+const x=document.createElement('button');x.className='b2';x.style.cssText='width:auto;margin:0;padding:6px 10px';x.textContent='✕';x.onclick=()=>e.remove();e.appendChild(x);c.appendChild(e);try{localStorage.setItem('kh_ns',n.created_at)}catch(_){}}
+async function loadNotices(){let s='';try{s=localStorage.getItem('kh_ns')||''}catch(_){}if(!s)s=new Date(Date.now()-864e5).toISOString();const r=await SB.from('notices').select('*').gt('created_at',s).order('created_at',{ascending:true}).limit(3);(r.data||[]).forEach(showNotice)}
+/* admin console v2 */
+function admStat(){const e=$('#ast');if(!e||!S.au)return;const on=S.au.filter(u=>CH.on&&CH.on.has(u.id)).length;e.innerHTML='👥 الإجمالي <b>'+S.au.length+'</b> · <i class="dt on"></i>متصل الآن <b>'+on+'</b> · <i class="dt off"></i>مغلق <b>'+(S.au.length-on)+'</b> · 🚫 محظور <b>'+S.au.filter(u=>u.banned).length+'</b>'}
+function admRows(){const q=(S.aq||'').toLowerCase().trim(),L=(S.au||[]).filter(u=>!q||(u.username+' '+u.full_name+' '+(u.phone||'')+' '+(u.guardian_phone||'')).toLowerCase().includes(q));
+return L.map(u=>{const age=Math.floor((Date.now()-new Date(u.birth_date))/31557600000);
+return '<div class="card"><div style="display:flex;align-items:center;gap:10px"><input type="checkbox" style="width:auto;margin:0" '+(S.sel&&S.sel[u.id]?'checked':'')+' onchange="admSel(\''+u.id+'\',this.checked)">'+av(u.id,u.gender,42)+'<div style="flex:1">'+dot(u.id)+'<b dir="auto">'+esc(u.full_name)+'</b> <span class="mu" dir="ltr">@'+esc(u.username)+'</span> '+(u.gender==='f'?'👧':'👦')+' · '+age+' سنة'+(u.role==='admin'?' · 🛠️ أدمن':'')+(u.banned?' · <b style="color:var(--no)">محظور</b>':'')+
+'<div class="mu" dir="ltr">📞 '+esc(u.phone||'—')+' · 👪 '+esc(u.guardian_phone||'—')+'</div><div class="mu">XP تحديات: '+u.ch_xp+' · فوز '+u.ch_wins+'/'+u.ch_played+' · سجّل '+esc(String(u.created_at).slice(0,10))+'</div></div></div>'+
+'<div class="row"><button class="b2" onclick="admTo(\''+u.id+'\')">📩 إشعار</button>'+(u.role==='admin'?'':'<button class="b2" onclick="admBan(\''+u.id+'\','+(u.banned?0:1)+')">'+(u.banned?'✅ فك الحظر':'🚫 حظر')+'</button><button class="b2" onclick="admReset(\''+u.id+'\')">🔑</button><button class="b2" onclick="admDel(\''+u.id+'\')">🗑</button>')+'</div></div>'}).join('')||'<p class="mu c">مفيش نتائج</p>'}
+function admSel(id,v){S.sel=S.sel||{};if(v)S.sel[id]=1;else delete S.sel[id];const e=$('#asn');if(e)e.textContent=Object.keys(S.sel).length}
+function admTo(id){S.sel={};S.sel[id]=1;render();const e=$('#nt');if(e){e.scrollIntoView();e.focus()}}
+async function admLoad(){S.aul=1;S.aerr='';const d=await adm('list');if(d&&d.users){S.au=d.users;avBatch(d.users.map(u=>[u.id,!!u.avatar_url]));render()}else if(d){S.aerr='رد غير متوقع من الدالة (تأكد إن كودها هو آخر نسخة من admin-users-index.ts)';render()}}
+function admV(){const er=S.aerr?'<div class="fb no" dir="auto">⚠️ '+esc(S.aerr)+'</div>':'';
+if(!S.au){if(S.aerr)return '<div class="card c"><h3>تعذّر تحميل المستخدمين</h3>'+er+'<button class="b" onclick="S.aul=0;S.aerr=\'\';render()">إعادة المحاولة ↻</button></div>';if(!S.aul)admLoad();return '<p class="mu c">جاري تحميل المستخدمين…</p>'}
+const ns=Object.keys(S.sel||{}).length;setTimeout(admStat,0);
+return er+'<div class="card c"><h3>🛠️ لوحة التحكم</h3><p class="mu" id="ast"></p><input placeholder="ابحث بالاسم أو اليوزر أو الموبايل" value="'+esc(S.aq||'')+'" oninput="S.aq=this.value;admList()"><button class="b2" onclick="S.au=null;S.aul=0;S.aerr=\'\';render()">تحديث ↻</button></div>'+
+'<div class="card"><b>📢 إرسال إشعار</b><input id="nt" maxlength="60" placeholder="عنوان الإشعار"><textarea id="nb" maxlength="300" rows="3" placeholder="نص الرسالة"></textarea><div class="row"><button class="b" onclick="admNotify(0)">للمحددين (<span id="asn">'+ns+'</span>)</button><button class="b2" onclick="admNotify(1)">للجميع</button></div><p class="mu">حدد المستخدمين بالمربعات اللي جنب أسمائهم، أو اضغط 📩 على مستخدم واحد.</p></div><div id="al">'+admRows()+'</div>'}
+async function admNotify(all){const t=($('#nt').value||'').trim(),b=($('#nb').value||'').trim(),ids=Object.keys(S.sel||{});if(!t||!b){alert('اكتب العنوان والرسالة');return}if(!all&&!ids.length){alert('حدد مستخدم واحد على الأقل');return}
+if(!confirm(all?'إرسال الإشعار لكل المستخدمين؟':'إرسال الإشعار لـ '+ids.length+' مستخدم؟'))return;const d=await adm('notify',{title:t,body:b,ids:all?'all':ids});if(d){alert('تم الإرسال ✅ (داخل التطبيق + إشعار موبايل لـ '+(d.push||0)+' جهاز)');$('#nt').value='';$('#nb').value=''}}
 cInit();render();
 </script><script>
 if('serviceWorker' in navigator&&location.protocol!=='file:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').then(reg=>{
