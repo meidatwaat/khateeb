@@ -126,7 +126,7 @@ if(m.length>=N)return oppBan()+'<div class="card c"><h3>أنهيت! ⏳ بانت
 const qi=CH.fb?m.length-1:m.length,q=d.qs[qi],a=CH.fb?m[qi]:null;
 return oppBan()+'<div class="card"><div class="row" style="justify-content:space-between">'+pl(d,s,sc(m),1)+'<span class="mu">'+(qi+1)+'/'+N+'</span>'+pl(d,s,sc(op),0)+'</div><div class="bar"><i id="tb" style="width:100%"></i></div><p class="big2 '+(q.en?'en':'')+'" style="font-weight:700" dir="auto">'+esc(q.p)+'</p>'+q.o.map((x,j)=>'<button dir="auto" class="b2 o '+(a?(x===a.a?'ok':(j===a.k?'no':'')):'')+'" '+(a?'disabled':'')+' onclick="chAns('+j+')">'+esc(x)+'</button>').join('')+'<button class="b2" style="margin-top:14px" onclick="chFf()">🏳️ انسحاب من التحدي</button></div>'}
 const o=oth();return pushCard()+CH.inv.map((x,i)=>'<div class="card"><b>⚔️ '+esc(x.n1)+' يتحداك!</b><div class="row"><button class="b ok" onclick="acc('+i+',1)">قبول</button><button class="b2" onclick="acc('+i+',0)">رفض</button></div></div>').join('')+
-'<div class="card c"><div style="font-size:44px">⚔️</div><h3>تحدَّ طالبًا</h3><p class="mu">7 أسئلة · 30 ثانية لكل سؤال · يفوز الأسرع والأدق</p><button class="b" onclick="chI(0)">🔍 ابحث عن خصم بمستواي</button></div><h3>المتصلون الآن ('+o.length+')</h3>'+
+'<div class="card c"><div style="font-size:44px">⚔️</div><h3>تحدَّ طالبًا</h3><p class="mu">7 أسئلة · 30 ثانية لكل سؤال · يفوز الأسرع والأدق</p><button class="b" onclick="chI(0)">🔍 ابحث عن خصم بمستواي</button><button class="b2" onclick="mcOpen()">👥 تحدٍّ جماعي (أصدقاء أو مجموعة)</button>'+mcInvList()+'</div><h3>المتصلون الآن ('+o.length+')</h3>'+
 (o.length?o.map((p,i)=>'<div class="card w"><div style="display:flex;align-items:center;gap:8px">'+av(p.id,p.g,38)+'<span>'+dot(p.id)+'<b>'+esc(p.n)+'</b> · مستوى '+esc(p.l)+(i===0?' <span class="mu">⭐ مقترح</span>':'')+'</span></div><button class="b" style="width:auto;margin:0;padding:8px 14px" onclick="chI('+i+')">تحدّي</button></div>').join(''):'<p class="mu c">لا يوجد مستخدمون آخرون متصلون الآن</p>')}
 /* online challenge on Supabase (overrides the claude.ai-only versions above) */
 async function chInit(){if(!SB||!ST.id||CH.i===ST.id)return;CH.i=ST.id;CH.db=SB;CH.room=1;CH.me=ST.id;CH.sh=CH.sh||{};
@@ -301,7 +301,7 @@ return '<div class="card c"><h2>'+(z.p>=.7?'🎉 ممتاز!':'💪 كمّل!')+
 '<button class="b" onclick="S.z=null;S.tab=\'p\';render()">حسنًا</button>'}
 function placeV(){return '<div class="card c"><div style="font-size:48px">🎓</div><h2>اختبار المستوى</h2><p>12 سؤالًا في الكلمات والجمل والقواعد. إذا حصلت على 70% أو أكثر فستنال شارة وعملات.</p><button class="b" onclick="qstart(\'place\')">ابدأ الاختبار</button><button class="b2" onclick="U.placed=1;U.stage=\'kg1\';S.tab=\'m\';save();render()">🧒 أنا في مرحلة KG1 / KG2</button><button class="b2" onclick="U.placed=1;save();render()">تخطي الآن</button></div>'}
 function badgeV(){return '<div class="card c"><div class="big">'+rk()[0]+' '+rk()[1]+' · مستوى '+lv()+'</div><div class="bar"><i style="width:'+(((U.xp||0)+(U.cx||0))%100)+'%"></i></div><p>🪙 '+U.coins+' عملة · ⭐'+(U.stars||0)+' · ⚔️'+(U.swords||0)+' · 💎'+(U.gems||0)+' · '+(U.lvn||'—')+'</p></div><div class="g">'+B.map(b=>'<div class="card c" style="opacity:'+(U.badges.includes(b[0])?1:.35)+'"><div style="font-size:34px">'+b[1]+'</div><div class="mu">'+b[2]+'</div></div>').join('')+'</div><button class="b2" onclick="qstart(\'place\')">إعادة اختبار المستوى</button>'}
-function viewV(){if(S.z)return quizV2();if(!U.placed)return placeV();return inG()?gchatV():inChat()?chatV():S.tab==='s'?setV():S.tab==='p'?pfV():S.tab==='f'?frHub():S.tab==='n'?nfV():S.tab==='a'&&ST.p&&ST.p.role==='admin'?admV():S.tab==='c'?chV():S.tab==='m'?mapV2():S.tab==='p'?pracV():S.tab==='b'?badgeV():wordsV()}
+function viewV(){if(S.z)return quizV2();if(!U.placed)return placeV();return inG()?gchatV():inChat()?chatV():S.tab==='s'?setV():S.tab==='p'?pfV():S.tab==='f'?frHub():S.tab==='n'?nfV():S.tab==='a'&&ST.p&&ST.p.role==='admin'?admV():S.tab==='c'&&MC.cur?mcV():S.tab==='c'&&MC.compose?mcCompV():S.tab==='c'?chV():S.tab==='m'?mapV2():S.tab==='p'?pracV():S.tab==='b'?badgeV():wordsV()}
 try{DB=JSON.parse(localStorage.getItem('kh')||'{}')}catch(e){DB={}}
 DB.users=DB.users||{};
 if(DB.cur&&DB.users[DB.cur])U=DB.users[DB.cur];
@@ -358,7 +358,7 @@ if(!n||p.length<4){er.textContent='اكتب الاسم ورمزًا سريًا �
 if(S.reg){if(DB.users[n]){er.textContent='هذا الاسم مستخدم، جرّب اسمًا آخر';return}DB.users[n]={pin:p,words:[]}}
 else if(!DB.users[n]||DB.users[n].pin!==p){er.textContent='الاسم أو الرمز السري غير صحيح';return}
 DB.cur=n;U=DB.users[n];S.tab='w';save();render()}
-function out(){if(SB){SB.removeAllChannels();GP.i=0;GP.d=null;GP.cur=null;S.gchat=null;F.i=0;F.d=null;F.nf=null;F.cur=null;F.l=0;S.chat=null;F.tot=0;F.nfN=0;CH.i=0;CH.L=null;CH.cur=null;CH.pk='';SB.auth.signOut()}ST={};DB.cur=null;U=null;S.m=null;save();render()}
+function out(){if(SB){SB.removeAllChannels();MC.i=0;mcClean();MC.cur=null;MC.inv=[];MC.compose=0;GP.i=0;GP.d=null;GP.cur=null;S.gchat=null;F.i=0;F.d=null;F.nf=null;F.cur=null;F.l=0;S.chat=null;F.tot=0;F.nfN=0;CH.i=0;CH.L=null;CH.cur=null;CH.pk='';SB.auth.signOut()}ST={};DB.cur=null;U=null;S.m=null;save();render()}
 /* words */
 function hint(){const v=$('#en').value.trim().toLowerCase(),h=$('#hint');if(!v){h.textContent='';return}
 const f=fix(v);h.textContent=f!==v?'تقصد: '+f+'؟ (سنسألك قبل الحفظ)':(D[v]?'المعنى: '+D[v]:'')}
@@ -414,7 +414,7 @@ if(q.res==null)h+='<input id="ans" dir="ltr" autocomplete="off" autocapitalize="
 if(q.res!=null&&S.m!=='card')h+='<div class="fb '+(q.res?'ok':'no')+'">'+(q.res?'صحيح ✔':'خطأ ✘ — الصواب: '+esc(w.en))+'</div>'+(w.ex?'<p class="en">'+esc(w.ex)+'</p><p>'+esc(w.xa)+'</p>':'')+'';
 return h+'</div>'}
 function render(){const a=$('#app');
-if(!U){a.innerHTML=SB?cAuthV():authV()+cfgWarn();return}U.coins=U.coins||0;U.xp=U.xp||0;U.badges=U.badges||[];U.ch=U.ch||[];chInit();pres();fInit();gInit();
+if(!U){a.innerHTML=SB?cAuthV():authV()+cfgWarn();return}U.coins=U.coins||0;U.xp=U.xp||0;U.badges=U.badges||[];U.ch=U.ch||[];chInit();pres();fInit();gInit();mcInit();
 a.innerHTML='<header><img src="icons/favicon.png" alt="" style="width:34px;height:34px;border-radius:8px">'+avH()+'<span class="mu">'+(ST.p?'<i class="dt on"></i>':'')+esc(dn())+' · '+rk()[0]+lv()+' · 🪙'+U.coins+'</span>'+hdrIc()+'<button class="ic" onclick="goTab(\'s\')" aria-label="الإعدادات" style="font-size:22px">⚙️</button></header>'+
 (S.note?'<div class="fb ok">'+S.note+'</div>':'')+viewV()+
 '<nav><button class="'+(S.tab==='w'?'on':'')+'" onclick="S.tab=\'w\';render()">📚 كلماتي</button><button class="'+(S.tab==='p'?'on':'')+'" onclick="S.tab=\'p\';S.m=null;render()">🎯 تدريب</button><button class="'+(S.tab==='c'?'on':'')+'" onclick="S.tab=\'c\';render()">⚔️ تحدي</button><button class="'+(S.tab==='m'?'on':'')+'" onclick="S.tab=\'m\';render()">🗺️ مغامرة</button><button class="'+(S.tab==='b'?'on':'')+'" onclick="S.tab=\'b\';render()">🏆 إنجازاتي</button>'+(ST.p&&ST.p.role==='admin'?'<button class="'+(S.tab==='a'?'on':'')+'" onclick="S.tab=\'a\';S.au=null;S.aul=0;render()">🛠️</button>':'')+'</nav>';
@@ -714,6 +714,74 @@ async function gMute(m){await SB.rpc('set_group_mute',{gid:GP.cur.id,m:!!m});awa
 async function gLeave(){if(!confirm('هل تريد مغادرة هذه المجموعة؟'))return;const r=await SB.rpc('leave_group',{gid:GP.cur.id});if(r.error){S.note='⚠️ '+esc(r.error.message);return render()}S.note='غادرت المجموعة';gClose()}
 async function gDelete(){if(!confirm('حذف المجموعة نهائيًا لكل الأعضاء؟'))return;const r=await SB.rpc('delete_group',{gid:GP.cur.id});if(r.error){S.note='⚠️ '+esc(r.error.message);return render()}S.note='تم حذف المجموعة';gClose()}
 function gReport(id){const w=prompt('سبب البلاغ عن هذه الرسالة (اختياري)');if(w===null)return;SB.rpc('report_group_message',{mid:id,why:w}).then(r=>alert(r.error?'تعذّر الإبلاغ':'تم إرسال البلاغ إلى الإدارة ✅'))}
+/* v18: group challenge (2-10 players) + no-repeat question history */
+const MC={cur:null,d:null,my:[],compose:0,sel:{},nm:{},gn:{},gid:null,name:'',inv:[],list:[],fb:0,qs:0,busy:0,t0:0,paid:0};
+Object.assign(NI,{mc_inv:'🧑‍🤝‍🧑'});
+function qh(){try{return JSON.parse(localStorage.getItem('kh_qh')||'[]')}catch(e){return[]}}
+function uq(T,mk){const seen=new Set(),H=new Set(qh()),out=T.map(t=>{let q;for(let i=0;i<60;i++){q=mk(t);if(!seen.has(q.e)&&!H.has(q.e))break}
+if(seen.has(q.e)){for(let i=0;i<40;i++){q=mk(t);if(!seen.has(q.e))break}}seen.add(q.e);return q});
+try{localStorage.setItem('kh_qh',JSON.stringify(qh().concat(out.map(q=>q.e)).slice(-80)))}catch(e){}return out}
+async function nfGo(k,from){if(k==='msg'&&from){S.tab='f';S.chat=null;S.ft='f';await fLoad();chatOpen(from)}else if(k==='group_msg'&&from){S.tab='f';S.ft='g';S.chat=null;await gLoad();gOpen(Number(from))}else if(k==='group_inv'){S.ft='g';goTab('f')}else if(k==='friend_req'||k==='friend_ok'){S.ft='f';goTab('f')}else if(k==='challenge'||k==='mc_inv'){S.tab='c';mcList().then(render)}else if(k.indexOf('post_')===0)goTab('p')}
+function onNotif(n){F.nf=F.nf||[];F.nf.unshift(n);
+if(n.kind==='msg'&&inChat()&&n.data&&n.data.from===S.chat){SB.rpc('mark_chat_read',{fid:S.chat});n.read=true;return}
+if(n.kind==='group_msg'&&inG()&&String(n.data&&n.data.gid)===String(S.gchat)){SB.rpc('mark_group_read',{gid:S.gchat});n.read=true;return}
+F.nfN=nfCount();if(n.kind==='mc_inv'){showMcInv(n);mcList()}else if(n.kind!=='challenge'){ban2(n.title,n.body);beep()}fLoad()}
+function showMcInv(n){beep();let b=$('#ib');if(!b){b=document.createElement('div');b.id='ib';document.body.appendChild(b)}const id=n.data&&n.data.mc;b.dataset.i='mc'+id;
+b.innerHTML='<div class="ibx"><span style="font-size:30px">🧑‍🤝‍🧑</span><div style="flex:1"><b>'+esc(n.title)+'</b><div class="mu" style="color:inherit" dir="auto">'+esc(n.body)+'</div></div><button class="b ok" style="width:auto;margin:0;padding:8px 14px" onclick="mcAccept('+id+',1)">قبول</button><button class="b2" style="width:auto;margin:0;padding:8px 12px" onclick="mcAccept('+id+',0)">رفض</button></div>';
+setTimeout(()=>{if(b.dataset.i==='mc'+id)b.innerHTML=''},60000)}
+async function mcInit(){if(!SB||!ST.id||MC.i===ST.id)return;MC.i=ST.id;await mcList();const x=MC.list.find(y=>y.my==='joined');if(x&&!MC.cur&&!S.z)mcEnter(x.id)}
+async function mcList(){const r=await SB.rpc('my_mc');MC.list=r.data||[];MC.inv=MC.list.filter(x=>x.my==='invited');if(S.tab==='c'&&!S.z&&!MC.cur&&!CH.cur)render()}
+function mcInvList(){return(MC.inv||[]).map(x=>'<div class="card"><b dir="auto">🧑‍🤝‍🧑 '+esc(x.owner_name)+' يدعوك إلى تحدٍّ جماعي'+(x.name?' «'+esc(x.name)+'»':'')+'</b><div class="row"><button class="b ok" style="margin:6px 0" onclick="mcAccept('+x.id+',1)">قبول</button><button class="b2" style="margin:6px 0" onclick="mcAccept('+x.id+',0)">رفض</button></div></div>').join('')}
+async function mcAccept(id,y){const b=$('#ib');if(b)b.innerHTML='';const r=await SB.rpc('respond_mc',{mid:id,accept:!!y});if(r.error){S.note='⚠️ '+esc(r.error.message);await mcList();return render()}if(y)mcEnter(id);else{await mcList();render()}}
+function mcOpen(){MC.compose=1;if(!F.d)fLoad();if(!GP.d)gLoad();render()}
+const mcPick=(id,n,u,g)=>'<label style="display:flex;align-items:center;gap:10px;margin:8px 0"><input type="checkbox" style="width:auto;margin:0" '+(MC.sel[id]?'checked':'')+' onchange="mcTog(\''+id+'\',this.checked)">'+av(id,g,34)+'<span style="flex:1">'+dot(id)+'<b dir="auto">'+esc(n)+'</b> '+(u?'<span class="mu" dir="ltr">@'+esc(u)+'</span>':'')+'</span></label>';
+function mcTog(id,v){if(v){if(Object.keys(MC.sel).length>=9){S.note='الحد الأقصى 9 لاعبين';return render()}MC.sel[id]=1}else delete MC.sel[id];render()}
+async function mcAddGroup(gid){const r=await SB.rpc('group_info',{gid});let n=0;(r.data&&r.data.members||[]).filter(m=>m.st==='active'&&m.id!==ST.id).forEach(m=>{if(Object.keys(MC.sel).length<9&&!MC.sel[m.id]){MC.sel[m.id]=1;MC.nm[m.id]=m.n;MC.gn[m.id]=m.g;n++}});MC.gid=gid;avBatch((r.data&&r.data.members||[]).map(u=>[u.id,u.v]));S.note='تمت إضافة '+n+' من أعضاء المجموعة';render()}
+function mcCompV(){const fr=(F.d&&F.d.friends)||[],gr=(GP.d&&GP.d.groups)||[],n=Object.keys(MC.sel).length,fids=new Set(fr.map(f=>f.id));
+return '<div class="card"><b>👥 تحدٍّ جماعي</b><input maxlength="30" placeholder="اسم التحدي (اختياري)" value="'+esc(MC.name||'')+'" oninput="MC.name=this.value"><p class="mu">اختر حتى 9 لاعبين من أصدقائك أو من مجموعة، ثم أرسل الدعوات. يبدأ التحدي بعد قبولهم وضغطك على «ابدأ».</p></div>'+
+(gr.length?'<div class="card"><b>👨‍👩‍👧 إضافة أعضاء مجموعة</b>'+gr.map(g=>'<button class="b2" onclick="mcAddGroup('+g.id+')">➕ أعضاء «'+esc(g.name)+'»</button>').join('')+'<p class="mu">يمكن اختيار أعضاء مجموعة واحدة في كل تحدٍّ.</p></div>':'')+
+'<div class="card"><b>🧑‍🤝‍🧑 الأصدقاء</b>'+(fr.map(f=>mcPick(f.id,f.n,f.u,f.g)).join('')||'<p class="mu">لا يوجد أصدقاء بعد</p>')+Object.keys(MC.sel).filter(id=>!fids.has(id)).map(id=>mcPick(id,MC.nm[id]||'عضو',  '',MC.gn[id])).join('')+'</div>'+
+'<button class="b" onclick="mcCreate()">إرسال الدعوات ('+n+')</button><button class="b2" onclick="MC.compose=0;render()">رجوع</button>'}
+async function mcCreate(){const ids=Object.keys(MC.sel);if(!ids.length){S.note='اختر لاعبًا واحدًا على الأقل';return render()}
+const Q=uq(['w1','w2','s1','gr','w1','s1','gr','w2'],t=>mkQ(t,DW)),qs=Q.map(q=>({p:q.p,o:q.o,en:q.en?1:0})),keys=Q.map(q=>q.a);
+const r=await SB.rpc('create_mchallenge',{ids,gid:MC.gid||null,nm:(MC.name||'').trim()||null,qs,keys});if(r.error){S.note='⚠️ '+esc(r.error.message);return render()}MC.sel={};MC.gid=null;MC.name='';mcEnter(r.data)}
+function mcClean(){if(MC.ch)SB.removeChannel(MC.ch);MC.ch=null;clearInterval(MC.t);clearInterval(MC.hbT)}
+function mcExit(){mcClean();MC.cur=null;MC.d=null;mcList().then(render)}
+function mcEnter(mid){mcClean();MC.cur=mid;MC.d=null;MC.my=[];MC.fb=0;MC.qs=0;MC.t0=0;MC.paid=0;MC.busy=0;MC.hn=0;MC.compose=0;S.tab='c';S.z=null;
+MC.ch=SB.channel('mc'+mid).on('postgres_changes',{event:'*',schema:'public',table:'mc_players',filter:'mc_id=eq.'+mid},mcLoadDeb).on('postgres_changes',{event:'UPDATE',schema:'public',table:'mchallenges',filter:'id=eq.'+mid},mcLoadDeb).subscribe();
+MC.t=setInterval(mcTick,200);MC.hbT=setInterval(mcHb,5000);mcLoad()}
+function mcLoadDeb(){clearTimeout(MC.dt);MC.dt=setTimeout(mcLoad,250)}
+async function mcLoad(){if(!MC.cur)return;const r=await SB.rpc('mc_state',{mid:MC.cur});if(!r.data){mcExit();return}const d=r.data,mine=d.mine||[];
+if(!MC.my.length&&mine.length)MC.my=mine.map(x=>({ok:!!x.ok,ms:x.ms,a:'',k:-2}));
+if(d.st==='play'&&!MC.t0)MC.t0=mine.length?1:Date.now()+3000;
+MC.d=d;avBatch(d.players.map(p=>[p.id,p.v]));render()}
+function mcTick(){const d=MC.d;if(!d||d.st!=='play'||MC.my.length>=d.qs.length||MC.fb)return;if(Date.now()<MC.t0){render();return}
+if(!MC.qs){MC.qs=Date.now();render();return}const left=30000-(Date.now()-MC.qs),b=$('#mtb');if(b)b.style.width=Math.max(0,left/300)+'%';if(left<=0)mcAns(-1)}
+async function mcAns(i){const d=MC.d;if(!d||MC.fb||MC.busy)return;MC.busy=1;let x={};const ms=Math.min(Date.now()-MC.qs,30000);
+try{const idx=MC.my.length,q=d.qs[idx],r=await SB.rpc('mc_answer',{mid:MC.cur,qi:idx,choice:i>=0?q.o[i]:'',ms});x=r.data||{};if(r.error)S.note='تعذّر تسجيل الإجابة: '+esc(r.error.message)}catch(e){S.note='خطأ في الاتصال'}
+MC.my.push({k:i,ok:!!x.ok,ms,a:x.a||''});MC.fb=1;MC.busy=0;render();setTimeout(()=>{MC.fb=0;MC.qs=Date.now();render();mcLoadDeb()},900)}
+async function mcHb(){const d=MC.d;if(!MC.cur||!d||d.st!=='play'||document.hidden)return;try{await SB.rpc('mc_ping',{mid:MC.cur});MC.hn=(MC.hn||0)+1;if(MC.hn%2===0){const r=await SB.rpc('mc_check',{mid:MC.cur});if(r.data&&r.data.state==='done')mcLoad()}}catch(e){}}
+async function mcStart(){const r=await SB.rpc('start_mc',{mid:MC.cur});if(r.error){S.note='⚠️ '+esc(r.error.message);return render()}mcLoad()}
+async function mcLeave(){const d=MC.d;if(d&&d.st==='play'&&!confirm('هل تريد مغادرة التحدي؟ ستخرج من الترتيب.'))return;if(d&&d.st==='lobby'&&d.owner===ST.id&&!confirm('إلغاء التحدي لجميع اللاعبين؟'))return;await SB.rpc('leave_mc',{mid:MC.cur});mcExit()}
+const MEDAL=['🥇','🥈','🥉'];
+function mcRow(p,x){return '<div style="display:flex;align-items:center;gap:10px;margin:8px 0">'+av(p.id,p.g,38)+'<div style="flex:1">'+dot(p.id)+'<b dir="auto">'+(p.id===ST.id?'أنت':esc(p.n))+'</b>'+(p.id===(MC.d&&MC.d.owner)?' <span class="mu">· المضيف</span>':'')+(p.st==='out'?' <span class="mu">(غادر)</span>':'')+'</div>'+(x||'')+'</div>'}
+function mcResV(d){const L=d.players.filter(p=>p.place).sort((a,b)=>a.place-b.place),me=L.find(p=>p.id===ST.id),pc=me?me.place:0;
+if(!MC.paid){MC.paid=1;if(pc){const key='m'+d.id;U.ch=U.ch||[];if(!U.ch.includes(key)){U.ch.push(key);U.coins+={1:30,2:20,3:10}[pc]||5;if(pc===1)U.gems=(U.gems||0)+1;chk();save()}if(pc===1)win()}
+SB.from('profiles').select('ch_xp,ch_coins').eq('id',ST.id).single().then(r=>{if(r.data){U.cx=r.data.ch_xp;syncCc(r.data.ch_coins);pres();save();render()}})}
+const bad=d.qs.map((q,i)=>[q,MC.my[i]]).filter(x=>x[1]&&!x[1].ok&&x[1].a);
+return '<div class="card c"><h2>'+(pc===1?'🏆 المركز الأول!':pc?'المركز '+pc+' '+(MEDAL[pc-1]||''):'انتهى التحدي')+'</h2>'+(pc?'<p class="mu">مكافأة الخبرة: +'+({1:40,2:25,3:15}[pc]||10)+' · عملات: +'+({1:30,2:20,3:10}[pc]||5)+'</p>':'')+'</div><div class="card">'+L.map(p=>mcRow(p,'<span style="font-size:20px">'+(MEDAL[p.place-1]||p.place)+'</span> <b>'+p.score+'</b>')).join('')+'</div>'+
+(bad.length?'<h3>راجع أخطاءك</h3>'+bad.map(x=>'<div class="card"><p dir="auto">'+esc(x[0].p)+'</p><p>الصواب: <b dir="auto" style="color:var(--ok)">'+esc(x[1].a)+'</b></p></div>').join(''):'')+'<button class="b" onclick="mcExit()">رجوع للتحديات</button>'}
+function mcV(){const d=MC.d;if(!d)return '<p class="mu c">جاري التحميل…</p>';
+const pl=d.players,me=ST.id,isO=d.owner===me,N=d.qs.length;
+if(d.st==='lobby')return '<div class="card c"><h3>👥 '+esc(d.name||'تحدٍّ جماعي')+'</h3><p class="mu">'+N+' أسئلة · 30 ثانية لكل سؤال</p></div><div class="card"><b>اللاعبون</b>'+pl.map(p=>mcRow(p,'<span class="mu">'+({joined:'✅ انضم',invited:'⏳ بانتظار الرد',declined:'❌ رفض',out:'—'}[p.st]||'')+'</span>')).join('')+'</div>'+
+(isO?'<button class="b" onclick="mcStart()">▶️ ابدأ التحدي ('+pl.filter(p=>p.st==='joined').length+' لاعبين)</button><button class="b2" onclick="mcLeave()">إلغاء التحدي</button>':'<p class="mu c">بانتظار أن يبدأ المضيف التحدي…</p><button class="b2" onclick="mcLeave()">مغادرة</button>');
+if(d.st==='done')return mcResV(d);
+const board=pl.filter(p=>p.st==='joined'||p.st==='out').sort((a,b)=>b.score-a.score),
+bt='<div class="card" style="padding:8px">'+board.slice(0,5).map((p,i)=>'<div style="display:flex;align-items:center;gap:8px">'+(MEDAL[i]||(i+1)+'.')+av(p.id,p.g,26)+'<span style="flex:1" dir="auto">'+(p.id===me?'<b>أنت</b>':esc(p.n))+(p.st==='out'?' <span class="mu">(غادر)</span>':'')+'</span><b>'+p.score+'</b><span class="mu">'+p.answered+'/'+N+'</span></div>').join('')+'</div>';
+if(Date.now()<MC.t0)return '<div class="card c"><div class="kg">'+Math.ceil((MC.t0-Date.now())/1000)+'</div><p>استعد!</p></div>';
+if(MC.my.length>=N)return bt+'<div class="card c"><h3>أنهيت أسئلتك ✅</h3><p class="mu">بانتظار باقي اللاعبين…</p><button class="b2" onclick="mcLeave()">مغادرة</button></div>';
+const qi=MC.fb?MC.my.length-1:MC.my.length,q=d.qs[qi],a=MC.fb?MC.my[qi]:null;
+return bt+'<div class="card"><div class="mu c">السؤال '+(qi+1)+' من '+N+'</div><div class="bar"><i id="mtb" style="width:100%"></i></div><p class="big2 '+(q.en?'en':'')+'" style="font-weight:700" dir="auto">'+esc(q.p)+'</p>'+q.o.map((x,j)=>'<button dir="auto" class="b2 o '+(a?(x===a.a?'ok':(j===a.k?'no':'')):'')+'" '+(a?'disabled':'')+' onclick="mcAns('+j+')">'+esc(x)+'</button>').join('')+'<button class="b2" style="margin-top:12px" onclick="mcLeave()">🏳️ مغادرة التحدي</button></div>'}
 cInit();render();
 </script><script>
 if('serviceWorker' in navigator&&location.protocol!=='file:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').then(reg=>{
