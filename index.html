@@ -301,7 +301,7 @@ return '<div class="card c"><h2>'+(z.p>=.7?'🎉 ممتاز!':'💪 كمّل!')+
 '<button class="b" onclick="S.z=null;S.tab=\'p\';render()">حسنًا</button>'}
 function placeV(){return '<div class="card c"><div style="font-size:48px">🎓</div><h2>اختبار المستوى</h2><p>12 سؤالًا في الكلمات والجمل والقواعد. إذا حصلت على 70% أو أكثر فستنال شارة وعملات.</p><button class="b" onclick="qstart(\'place\')">ابدأ الاختبار</button><button class="b2" onclick="U.placed=1;U.stage=\'kg1\';S.tab=\'m\';save();render()">🧒 أنا في مرحلة KG1 / KG2</button><button class="b2" onclick="U.placed=1;save();render()">تخطي الآن</button></div>'}
 function badgeV(){return '<div class="card c"><div class="big">'+rk()[0]+' '+rk()[1]+' · مستوى '+lv()+'</div><div class="bar"><i style="width:'+(((U.xp||0)+(U.cx||0))%100)+'%"></i></div><p>🪙 '+U.coins+' عملة · ⭐'+(U.stars||0)+' · ⚔️'+(U.swords||0)+' · 💎'+(U.gems||0)+' · '+(U.lvn||'—')+'</p></div><div class="g">'+B.map(b=>'<div class="card c" style="opacity:'+(U.badges.includes(b[0])?1:.35)+'"><div style="font-size:34px">'+b[1]+'</div><div class="mu">'+b[2]+'</div></div>').join('')+'</div><button class="b2" onclick="qstart(\'place\')">إعادة اختبار المستوى</button>'}
-function viewV(){if(S.z)return quizV2();if(!U.placed)return placeV();return inG()?gchatV():inChat()?chatV():S.tab==='s'?setV():S.tab==='p'?pfV():S.tab==='f'?frHub():S.tab==='n'?nfV():S.tab==='a'&&ST.p&&ST.p.role==='admin'?admV():S.tab==='c'&&MC.cur?mcV():S.tab==='c'&&MC.compose?mcCompV():S.tab==='c'?chV():S.tab==='m'?mapV2():S.tab==='p'?pracV():S.tab==='b'?badgeV():wordsV()}
+function viewV(){if(S.z)return quizV2();if(!U.placed)return placeV();return inG()?gchatV():inChat()?chatV():S.tab==='s'?setV():S.tab==='p'?pfV():S.tab==='f'?frHub():S.tab==='n'?nfV():S.adm2&&AU.cur&&ST.p&&ST.p.role==='admin'?admDetailV():S.tab==='v'&&ST.p&&ST.p.role==='admin'?violV():S.tab==='a'&&ST.p&&ST.p.role==='admin'?admV():S.tab==='c'&&MC.cur?mcV():S.tab==='c'&&MC.compose?mcCompV():S.tab==='c'?chV():S.tab==='m'?mapV2():S.tab==='p'?pracV():S.tab==='b'?badgeV():wordsV()}
 try{DB=JSON.parse(localStorage.getItem('kh')||'{}')}catch(e){DB={}}
 DB.users=DB.users||{};
 if(DB.cur&&DB.users[DB.cur])U=DB.users[DB.cur];
@@ -350,14 +350,14 @@ async function cLoad(user){const{data:p,error}=await SB.from('profiles').select(
 if(error||!p){await SB.auth.signOut();throw new Error('الحساب غير مكتمل')}
 if(p.banned){await SB.auth.signOut();throw new Error('الحساب موقوف، تواصل مع الإدارة')}
 let url=null;if(p.avatar_url){const r=await SB.storage.from('avatars').createSignedUrl(p.avatar_url,3600);url=r.data&&r.data.signedUrl}
-ST={id:user.id,p,url};DB.cur='cloud:'+user.id;U=DB.users[DB.cur]=Object.assign({words:[],coins:0,xp:0,badges:[]},p.progress||{});U.cx=p.ch_xp||0;syncCc(p.ch_coins);S.tab='w';S.reg=0;render()}
+ST={id:user.id,p,url};DB.cur='cloud:'+user.id;U=DB.users[DB.cur]=Object.assign({words:[],coins:0,xp:0,badges:[]},p.progress||{});U.cx=p.ch_xp||0;syncCc(p.ch_coins);S.tab='c';S.reg=0;render()}
 async function cInit(){if(!SB)return;try{const{data}=await SB.auth.getSession();if(data.session)await cLoad(data.session.user)}catch(e){}}
 /* auth */
 function auth(){const n=$('#un').value.trim().toLowerCase(),p=$('#pn').value,er=$('.er');
 if(!n||p.length<4){er.textContent='اكتب الاسم ورمزًا سريًا من 4 أرقام على الأقل';return}
 if(S.reg){if(DB.users[n]){er.textContent='هذا الاسم مستخدم، جرّب اسمًا آخر';return}DB.users[n]={pin:p,words:[]}}
 else if(!DB.users[n]||DB.users[n].pin!==p){er.textContent='الاسم أو الرمز السري غير صحيح';return}
-DB.cur=n;U=DB.users[n];S.tab='w';save();render()}
+DB.cur=n;U=DB.users[n];S.tab='c';save();render()}
 function out(){if(SB){SB.removeAllChannels();MC.i=0;mcClean();MC.cur=null;MC.inv=[];MC.compose=0;GP.i=0;GP.d=null;GP.cur=null;S.gchat=null;F.i=0;F.d=null;F.nf=null;F.cur=null;F.l=0;S.chat=null;F.tot=0;F.nfN=0;CH.i=0;CH.L=null;CH.cur=null;CH.pk='';SB.auth.signOut()}ST={};DB.cur=null;U=null;S.m=null;save();render()}
 /* words */
 function hint(){const v=$('#en').value.trim().toLowerCase(),h=$('#hint');if(!v){h.textContent='';return}
@@ -415,9 +415,9 @@ if(q.res!=null&&S.m!=='card')h+='<div class="fb '+(q.res?'ok':'no')+'">'+(q.res?
 return h+'</div>'}
 function render(){const a=$('#app');
 if(!U){a.innerHTML=SB?cAuthV():authV()+cfgWarn();return}U.coins=U.coins||0;U.xp=U.xp||0;U.badges=U.badges||[];U.ch=U.ch||[];chInit();pres();fInit();gInit();mcInit();
-a.innerHTML='<header><img src="icons/favicon.png" alt="" style="width:34px;height:34px;border-radius:8px">'+avH()+'<span class="mu">'+(ST.p?'<i class="dt on"></i>':'')+esc(dn())+' · '+rk()[0]+lv()+' · 🪙'+U.coins+'</span>'+hdrIc()+'<button class="ic" onclick="goTab(\'s\')" aria-label="الإعدادات" style="font-size:22px">⚙️</button></header>'+
+a.innerHTML=pvV()+'<header><img src="icons/favicon.png" alt="" style="width:34px;height:34px;border-radius:8px">'+'<button class="ic" onclick="goTab(\'s\')" aria-label="الإعدادات" style="padding:0;border-radius:50%;line-height:0">'+avH()+'</button><span class="mu">'+(ST.p?'<i class="dt on"></i>':'')+esc(dn())+' · '+rk()[0]+lv()+' · 🪙'+U.coins+'</span>'+hdrIc()+'</header>'+
 (S.note?'<div class="fb ok">'+S.note+'</div>':'')+viewV()+
-'<nav><button class="'+(S.tab==='w'?'on':'')+'" onclick="S.tab=\'w\';render()">📚 كلماتي</button><button class="'+(S.tab==='p'?'on':'')+'" onclick="S.tab=\'p\';S.m=null;render()">🎯 تدريب</button><button class="'+(S.tab==='c'?'on':'')+'" onclick="S.tab=\'c\';render()">⚔️ تحدي</button><button class="'+(S.tab==='m'?'on':'')+'" onclick="S.tab=\'m\';render()">🗺️ مغامرة</button><button class="'+(S.tab==='b'?'on':'')+'" onclick="S.tab=\'b\';render()">🏆 إنجازاتي</button>'+(ST.p&&ST.p.role==='admin'?'<button class="'+(S.tab==='a'?'on':'')+'" onclick="S.tab=\'a\';S.au=null;S.aul=0;render()">🛠️</button>':'')+'</nav>';
+'<nav><button class="'+(S.tab==='w'?'on':'')+'" onclick="S.tab=\'w\';render()">📚 كلماتي</button><button class="'+(S.tab==='p'?'on':'')+'" onclick="S.tab=\'p\';S.m=null;render()">🎯 تدريب</button><button class="'+(S.tab==='c'?'on':'')+'" onclick="S.tab=\'c\';render()">⚔️ تحدي</button><button class="'+(S.tab==='m'?'on':'')+'" onclick="S.tab=\'m\';render()">🗺️ مغامرة</button><button class="'+(S.tab==='b'?'on':'')+'" onclick="S.tab=\'b\';render()">🏆 إنجازاتي</button>'+navAdm()+'</nav>';
 S.note=''}
 /* final overrides: must stay last */
 function zfin(ok,v){const z=S.z,q=z.qs[z.i];q.r=ok?1:0;q.v=v;
@@ -474,7 +474,7 @@ function admRows(){const q=(S.aq||'').toLowerCase().trim(),L=(S.au||[]).filter(u
 return L.map(u=>{const age=Math.floor((Date.now()-new Date(u.birth_date))/31557600000);
 return '<div class="card"><div style="display:flex;align-items:center;gap:10px"><input type="checkbox" style="width:auto;margin:0" '+(S.sel&&S.sel[u.id]?'checked':'')+' onchange="admSel(\''+u.id+'\',this.checked)">'+av(u.id,u.gender,42)+'<div style="flex:1">'+dot(u.id)+'<b dir="auto">'+esc(u.full_name)+'</b> <span class="mu" dir="ltr">@'+esc(u.username)+'</span> '+(u.gender==='f'?'👧':'👦')+' · '+age+' سنة'+(u.role==='admin'?' · 🛠️ مدير':'')+(u.banned?' · <b style="color:var(--no)">محظور</b>':'')+
 '<div class="mu" dir="ltr">📞 '+esc(u.phone||'—')+' · 👪 '+esc(u.guardian_phone||'—')+'</div><div class="mu">نقاط خبرة التحديات: '+u.ch_xp+' · فوز '+u.ch_wins+'/'+u.ch_played+' · سجّل '+esc(String(u.created_at).slice(0,10))+'</div></div></div>'+
-'<div class="row"><button class="b2" onclick="admTo(\''+u.id+'\')">📩 إشعار</button>'+(u.role==='admin'?'':'<button class="b2" onclick="admBan(\''+u.id+'\','+(u.banned?0:1)+')">'+(u.banned?'✅ فك الحظر':'🚫 حظر')+'</button><button class="b2" onclick="admReset(\''+u.id+'\')">🔑</button><button class="b2" onclick="admDel(\''+u.id+'\')">🗑</button>')+'</div></div>'}).join('')||'<p class="mu c">لا توجد نتائج</p>'}
+'<div class="row"><button class="b2" onclick="admOpen(\''+u.id+'\')">👁 تفاصيل</button><button class="b2" onclick="admTo(\''+u.id+'\')">📩 إشعار</button>'+(u.role==='admin'?'':'<button class="b2" onclick="admBan(\''+u.id+'\','+(u.banned?0:1)+')">'+(u.banned?'✅ فك الحظر':'🚫 حظر')+'</button><button class="b2" onclick="admReset(\''+u.id+'\')">🔑</button><button class="b2" onclick="admDel(\''+u.id+'\')">🗑</button>')+'</div></div>'}).join('')||'<p class="mu c">لا توجد نتائج</p>'}
 function admSel(id,v){S.sel=S.sel||{};if(v)S.sel[id]=1;else delete S.sel[id];const e=$('#asn');if(e)e.textContent=Object.keys(S.sel).length}
 function admTo(id){S.sel={};S.sel[id]=1;render();const e=$('#nt');if(e){e.scrollIntoView();e.focus()}}
 async function admLoad(){S.aul=1;S.aerr='';const d=await adm('list');if(d&&d.users){S.au=d.users;avBatch(d.users.map(u=>[u.id,!!u.avatar_url]));render()}else if(d){S.aerr='رد غير متوقع من الدالة (تأكد أن كودها هو آخر نسخة من admin-users-index.ts)';render()}}
@@ -517,7 +517,7 @@ return '<div class="card c"><h3>🔔 الإشعارات</h3><button class="b2" o
 async function nfRead(){await SB.rpc('mark_notifs_read');try{localStorage.setItem('kh_ni',new Date().toISOString())}catch(_){}(F.nf||[]).forEach(n=>n.read=true);F.nfN=0;render()}
 async function nfGo(k,from){if(k==='msg'&&from){S.tab='f';S.chat=null;await fLoad();chatOpen(from)}else if(k==='friend_req'||k==='friend_ok')goTab('f');else if(k==='challenge'){S.tab='c';render()}}
 /* friends */
-const uRow=(u,x)=>'<div style="display:flex;align-items:center;gap:10px">'+av(u.id,u.g,40)+'<div style="flex:1">'+dot(u.id)+'<b dir="auto">'+esc(u.n)+'</b> <span class="mu" dir="ltr">@'+esc(u.u)+'</span>'+(x||'')+'</div></div>';
+const uRow=(u,x)=>'<div style="display:flex;align-items:center;gap:10px">'+avPrev(u.id,u.n||'')+'<div style="flex:1">'+dot(u.id)+'<b dir="auto">'+esc(u.n)+'</b> <span class="mu" dir="ltr">@'+esc(u.u)+'</span>'+(x||'')+'</div></div>';
 function frRes(){return(F.res||[]).map(u=>'<div class="card">'+uRow({id:u.id,n:u.n,u:u.username,g:u.g})+'<div class="row">'+(u.rel==='none'?'<button class="b" style="margin:6px 0" onclick="fAdd(\''+u.id+'\')">➕ إضافة صديق</button>':'<span class="mu">'+({friend:'صديقك ✓',sent:'تم إرسال الطلب ⏳',received:'أرسل إليك طلبًا (انظر قسم الطلبات)'}[u.rel])+'</span>')+'</div></div>').join('')}
 function fSearch(q){clearTimeout(F.st);F.st=setTimeout(async()=>{const e=()=>$('#fr');if(q.trim().length<3){F.res=[];if(e())e().innerHTML='';return}const r=await SB.rpc('find_users',{q});F.res=r.data||[];avBatch(F.res.map(u=>[u.id,u.v]));if(e())e().innerHTML=frRes()},350)}
 async function fAdd(id){const r=await SB.rpc('send_friend_request',{to_id:id});S.note=r.error?'⚠️ '+esc(r.error.message):(r.data==='friend'?'أصبحتما صديقين 🎉':'تم إرسال طلب الصداقة ✅');const u=F.res.find(x=>x.id===id);if(u&&!r.error)u.rel=r.data==='friend'?'friend':'sent';fLoad()}
@@ -536,7 +536,7 @@ return h}
 /* chat */
 async function chatImgs(L){const need=L.filter(m=>m.kind==='image'&&m.img_path&&!F.im[m.id]);if(!need.length)return;const r=await SB.storage.from('chat').createSignedUrls(need.map(m=>m.img_path),3600);(r.data||[]).forEach(o=>{const m=need.find(x=>x.img_path===o.path);if(m&&o.signedUrl)F.im[m.id]=o.signedUrl})}
 function chatMsgs(){const L=F.msgs[F.cur.id]||[];if(!L.length)return '<p class="mu c">ابدأ المحادثة 👋</p>';
-return L.map(m=>{const me=m.from_user===ST.id,t=new Date(m.created_at).toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'}),
+return L.map(m=>{const me=m.from_user===ST.id&&!m.sys,t=new Date(m.created_at).toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'}),
 b=m.kind==='image'?(F.im[m.id]?'<img src="'+esc(F.im[m.id])+'" alt="" style="max-width:100%;max-height:260px;border-radius:10px;display:block" onclick="window.open(this.src)">':'🖼 …'):'<span dir="auto">'+esc(m.body)+'</span>';
 return '<div style="text-align:'+(me?'start':'end')+'"><div class="mb '+(me?'me':'him')+'">'+b+'<div class="tm">'+t+(me?(m.read_at?' ✓✓':' ✓'):'<span onclick="chatReport('+m.id+')" style="cursor:pointer"> ⚑</span>')+'</div></div></div>'}).join('')}
 function chatPaint(){const e=$('#cm');if(e){e.innerHTML=chatMsgs();e.scrollTop=e.scrollHeight}}
@@ -568,6 +568,7 @@ async function fClear(id){if(!confirm('مسح هذه المحادثة من عن�
 function frRow(u){return '<div class="card"><div style="display:flex;align-items:center;gap:8px"><div style="flex:1;cursor:pointer;min-width:0" onclick="chatOpen(\''+u.id+'\')">'+uRow(u,(u.muted?' 🔕':'')+(u.unread>0?' <span class="bd2">'+u.unread+'</span>':'')+(u.lm?'<div class="mu" dir="auto" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+esc(u.lm)+'</div>':''))+'</div><button class="b" style="width:auto;margin:0;padding:9px 12px;white-space:nowrap" onclick="chatOpen(\''+u.id+'\')">💬 مراسلة</button>'+mnu(u)+'</div></div>'}
 function frV(){const f=F.d;if(!f){if(!F.l){F.l=1;fLoad()}return '<p class="mu c">جاري التحميل…</p>'}
 let h='<div class="card"><b>➕ إضافة صديق</b><input id="fq" dir="ltr" placeholder="اكتب اسم المستخدم (3 أحرف على الأقل)" autocapitalize="off" value="'+esc(F.qv||'')+'" oninput="F.qv=this.value;fSearch(this.value)"><div id="fr">'+frRes()+'</div></div>';
+h+=sgCard();
 if(f.incoming.length)h+='<div class="card"><b>📨 طلبات الصداقة ('+f.incoming.length+')</b>'+f.incoming.map(u=>'<div style="margin:8px 0">'+uRow(u)+'<div class="row"><button class="b ok" style="margin:6px 0" onclick="fAcc('+u.rid+',1)">قبول</button><button class="b2" style="margin:6px 0" onclick="fAcc('+u.rid+',0)">رفض</button></div></div>').join('')+'</div>';
 h+='<h3>👥 أصدقائي ('+f.friends.length+')</h3>'+(f.friends.map(frRow).join('')||'<p class="mu c">ليس لديك أصدقاء بعد، ابحث عن اسم مستخدم وأضفه</p>');
 if(f.outgoing.length)h+='<div class="card"><b>⏳ طلبات أرسلتها</b>'+f.outgoing.map(u=>'<div style="margin:8px 0">'+uRow(u)+'</div>').join('')+'</div>';
@@ -664,7 +665,7 @@ const inG=()=>!!(S.gchat&&GP.cur&&S.tab==='f');
 Object.assign(NI,{group_inv:'👥',group_msg:'👥'});
 function fRender(){if(!S.z&&!inChat()&&!inG())render()}
 function hdrIc(){return ST.p?'<button class="ic" onclick="goTab(\'p\')">📰</button><button class="ic" onclick="goTab(\'f\')">💬'+bd(F.tot+GP.tot)+'</button><button class="ic" onclick="goTab(\'n\')">🔔'+bd(F.nfN)+'</button>':''}
-function goTab(t){if(S.z)return;S.chat=null;F.cur=null;S.gchat=null;GP.cur=null;S.tab=t;if(t==='f'){fLoad();gLoad()}if(t==='n')nfLoad();if(t==='p')pfLoad(true);render()}
+function goTab(t){if(S.z)return;S.chat=null;F.cur=null;S.gchat=null;GP.cur=null;S.tab=t;if(t==='f'){F.sg=null;F.sgl=0;fLoad();gLoad()}if(t==='n')nfLoad();if(t==='p')pfLoad(true);render()}
 async function nfGo(k,from){if(k==='msg'&&from){S.tab='f';S.chat=null;S.ft='f';await fLoad();chatOpen(from)}else if(k==='group_msg'&&from){S.tab='f';S.ft='g';S.chat=null;await gLoad();gOpen(Number(from))}else if(k==='group_inv'){S.ft='g';goTab('f')}else if(k==='friend_req'||k==='friend_ok'){S.ft='f';goTab('f')}else if(k==='challenge'){S.tab='c';render()}else if(k.indexOf('post_')===0)goTab('p')}
 document.addEventListener('click',e=>{if(GP.menu&&!(e.target.closest&&e.target.closest('.mnw'))){GP.menu=0;if(inG())render()}});
 function gInit(){if(!SB||!ST.id||GP.i===ST.id)return;GP.i=ST.id;GP.msgs={};SB.channel('gm'+ST.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'group_messages'},p=>onGMsg(p.new)).subscribe();gLoad()}
@@ -716,12 +717,12 @@ async function gDelete(){if(!confirm('حذف المجموعة نهائيًا ل�
 function gReport(id){const w=prompt('سبب البلاغ عن هذه الرسالة (اختياري)');if(w===null)return;SB.rpc('report_group_message',{mid:id,why:w}).then(r=>alert(r.error?'تعذّر الإبلاغ':'تم إرسال البلاغ إلى الإدارة ✅'))}
 /* v18: group challenge (2-10 players) + no-repeat question history */
 const MC={cur:null,d:null,my:[],compose:0,sel:{},nm:{},gn:{},gid:null,name:'',inv:[],list:[],fb:0,qs:0,busy:0,t0:0,paid:0};
-Object.assign(NI,{mc_inv:'🧑‍🤝‍🧑'});
+Object.assign(NI,{mc_inv:'🧑‍🤝‍🧑',violation:'🚨',admin_msg:'📢',admin_gmsg:'📢'});
 function qh(){try{return JSON.parse(localStorage.getItem('kh_qh')||'[]')}catch(e){return[]}}
 function uq(T,mk){const seen=new Set(),H=new Set(qh()),out=T.map(t=>{let q;for(let i=0;i<60;i++){q=mk(t);if(!seen.has(q.e)&&!H.has(q.e))break}
 if(seen.has(q.e)){for(let i=0;i<40;i++){q=mk(t);if(!seen.has(q.e))break}}seen.add(q.e);return q});
 try{localStorage.setItem('kh_qh',JSON.stringify(qh().concat(out.map(q=>q.e)).slice(-80)))}catch(e){}return out}
-async function nfGo(k,from){if(k==='msg'&&from){S.tab='f';S.chat=null;S.ft='f';await fLoad();chatOpen(from)}else if(k==='group_msg'&&from){S.tab='f';S.ft='g';S.chat=null;await gLoad();gOpen(Number(from))}else if(k==='group_inv'){S.ft='g';goTab('f')}else if(k==='friend_req'||k==='friend_ok'){S.ft='f';goTab('f')}else if(k==='challenge'||k==='mc_inv'){S.tab='c';mcList().then(render)}else if(k.indexOf('post_')===0)goTab('p')}
+async function nfGo(k,from){if(k==='msg'&&from){S.tab='f';S.chat=null;S.ft='f';await fLoad();chatOpen(from)}else if(k==='group_msg'&&from){S.tab='f';S.ft='g';S.chat=null;await gLoad();gOpen(Number(from))}else if(k==='group_inv'){S.ft='g';goTab('f')}else if(k==='friend_req'||k==='friend_ok'){S.ft='f';goTab('f')}else if(k==='challenge'||k==='mc_inv'){S.tab='c';mcList().then(render)}else if(k.indexOf('post_')===0)goTab('p');else if(k==='violation'){S.tab='v';AU.vio=null;render()}}
 function onNotif(n){F.nf=F.nf||[];F.nf.unshift(n);
 if(n.kind==='msg'&&inChat()&&n.data&&n.data.from===S.chat){SB.rpc('mark_chat_read',{fid:S.chat});n.read=true;return}
 if(n.kind==='group_msg'&&inG()&&String(n.data&&n.data.gid)===String(S.gchat)){SB.rpc('mark_group_read',{gid:S.gchat});n.read=true;return}
@@ -782,6 +783,64 @@ if(Date.now()<MC.t0)return '<div class="card c"><div class="kg">'+Math.ceil((MC.
 if(MC.my.length>=N)return bt+'<div class="card c"><h3>أنهيت أسئلتك ✅</h3><p class="mu">بانتظار باقي اللاعبين…</p><button class="b2" onclick="mcLeave()">مغادرة</button></div>';
 const qi=MC.fb?MC.my.length-1:MC.my.length,q=d.qs[qi],a=MC.fb?MC.my[qi]:null;
 return bt+'<div class="card"><div class="mu c">السؤال '+(qi+1)+' من '+N+'</div><div class="bar"><i id="mtb" style="width:100%"></i></div><p class="big2 '+(q.en?'en':'')+'" style="font-weight:700" dir="auto">'+esc(q.p)+'</p>'+q.o.map((x,j)=>'<button dir="auto" class="b2 o '+(a?(x===a.a?'ok':(j===a.k?'no':'')):'')+'" '+(a?'disabled':'')+' onclick="mcAns('+j+')">'+esc(x)+'</button>').join('')+'<button class="b2" style="margin-top:12px" onclick="mcLeave()">🏳️ مغادرة التحدي</button></div>'}
+/* v19: friend suggestions */
+function sgCard(){if(!F.sg){if(!F.sgl){F.sgl=1;sgLoad()}return ''}
+const L=F.sg.slice(0,6);if(!L.length)return '<div class="card"><b>💡 اقتراحات الصداقة</b><p class="mu">لا توجد اقتراحات الآن.</p><button class="b2" onclick="sgLoad()">تحديث ↻</button></div>';
+return '<div class="card"><b>💡 اقتراحات الصداقة</b>'+L.map(u=>'<div style="display:flex;align-items:center;gap:10px;margin:10px 0">'+av(u.id,u.g,40)+'<div style="flex:1;min-width:0">'+dot(u.id)+'<b dir="auto">'+esc(u.n)+'</b> <span class="mu" dir="ltr">@'+esc(u.u)+'</span><div class="mu" dir="auto">'+esc(u.why)+'</div></div><button class="b" style="width:auto;margin:0;padding:8px 12px;white-space:nowrap" onclick="sgAdd(\''+u.id+'\')">➕ إضافة</button><button class="ic" onclick="sgHide(\''+u.id+'\')" aria-label="إخفاء الاقتراح">✕</button></div>').join('')+'<button class="b2" onclick="sgLoad()">تحديث الاقتراحات ↻</button></div>'}
+async function sgLoad(){F.sgl=1;const r=await SB.rpc('friend_suggestions');let hid=[];try{hid=JSON.parse(localStorage.getItem('kh_sgx')||'[]')}catch(e){}
+F.sg=(r.data||[]).filter(u=>!hid.includes(u.id));avBatch(F.sg.map(u=>[u.id,u.v]));fRender()}
+async function sgAdd(id){F.sg=(F.sg||[]).filter(u=>u.id!==id);await fAdd(id)}
+function sgHide(id){let hid=[];try{hid=JSON.parse(localStorage.getItem('kh_sgx')||'[]')}catch(e){}hid.push(id);try{localStorage.setItem('kh_sgx',JSON.stringify(hid.slice(-100)))}catch(e){}F.sg=(F.sg||[]).filter(u=>u.id!==id);render()}
+/* v20: photo preview (view-only), friend suggestions tab wiring, avatar-as-settings, admin user console, violations */
+const PV={src:null,name:''};
+function pvOpen(src,name){if(!src)return;PV.src=src;PV.name=name||'';render()}
+function pvClose(){PV.src=null;render()}
+function pvV(){if(!PV.src)return '';
+return '<div id="pv" onclick="pvClose()" oncontextmenu="return false" style="position:fixed;inset:0;z-index:150;background:rgba(0,0,0,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px"><img src="'+esc(PV.src)+'" alt="" draggable="false" style="max-width:100%;max-height:82vh;border-radius:16px;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;pointer-events:none"><div style="color:#fff;margin-top:12px;font-weight:700">'+esc(PV.name)+'</div><div style="color:#ccc;font-size:12px;margin-top:4px">معاينة فقط · اضغط للإغلاق</div></div>'}
+function avPrev(u,name){return '<span onclick="pvOpen(CH.av[\''+u+'\'],\''+esc(name)+'\')" style="cursor:zoom-in;display:inline-block">'+av(u,'',38)+'</span>'}
+/* v21: admin user console, violations inbox, friend suggestions wiring */
+const AU={cur:null,d:null,tab:'info',chats:null,pc:null,th:null,posts:null,vio:null};
+async function admOpen(id){AU.cur=id;AU.tab='info';AU.d=null;AU.chats=null;AU.th=null;AU.posts=null;S.adm2=1;render();const d=await adm('user_detail',{id});if(d){AU.d=d;render()}}
+function admClose(){AU.cur=null;AU.d=null;S.adm2=0;render()}
+function admTabSet(t){AU.tab=t;render();if(t==='chats'&&!AU.chats)admChats();if(t==='posts'&&!AU.posts)admPosts()}
+async function admChats(){const d=await adm('user_chats',{id:AU.cur});if(d){AU.chats=d;render()}}
+async function admPosts(){const d=await adm('user_posts',{id:AU.cur});if(d){AU.posts=d.posts;render()}}
+async function admThread(kind,a,b,gid,title){const d=await adm('thread',{kind,a,b,gid});if(d){AU.th={kind,a,b,gid,title,msgs:d.messages};render()}}
+async function admDelMsg(id,kind){if(!confirm('حذف هذه الرسالة نهائيًا؟'))return;if(await adm('msg_delete',{id,kind})){if(AU.th)await admThread(AU.th.kind,AU.th.a,AU.th.b,AU.th.gid,AU.th.title);else admPosts()}}
+async function admDelPostFull(id){if(!confirm('حذف المنشور نهائيًا؟'))return;if(await adm('msg_delete',{id,kind:'post'}))admPosts()}
+async function admSayTo(){const t=(S.adSay||'').trim();if(!t)return alert('اكتب الرسالة');const th=AU.th;if(!th)return;
+if(!confirm('إرسال هذه الرسالة باسم الإدارة؟'))return;const body=th.kind==='group'?{kind:'group',gid:th.gid}:{kind:'dm',a:th.a,b:th.b};
+if(await adm('say',Object.assign({text:t},body))){S.adSay='';await admThread(th.kind,th.a,th.b,th.gid,th.title);alert('تم الإرسال باسم الإدارة ✅')}}
+const WARN='مرحبًا، هذه الرسائل تخالف سياسات النظام. إذا تكررت المخالفات من هذا النوع سيتم حظر الحساب. نرجو الالتزام بقواعد الاستخدام.';
+async function admWarn(){if(!AU.th)return;const body=AU.th.kind==='group'?{kind:'group',gid:AU.th.gid}:{kind:'dm',a:AU.th.a,b:AU.th.b};if(!confirm('إرسال تحذير رسمي باسم الإدارة للطرفين؟'))return;if(await adm('say',Object.assign({text:WARN},body))){alert('تم إرسال التحذير ✅');await admThread(AU.th.kind,AU.th.a,AU.th.b,AU.th.gid,AU.th.title)}}
+function admDetailV(){const d=AU.d;if(!d)return '<p class="mu c">جاري التحميل…</p>';const u=d.user,s=d.stats,age=Math.floor((Date.now()-new Date(u.birth_date))/31557600000);
+const tabs=[['info','المعلومات'],['chats','المحادثات'],['posts','المنشورات']].map(t=>'<span class="chip'+(AU.tab===t[0]?' on':'')+'" onclick="admTabSet(\''+t[0]+'\')">'+t[1]+'</span>').join('');
+let body='';
+if(AU.tab==='info')body='<div class="card"><div style="display:flex;gap:12px;align-items:center">'+(d.avatar?'<img src="'+esc(d.avatar)+'" alt="" onclick="pvOpen(\''+esc(d.avatar)+'\',\''+esc(u.full_name)+'\')" style="width:72px;height:72px;border-radius:50%;object-fit:cover;cursor:zoom-in">':'<span style="font-size:52px">'+(u.gender==="f"?"👧":"👦")+'</span>')+'<div><b dir="auto">'+esc(u.full_name)+'</b><div class="mu" dir="ltr">@'+esc(u.username)+'</div>'+(u.banned?'<b style="color:var(--no)">محظور</b>':'')+'</div></div>'+
+'<p class="mu" dir="ltr">📞 '+esc(u.phone||'—')+' · 👪 '+esc(u.guardian_phone||'—')+'</p><p class="mu">العمر: '+age+' سنة · سجّل: '+esc(String(u.created_at).slice(0,10))+'</p><p class="mu">الأصدقاء: '+s.friends+' · المنشورات: '+s.posts+' · الرسائل: '+s.msgs+' · المخالفات: '+s.violations+'</p><p class="mu">نقاط التحديات: '+u.ch_xp+' · فوز '+u.ch_wins+'/'+u.ch_played+'</p></div>'+
+'<div class="card"><b>إجراءات</b><div class="row"><button class="b2" onclick="admBan(\''+u.id+'\','+(u.banned?0:1)+')">'+(u.banned?'✅ فك الحظر':'🚫 حظر')+'</button><button class="b2" onclick="admReset(\''+u.id+'\')">🔑 كلمة المرور</button><button class="b2" onclick="admDel(\''+u.id+'\')">🗑 حذف الحساب</button></div></div>';
+else if(AU.tab==='chats'){if(AU.th)body=admThreadV();else if(!AU.chats)body='<p class="mu c">جاري التحميل…</p>';else{
+body='<div class="card"><b>💬 المحادثات الخاصة</b>'+(AU.chats.dm.map(c=>'<div class="card" style="cursor:pointer" onclick="admThread(\'dm\',\''+AU.cur+'\',\''+c.partner+'\',null,\''+esc(c.name)+'\')"><b dir="auto">'+esc(c.name)+'</b> <span class="mu">· '+c.count+' رسالة</span><div class="mu" dir="auto">'+esc(c.last)+'</div></div>').join('')||'<p class="mu">لا توجد محادثات خاصة</p>')+'</div>'+
+'<div class="card"><b>👥 المجموعات</b>'+(AU.chats.groups.map(g=>'<div class="card" style="cursor:pointer" onclick="admThread(\'group\',null,null,'+g.gid+',\''+esc(g.name)+'\')"><b dir="auto">'+esc(g.name)+'</b><div class="mu" dir="auto">'+esc(g.last)+'</div></div>').join('')||'<p class="mu">لا توجد مجموعات</p>')+'</div>'}}
+else if(AU.tab==='posts'){body=!AU.posts?'<p class="mu c">جاري التحميل…</p>':(AU.posts.map(p=>'<div class="card"><div class="mu">'+ago(p.created_at)+(p.shared?' · مشاركة':'')+'</div><p dir="auto">'+esc(p.body||'')+'</p>'+(p.img?(p.kind==='video'?'<video src="'+esc(p.img)+'" controls playsinline style="width:100%;border-radius:10px;max-height:240px"></video>':'<img src="'+esc(p.img)+'" alt="" style="width:100%;border-radius:10px">'):'')+'<div class="mu">❤️ '+(p.comments.length)+' تعليق</div>'+p.comments.map(c=>'<div class="mu" dir="auto">💬 '+esc(c.name)+': '+esc(c.body)+'</div>').join('')+'<button class="b2" onclick="admDelPostFull('+p.id+')">🗑 حذف المنشور</button></div>').join('')||'<p class="mu">لا توجد منشورات</p>')}
+return '<div class="card c"><button class="b2" onclick="admClose()">➜ رجوع إلى المستخدمين</button><h3 dir="auto">'+esc(u.full_name)+'</h3><div class="row" style="justify-content:center">'+tabs+'</div></div>'+body}
+function admThreadV(){const th=AU.th;let h='<div class="card" style="padding:8px"><div style="display:flex;align-items:center;gap:8px"><button class="ic" onclick="AU.th=null;render()">➜</button><b dir="auto">'+esc(th.title)+'</b></div></div>';
+h+='<div class="card" style="max-height:48vh;overflow:auto">'+th.msgs.map(m=>'<div style="margin:6px 0;padding:8px;border-radius:12px;background:'+(m.sys?'rgba(245,197,66,.25)':'var(--bg)')+'"><div class="mu" dir="auto"><b>'+esc(m.name)+'</b> · '+new Date(m.created_at).toLocaleString('ar-EG')+(m.sys?' · 📢 الإدارة':'')+'</div>'+(m.img?'<img src="'+esc(m.img)+'" alt="" style="max-width:100%;max-height:200px;border-radius:8px">':'')+'<div dir="auto">'+esc(m.body||'')+'</div><button class="ic" onclick="admDelMsg('+m.id+',\''+(th.kind==='group'?'group':'dm')+'\')" aria-label="حذف">🗑</button></div>').join('')+'</div>';
+h+='<div class="card"><b>📢 رسالة رسمية باسم الإدارة</b><textarea rows="2" maxlength="500" placeholder="اكتب الرسالة…" oninput="S.adSay=this.value">'+esc(S.adSay||'')+'</textarea><div class="row"><button class="b" onclick="admSayTo()">إرسال</button><button class="b2" onclick="admWarn()">⚠️ إرسال تحذير رسمي</button></div></div>';return h}
+function violV(){if(!AU.vio){admVio();return '<p class="mu c">جاري التحميل…</p>'}
+return '<div class="card"><b>🚨 المخالفات ('+AU.vio.length+')</b><div class="row"><button class="b2" onclick="admVio()">تحديث ↻</button></div></div>'+(AU.vio.map(v=>'<div class="card"><b dir="auto">'+esc(v.name)+'</b> · <span class="mu">'+({dm:'رسالة خاصة',group:'مجموعة',post:'منشور',comment:'تعليق',share:'مشاركة'}[v.kind]||v.kind)+'</span>'+(v.repeat>=3?' <b style="color:var(--no)">⚠️ تكرار ('+v.repeat+')</b>':'')+'<div dir="auto" class="mu">'+esc(v.body||'')+'</div><div class="mu">'+ago(v.created_at)+'</div><div class="row"><button class="b2" onclick="admOpen(\''+v.user_id+'\')">👁 فتح الحساب</button><button class="b2" onclick="admVioClose('+v.id+')">✔ تم</button></div></div>').join('')||'<p class="mu c">لا توجد مخالفات جديدة 👍</p>')}
+async function admVio(){const d=await adm('violations',{});if(d){AU.vio=d.items;render()}}
+async function admVioClose(id){if(await adm('violation_close',{vid:id}))admVio()}
+/* v22: admin nav buttons (built with a template literal to avoid quote-escaping issues) */
+function navAdm(){if(!(ST.p&&ST.p.role==='admin'))return '';return `<button class="${S.tab==='a'?'on':''}" onclick="S.tab='a';S.au=null;S.aul=0;render()">🛠️</button><button class="${S.tab==='v'?'on':''}" onclick="S.tab='v';AU.vio=null;S.adm2=0;render()">🚨</button>`}
+/* v23: 1:1 chat bubbles; official admin messages get a gold label (overrides the earlier chatMsgs) */
+function chatMsgs(){const L=F.msgs[F.cur.id]||[];if(!L.length)return '<p class="mu c">ابدأ المحادثة 👋</p>';
+return L.map(m=>{const me=m.from_user===ST.id&&!m.sys,t=new Date(m.created_at).toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});
+const b=m.kind==='image'?(F.im[m.id]?`<img src="${esc(F.im[m.id])}" alt="" style="max-width:100%;max-height:260px;border-radius:10px;display:block" onclick="window.open(this.src)">`:'🖼 …'):`<span dir="auto">${esc(m.body)}</span>`;
+const sys=m.sys?`<div class="tm" style="font-weight:800;opacity:1">📢 رسالة من الإدارة</div>`:'';
+const st=m.sys?'background:rgba(245,197,66,.28);border:1px solid #f5c542':'';
+const tick=me?(m.read_at?' ✓✓':' ✓'):`<span onclick="chatReport(${m.id})" style="cursor:pointer"> ⚑</span>`;
+return `<div style="text-align:${me?'start':'end'}"><div class="mb ${me?'me':'him'}" style="${st}">${sys}${b}<div class="tm">${t}${tick}</div></div></div>`}).join('')}
 cInit();render();
 </script><script>
 if('serviceWorker' in navigator&&location.protocol!=='file:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').then(reg=>{
