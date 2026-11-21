@@ -44,7 +44,7 @@ nav button{flex:1;background:none;color:var(--mu);padding:8px;font-weight:700}na
 #nc{position:fixed;top:0;left:0;right:0;z-index:101;padding:calc(8px + env(safe-area-inset-top,0px)) 10px 0;pointer-events:none}#nc .ibx{pointer-events:auto}
 .mb{display:inline-block;max-width:80%;padding:8px 12px;border-radius:14px;margin:3px 0;text-align:start;word-break:break-word}.mb.me{background:var(--pr);color:#fff}.mb.him{background:var(--bg);border:1px solid var(--bd)}.tm{font-size:10px;opacity:.75;margin-top:2px}sup.bd,.bd2{background:#e2494a;color:#fff;border-radius:10px;padding:0 6px;font-size:11px;font-weight:800}.bd2{display:inline-block}
 .mnw{position:relative;display:inline-block}.mnu{position:absolute;left:0;top:100%;z-index:30;min-width:200px;background:var(--cd);border:1px solid var(--bd);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.35);padding:4px}.mnu button{display:block;width:100%;text-align:start;background:none;color:var(--tx);padding:10px 12px;font-weight:700;border-radius:8px;font-size:15px}.mnu button.dn{color:var(--no)}
-</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script><script src="content.js"></script></head><body><div id="app"></div><div class="mu c" style="padding:6px;font-size:11px">v10-b</div>
+</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script><script src="content.js"></script><script src="islam.js"></script></head><body><div id="app"></div><div class="mu c" style="padding:6px;font-size:11px">v10-b</div>
 <script>
 const D={};
 "apple:تفاحة|book:كتاب|water:ماء|house:بيت|school:مدرسة|teacher:معلّم|student:طالب|friend:صديق|family:عائلة|mother:أم|father:أب|brother:أخ|sister:أخت|child:طفل|man:رجل|woman:سيدة|day:يوم|night:ليل|morning:صباح|evening:مساء|time:وقت|week:أسبوع|month:شهر|year:سنة|today:اليوم|tomorrow:غدًا|yesterday:أمس|food:طعام|bread:خبز|milk:حليب|coffee:قهوة|tea:شاي|breakfast:إفطار|lunch:غداء|dinner:عشاء|eat:يأكل|drink:يشرب|sleep:ينام|walk:يمشي|run:يجري|read:يقرأ|write:يكتب|speak:يتكلم|listen:يستمع|look:ينظر|see:يرى|come:يأتي|give:يعطي|take:يأخذ|make:يصنع|work:يعمل|play:يلعب|study:يدرس|learn:يتعلم|teach:يعلّم|understand:يفهم|know:يعرف|think:يفكر|want:يريد|need:يحتاج|love:يحب|like:يُعجبه|help:يساعد|open:يفتح|close:يقفل|buy:يشتري|sell:يبيع|big:كبير|small:صغير|good:جيد|bad:سيئ|new:جديد|old:قديم|hot:ساخن|cold:بارد|happy:سعيد|sad:حزين|beautiful:جميل|easy:سهل|difficult:صعب|fast:سريع|slow:بطيء|early:مبكرًا|late:متأخر|red:أحمر|blue:أزرق|green:أخضر|black:أسود|white:أبيض|city:مدينة|street:شارع|car:سيارة|door:باب|window:نافذة|table:طاولة|chair:كرسي|room:غرفة|money:نقود|price:سعر|phone:هاتف|computer:حاسوب|doctor:طبيب|hospital:مستشفى|hand:يد|head:رأس|eye:عين|heart:قلب|important:مهم|because:لأن|always:دائمًا|never:أبدًا|sometimes:أحيانًا|question:سؤال|answer:إجابة|word:كلمة|sentence:جملة|language:لغة|english:الإنجليزية|arabic:العربية|country:بلد|world:عالم|life:حياة|people:أشخاص|name:اسم|number:رقم|example:مثال|problem:مشكلة|idea:فكرة|dream:حلم|travel:يسافر|remember:يتذكر|forget:ينسى|where:أين|when:متى|which:أيّ|their:الخاصة بهم|would:سـ (للتعبير عن الاحتمال)|about:عن|there:هناك|these:هذه|those:تلك|really:حقًا|every:كل|before:قبل|after:بعد"
@@ -181,8 +181,8 @@ function pushCard(){if(!CF.vapid||!('PushManager' in window)||!('Notification' i
 return '<div class="card c"><p>🔔 فعّل الإشعارات لتصلك دعوات التحدي حتى عند إغلاق التطبيق</p><button class="b" onclick="enablePush()">فعّل الإشعارات</button><p class="mu">على الآيفون: ثبّت التطبيق على الشاشة الرئيسية أولًا</p></div>'}
 /* v11: curriculum stages, new question types, auto-advance, win effects, forfeit penalty */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-const STG=[['kg1','KG1'],['kg2','KG2'],['pri','ابتدائي'],['prep','إعدادي'],['sec','ثانوي'],['gen','عام'],['adv','متقدم']],GN={pri:6,prep:3,sec:3};
-const trk=()=>{const s=U.stage||'gen';return GN[s]?s+'-'+(U.gr||1)+'-'+(U.tm||1):s};
+const STG=[['kg1','KG1'],['kg2','KG2'],['pri','ابتدائي'],['prep','إعدادي'],['sec','ثانوي'],['gen','عام'],['adv','متقدم'],['isl','إسلاميات','🕌']],GN={pri:6,prep:3,sec:3};
+const trk=()=>{const s=U.stage||'gen';if(s==='isl')return 'isl-'+(U.icat||'prayer');return GN[s]?s+'-'+(U.gr||1)+'-'+(U.tm||1):s};
 const getL=()=>((U.pl||{})[trk()])||1;
 function setGr(g){U.gr=g;save();render()}function setTm(t){U.tm=t;save();render()}
 function syncCc(v){const x=(v||0)-(U.ccs||0);if(x){U.coins=Math.max(0,U.coins+x);U.ccs=v||0}}
@@ -301,7 +301,7 @@ return '<div class="card c"><h2>'+(z.p>=.7?'🎉 ممتاز!':'💪 كمّل!')+
 '<button class="b" onclick="S.z=null;S.tab=\'p\';render()">حسنًا</button>'}
 function placeV(){return '<div class="card c"><div style="font-size:48px">🎓</div><h2>اختبار المستوى</h2><p>12 سؤالًا في الكلمات والجمل والقواعد. إذا حصلت على 70% أو أكثر فستنال شارة وعملات.</p><button class="b" onclick="qstart(\'place\')">ابدأ الاختبار</button><button class="b2" onclick="U.placed=1;U.stage=\'kg1\';S.tab=\'m\';save();render()">🧒 أنا في مرحلة KG1 / KG2</button><button class="b2" onclick="U.placed=1;save();render()">تخطي الآن</button></div>'}
 function badgeV(){return '<div class="card c"><div class="big">'+rk()[0]+' '+rk()[1]+' · مستوى '+lv()+'</div><div class="bar"><i style="width:'+(((U.xp||0)+(U.cx||0))%100)+'%"></i></div><p>🪙 '+U.coins+' عملة · ⭐'+(U.stars||0)+' · ⚔️'+(U.swords||0)+' · 💎'+(U.gems||0)+' · '+(U.lvn||'—')+'</p></div><div class="g">'+B.map(b=>'<div class="card c" style="opacity:'+(U.badges.includes(b[0])?1:.35)+'"><div style="font-size:34px">'+b[1]+'</div><div class="mu">'+b[2]+'</div></div>').join('')+'</div><button class="b2" onclick="qstart(\'place\')">إعادة اختبار المستوى</button>'}
-function viewV(){if(S.z)return quizV2();if(!U.placed)return placeV();return inG()?gchatV():inChat()?chatV():S.tab==='s'?setV():S.tab==='p'?pfV():S.tab==='f'?frHub():S.tab==='n'?nfV():S.adm2&&AU.cur&&ST.p&&ST.p.role==='admin'?admDetailV():S.tab==='v'&&ST.p&&ST.p.role==='admin'?violV():S.tab==='a'&&ST.p&&ST.p.role==='admin'?admV():S.tab==='c'&&MC.cur?mcV():S.tab==='c'&&MC.compose?mcCompV():S.tab==='c'?chV():S.tab==='m'?chestV()+mapV2():S.tab==='p'?pracV():S.tab==='b'?badgeV():wordsV()}
+function viewV(){if(S.z)return quizV2();if(!U.placed)return placeV();return inG()?gchatV():inChat()?chatV():S.tab==='s'?setV():S.tab==='p'?pfV():S.tab==='f'?frHub():S.tab==='n'?nfV():S.adm2&&AU.cur&&ST.p&&ST.p.role==='admin'?admDetailV():S.tab==='v'&&ST.p&&ST.p.role==='admin'?violV():S.tab==='a'&&ST.p&&ST.p.role==='admin'?admV():S.tab==='c'&&MC.cur?mcV():S.tab==='c'&&MC.compose?mcCompV():S.tab==='c'?chV():S.tab==='i'?islV():S.tab==='m'?chestV()+mapV2():S.tab==='p'?pracV():S.tab==='b'?badgeV():wordsV()}
 try{DB=JSON.parse(localStorage.getItem('kh')||'{}')}catch(e){DB={}}
 DB.users=DB.users||{};
 if(DB.cur&&DB.users[DB.cur])U=DB.users[DB.cur];
@@ -418,7 +418,7 @@ if(!U){a.innerHTML=SB?cAuthV():authV()+cfgWarn();return}U.coins=U.coins||0;U.xp=
 a.innerHTML=pvV()+'<header><img src="icons/favicon.png" alt="" style="width:34px;height:34px;border-radius:8px">'+'<button class="ic" onclick="goTab(\'s\')" aria-label="الإعدادات" style="padding:0;border-radius:50%;line-height:0">'+avH()+'</button><span class="mu">'+(ST.p?'<i class="dt on"></i>':'')+esc(dn())+' · '+rk()[0]+lv()+' · 🪙'+U.coins+'</span>'+hdrIc()+'</header>'+
 (S.note?'<div class="fb ok">'+S.note+'</div>':'')+viewV()+
 '<nav><button class="'+(S.tab==='w'?'on':'')+'" onclick="S.tab=\'w\';render()">📚 كلماتي</button><button class="'+(S.tab==='p'?'on':'')+'" onclick="S.tab=\'p\';S.m=null;render()">🎯 تدريب</button><button class="'+(S.tab==='c'?'on':'')+'" onclick="S.tab=\'c\';render()">⚔️ تحدي</button><button class="'+(S.tab==='m'?'on':'')+'" onclick="S.tab=\'m\';render()">🗺️ مغامرة</button><button class="'+(S.tab==='b'?'on':'')+'" onclick="S.tab=\'b\';render()">🏆 إنجازاتي</button>'+navAdm()+'</nav>';
-S.note=''}
+S.note='';afterRender()}
 /* final overrides: must stay last */
 function zfin(ok,v){const z=S.z,q=z.qs[z.i];q.r=ok?1:0;q.v=v;
 if(ok){z.sc++;U.coins+=5;U.xp+=10;U.stars=(U.stars||0)+1;z.st=(z.st||0)+1;if(z.st%5===0)U.gems=(U.gems||0)+1}else{z.st=0;z.bad.push(q)}
@@ -898,6 +898,74 @@ else if(r<.8){U.gems=(U.gems||0)+1;msg='💎 ماسة جديدة!'}
 else if(r<.95){U.gsword=(U.gsword||0)+1;msg='⚔️ سيف ذهبي!'}
 else{U.coins+=200;msg='🎉 جائزة كبرى: 200 عملة!'}
 S.chestMsg=msg;save();render()}
+/* v24: read-aloud for every question (mute toggle), English prompts, islamic track, fair option order */
+const ttsOn=()=>{try{return localStorage.getItem('kh_tts')!=='0'}catch(e){return true}};
+function speak(t){if(!ttsOn()||!window.speechSynthesis||!t)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(String(t));u.lang='en-US';u.rate=0.8;u.pitch=1.1;u.volume=1;
+const vs=speechSynthesis.getVoices()||[];const v=vs.find(x=>/^en/i.test(x.lang)&&/female|zira|samantha|google us|jenny|aria/i.test(x.name))||vs.find(x=>/^en/i.test(x.lang));if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}}
+function say(t){speak(t)}
+function asciiOf(p){const s=String(p==null?'':p);if(/[\u0600-\u06FF]/.test(s))return '';return s.replace(/_{3,}/g,'blank')}
+let SPK='';
+function curQ(){
+ if(S.z&&S.z.qs&&S.z.qs[S.z.i]){const q=S.z.qs[S.z.i];return{key:'z'+S.z.i+'|'+(q.p||''),say:q.say||asciiOf(q.p),done:q.r!=null,ans:asciiOf(q.a)}}
+ if(CH.cur&&CH.d&&CH.d.st==='play'&&CH.d.qs&&CH.my.length<CH.d.qs.length){const q=CH.d.qs[CH.my.length],l=CH.my[CH.my.length-1];return{key:'c'+CH.cur+CH.my.length,say:asciiOf(q.p),done:!!CH.fb,ans:l?asciiOf(l.a):''}}
+ if(MC.cur&&MC.d&&MC.d.st==='play'&&MC.d.qs&&MC.my.length<MC.d.qs.length){const q=MC.d.qs[MC.my.length],l=MC.my[MC.my.length-1];return{key:'m'+MC.cur+MC.my.length,say:asciiOf(q.p),done:!!MC.fb,ans:l?asciiOf(l.a):''}}
+ return null}
+function inPlay(){return !!(S.z||(CH.cur&&CH.d&&CH.d.st==='play')||(MC.cur&&MC.d&&MC.d.st==='play'))}
+function ttsBtn(){let b=document.getElementById('tts');if(!b){b=document.createElement('button');b.id='tts';b.setAttribute('aria-label','الصوت');
+b.style.cssText='position:fixed;top:calc(64px + env(safe-area-inset-top,0px));left:10px;z-index:70;width:44px;height:44px;border-radius:50%;border:0;background:var(--pr);color:#fff;font-size:20px;box-shadow:0 4px 14px #0005';
+b.onclick=()=>{try{localStorage.setItem('kh_tts',ttsOn()?'0':'1')}catch(e){}if(!ttsOn()&&window.speechSynthesis)speechSynthesis.cancel();afterRender()};document.body.appendChild(b)}return b}
+function afterRender(){const b=ttsBtn();b.style.display=inPlay()?'block':'none';b.textContent=ttsOn()?'🔊':'🔇';
+if(!ttsOn())return;const c=curQ();if(!c)return;
+if(c.say&&c.key!==SPK){SPK=c.key;speak(c.say)}
+if(c.done&&c.ans&&SPK!==c.key+'#a'){SPK=c.key+'#a';speak(c.ans)}}
+/* ---- English question prompts (speakable) ---- */
+function mkQ(t,src){const w=rnd(src);
+if(t==='w1')return{p:'What does "'+w.en+'" mean?',o:opts(w.ar,DW.map(x=>x.ar)),a:w.ar,e:w.en+' = '+w.ar,w,say:'What does '+w.en+' mean?'};
+if(t==='w2')return{p:'Choose the English word for: '+w.ar,o:opts(w.en,DW.map(x=>x.en)),a:w.en,e:w.en+' = '+w.ar,w,en:1,say:'Choose the English word'};
+if(t==='sp')return{p:'Type the English word for: '+w.ar,ty:1,a:w.en,e:w.en+' = '+w.ar,w,say:'Type the English word'};
+if(t==='s1'){const g=rnd(G);return{p:'Choose the correct translation: '+g[0],o:opts(g[1],G.map(x=>x[1])),a:g[1],e:g[0]+' = '+g[1],en:1,say:g[0]}}
+const g=rnd(GR);return{p:'Choose the correct word: '+g[0],o:shuf(g.slice(1,5)),a:g[1],e:g[5],en:1,say:g[0].replace('___','blank')}}
+function mkK(t,st,L){const w=rnd(EM),mx=st==='kg1'?Math.min(10,3+L):Math.min(20,5+L),nums=Array.from({length:mx+3},(_,i)=>String(i+1));
+if(t==='e1')return{h:'What is this?',p:w[1],kg:1,o:op(w[0],EM.map(x=>x[0]),4),a:w[0],e:w[0]+' = '+w[2],say:'What is this?'};
+if(t==='e2')return{h:'Choose the right picture',p:w[0],kg:1,oe:1,o:op(w[1],EM.map(x=>x[1]),4),a:w[1],e:w[0]+' = '+w[2],say:w[0]};
+if(t==='e3')return{h:'What letter does this word start with?',p:w[1],kg:1,o:op(w[0][0],AZ,4),a:w[0][0],e:w[0]+' = '+w[2],say:'What letter does this word start with?'};
+if(t==='e4')return{h:'Complete the missing letter',p:w[1]+' _'+w[0].slice(1),kg:1,o:op(w[0][0],AZ,4),a:w[0][0],e:w[0]+' = '+w[2],say:'Find the missing first letter'};
+if(t==='n1'){const k=1+Math.floor(Math.random()*mx);return{h:'Count the pictures and choose the number',p:w[1].repeat(k),kg:1,o:op(String(k),nums,4),a:String(k),e:'The number is '+k,say:'Count the pictures'}}
+if(t==='n2'){const a=1+Math.floor(Math.random()*Math.min(mx,9)),b=1+Math.floor(Math.random()*Math.min(mx,9));return{h:'Add the pictures',p:w[1].repeat(a)+' + '+w[1].repeat(b)+' = ?',kg:1,o:op(String(a+b),Array.from({length:20},(_,i)=>String(i+2)),4),a:String(a+b),e:a+' + '+b+' = '+(a+b),say:a+' plus '+b+' equals what?'}}
+const ps=shuf(EM).slice(0,4),map={};ps.forEach(x=>map[x[0]]=x[1]);
+return{h:'Match each picture with its word',p:'🔗',kg:1,mt:1,L:ps.map(x=>x[1]),R:shuf(ps.map(x=>x[0])),map,sl:null,dn:[],er:0,a:ps.map(x=>x[1]+' = '+x[0]).join(' ، '),e:'Match the picture with its word',say:'Match each picture with its word'}}
+function mR(j){const q=S.z.qs[S.z.i];if(q.sl==null)return;const e=q.L[q.sl],x=q.R[j];speak(x);
+if(q.map[x]===e){q.dn.push(e);q.sl=null;if(q.dn.length===q.L.length)return zfin(q.er<=1,'أخطاء: '+q.er)}else{q.er++;q.sl=null}render()}
+function mkC(t,B){if(!B)return mkQ(t,DW);const W=B.w.map(x=>({en:x[0],ar:x[1],em:x[2]})),w=rnd(W),S2=B.s||[];
+if(t==='pic'){const E=W.filter(x=>x.em);if(E.length<3)t='w1';else{const x=rnd(E);return{h:'Choose the picture for:',p:x.en,kg:1,oe:1,o:op(x.em,E.map(y=>y.em),4),a:x.em,e:x.en+' = '+x.ar,say:x.en}}}
+if(t==='say')return{nt:'say',h:'Look and say the word aloud',p:w.en,a:w.en,e:w.en+' = '+w.ar,say:w.en};
+if(t==='scr')return{nt:'scr',h:'Arrange the letters to make the word',p:w.em||'🔤',a:w.en,L:shuf(w.en.split('')),u:[],cur:'',e:w.en+' = '+w.ar,say:'Arrange the letters'};
+if(t==='lis')return{nt:'lis',h:'Listen and choose the meaning',p:'🔊',sp:w.en,o:opts(w.ar,W.map(x=>x.ar)),a:w.ar,e:w.en+' = '+w.ar,say:w.en};
+if(t==='s1'&&S2.length){const g=rnd(S2);return{p:'Choose the correct translation: '+g[0],o:opts(g[1],S2.map(x=>x[1])),a:g[1],en:1,e:g[0]+' = '+g[1],say:g[0]}}
+if(t==='fill'&&S2.length){const g=rnd(S2),ws=g[0].replace(/[.,!?]/g,'').split(' ').filter(x=>x.length>2),k=ws.length?rnd(ws):null;
+if(k)return{h:'Complete the sentence',p:g[0].replace(new RegExp('\\b'+k+'\\b'),'_____')+' — '+g[1],ty:1,a:k,en:1,e:g[0]+' = '+g[1],say:g[0].replace(new RegExp('\\b'+k+'\\b'),'blank')}}
+if(t==='sp')return mkQ('sp',W);
+if(t==='w2')return mkQ('w2',W);
+return mkQ('w1',W)}
+/* ---- order of options: correct answer is never always first ---- */
+/* ---- adventure categories: islamic track ---- */
+function setIcat(c){U.icat=c;save();render()}
+function mapV2(){const st=U.stage||'gen',L=getL(),cp=(a,on,f)=>'<span class="chip'+(on?' on':'')+'" onclick="'+f+'">'+a+'</span>';let n='',sub='';
+for(let i=Math.max(1,L-2);i<=L+4;i++)n+='<span class="nd '+(i<L?'dn':i===L?'cu':'')+'">'+(i<L?'⭐':i===L?'⚔️':i%5===0?'👻':'🔒')+'</span>';
+if(GN[st])sub='<div>'+Array.from({length:GN[st]},(_,i)=>cp('الصف '+(i+1),(U.gr||1)===i+1,'setGr('+(i+1)+')')).join('')+'</div><div>'+[1,2].map(t=>cp('الفصل '+t,(U.tm||1)===t,'setTm('+t+')')).join('')+'</div>';
+if(st==='isl')sub='<div>'+ISL_CATS.map(c=>cp(c[2]+' '+c[1],(U.icat||'prayer')===c[0],"setIcat('"+c[0]+"')")).join('')+'</div>';
+const nob=(GN[st]||st==='isl')&&!(window.KH_CONTENT||{})[trk()];
+return lastV()+'<div class="card c">'+STG.map(s=>cp(s[1],st===s[0],"setSt('"+s[0]+"')")).join('')+sub+'</div><div class="card c"><h3>'+rk()[0]+' '+rk()[1]+'</h3><div>'+n+'</div>'+(nob?'<p class="mu">محتوى هذه المرحلة لم يُضَف بعد 📚 جرّب قسمًا آخر</p>':'<p class="mu">انجح بنسبة 70% لتفتح المستوى التالي، ولا نهاية للمستويات!</p><button class="b" onclick="lstart2()">ابدأ المستوى '+L+' ⚔️</button>')+'</div>'}
+function islQuiz(c){const B=(window.KH_CONTENT||{})['isl-'+c];if(!B)return;const T=shuf(['pic','w1','w2','sp','scr','say','lis','s1','fill','pic']).slice(0,10);
+S.z={k:'isl',qs:uq(T,t=>mkC(t,B)),i:0,sc:0,bad:[]};S.m=null;S.tab='i';render()}
+function islV(){const c=S.ic||'prayer',cur=ISL_CATS.find(x=>x[0]===c)||ISL_CATS[0],B=(window.KH_CONTENT||{})['isl-'+cur[0]]||{w:[],s:[]};
+const chips=ISL_CATS.map(x=>'<span class="chip'+(x[0]===cur[0]?' on':'')+'" onclick="S.ic=\''+x[0]+'\';render()">'+x[2]+' '+x[1]+'</span>').join('');
+const words=B.w.map(x=>'<div style="display:flex;align-items:center;gap:8px;margin:6px 0"><button class="ic" onclick="speak(\''+String(x[0]).replace(/'/g,'')+'\')" aria-label="استمع">🔊</button><b dir="ltr" style="min-width:110px">'+esc(x[0])+'</b><span dir="auto">'+esc(x[1])+'</span>'+(x[2]?'<span>'+x[2]+'</span>':'')+'</div>').join('');
+const sents=B.s.map(x=>'<div style="display:flex;align-items:flex-start;gap:8px;margin:8px 0"><button class="ic" onclick="speak(\''+String(x[0]).replace(/'/g,'')+'\')" aria-label="استمع">🔊</button><div><div dir="ltr" style="font-weight:700">'+esc(x[0])+'</div><div class="mu" dir="auto">'+esc(x[1])+'</div></div></div>').join('');
+return '<div class="card" style="overflow-x:auto"><div class="row">'+chips+'</div></div><div class="card"><h3>'+cur[2]+' '+cur[1]+'</h3><p class="mu">اضغط 🔊 لتسمع النطق، ثم جرّب الاختبار.</p><button class="b" onclick="islQuiz(\''+cur[0]+'\')">🎯 ابدأ الاختبار</button></div><div class="card"><b>📘 الكلمات</b>'+words+'</div><div class="card"><b>📝 الجمل</b>'+sents+'</div>'}
+function navAdm(){const isl=`<button class="${S.tab==='i'?'on':''}" onclick="S.tab='i';render()">🕌 إسلاميات</button>`;
+if(!(ST.p&&ST.p.role==='admin'))return isl;
+return isl+`<button class="${S.tab==='a'?'on':''}" onclick="S.tab='a';S.au=null;S.aul=0;render()">🛠️</button><button class="${S.tab==='v'?'on':''}" onclick="S.tab='v';AU.vio=null;S.adm2=0;render()">🚨</button>`}
 cInit();render();
 </script><script>
 if('serviceWorker' in navigator&&location.protocol!=='file:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').then(reg=>{
