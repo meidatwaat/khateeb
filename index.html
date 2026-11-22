@@ -971,10 +971,10 @@ function islDoc(){return `<div class="card c" style="background:linear-gradient(
 function islV(){const c=S.ic||'prayer',cur=ISL_CATS.find(x=>x[0]===c)||ISL_CATS[0],B=(window.KH_CONTENT||{})['isl-'+cur[0]]||{w:[],s:[],sx:[]};
 const chips=ISL_CATS.map(x=>'<span class="chip'+(x[0]===cur[0]?' on':'')+'" onclick="S.ic=\''+x[0]+'\';S.icAll=0;render()">'+x[2]+' '+x[1]+'</span>').join('');
 const all=!!S.icAll,W=all?B.w:B.w.slice(0,40),SS=(B.s||[]).concat(B.sx||[]);
-const words=W.map(x=>`<div style="display:flex;align-items:center;gap:8px;margin:6px 0"><button class="ic" onclick="speak(${JSON.stringify(String(x[0]))})" aria-label="استمع">🔊</button><b dir="ltr" style="min-width:100px">${esc(x[0])}</b><span dir="auto">${esc(x[1])}</span></div>`).join('');
+const words=W.map(x=>`<div style="display:flex;align-items:center;gap:8px;margin:6px 0"><button class="ic" onclick="speakE('${encodeURIComponent(String(x[0]))}')" aria-label="استمع">🔊</button><b dir="ltr" style="min-width:100px">${esc(x[0])}</b><span dir="auto">${esc(x[1])}</span></div>`).join('');
 const more=!all&&B.w.length>40?`<button class="b2" onclick="S.icAll=1;render()">عرض كل الكلمات (${B.w.length})</button>`:'';
-const sents=SS.map(x=>`<div style="display:flex;align-items:flex-start;gap:8px;margin:8px 0"><button class="ic" onclick="speak(${JSON.stringify(String(x[0]))})" aria-label="استمع">🔊</button><div><div dir="ltr" style="font-weight:700">${esc(x[0])}</div>${x[1]?`<div class="mu" dir="auto">${esc(x[1])}</div>`:''}</div></div>`).join('');
-const qa=(cur[0]==='dawah'&&window.ISL_QA)?'<div class="card"><b>💬 أسئلة وأجوبة عن الإسلام</b>'+window.ISL_QA.map(q=>`<div style="margin:12px 0;border-bottom:1px solid var(--bd);padding-bottom:10px"><div style="display:flex;gap:8px"><button class="ic" onclick="speak(${JSON.stringify(q[0])})">🔊</button><div><div dir="ltr" style="font-weight:700">Q: ${esc(q[0])}</div><div class="mu" dir="auto">${esc(q[1])}</div></div></div><div style="display:flex;gap:8px;margin-top:6px"><button class="ic" onclick="speak(${JSON.stringify(q[2])})">🔊</button><div><div dir="ltr">A: ${esc(q[2])}</div><div class="mu" dir="auto">${esc(q[3])}</div></div></div></div>`).join('')+'</div>':'';
+const sents=SS.map(x=>`<div style="display:flex;align-items:flex-start;gap:8px;margin:8px 0"><button class="ic" onclick="speakE('${encodeURIComponent(String(x[0]))}')" aria-label="استمع">🔊</button><div><div dir="ltr" style="font-weight:700">${esc(x[0])}</div>${x[1]?`<div class="mu" dir="auto">${esc(x[1])}</div>`:''}</div></div>`).join('');
+const qa=(cur[0]==='dawah'&&window.ISL_QA)?'<div class="card"><b>💬 أسئلة وأجوبة عن الإسلام</b>'+window.ISL_QA.map(q=>`<div style="margin:12px 0;border-bottom:1px solid var(--bd);padding-bottom:10px"><div style="display:flex;gap:8px"><button class="ic" onclick="speakE('${encodeURIComponent(q[0])}')">🔊</button><div><div dir="ltr" style="font-weight:700">Q: ${esc(q[0])}</div><div class="mu" dir="auto">${esc(q[1])}</div></div></div><div style="display:flex;gap:8px;margin-top:6px"><button class="ic" onclick="speakE('${encodeURIComponent(q[2])}')">🔊</button><div><div dir="ltr">A: ${esc(q[2])}</div><div class="mu" dir="auto">${esc(q[3])}</div></div></div></div>`).join('')+'</div>':'';
 return islDoc()+'<div class="card" style="overflow-x:auto"><div class="row">'+chips+'</div></div><div class="card"><h3>'+cur[2]+' '+cur[1]+'</h3><p class="mu">اضغط 🔊 لتسمع النطق بالإنجليزية. الكلمات '+B.w.length+' والجمل '+SS.length+'.</p><button class="b" onclick="islQuiz(\''+cur[0]+'\')">🎯 ابدأ الاختبار</button></div>'+qa+'<div class="card"><b>📘 الكلمات والمصطلحات</b>'+words+more+'</div><div class="card"><b>📝 الجمل</b>'+(sents||'<p class="mu">لا توجد جمل بعد</p>')+'</div>'}
 function sgCard(){if(!F.sg){if(!F.sgl){F.sgl=1;sgLoad()}return ''}
 const L=F.sg.slice(0,6);if(!L.length)return '<div class="card"><b>💡 اقتراحات الصداقة</b><p class="mu">لا توجد اقتراحات الآن.</p><button class="b2" onclick="sgLoad()">تحديث ↻</button></div>';
@@ -984,6 +984,30 @@ const bs=[...n.querySelectorAll('button')];bs.forEach(b=>{if(b.textContent.index
 const rank=b=>{const t=b.textContent;const k=order.findIndex(o=>t.indexOf(o)>=0);return k<0?99:k};
 bs.sort((a,b)=>rank(a)-rank(b)).forEach(b=>n.appendChild(b))}
 function afterRender(){navFix();const b=ttsBtn();b.style.display=inPlay()?'block':'none';b.textContent=ttsOn()?'🔊':'🔇';
+if(!ttsOn())return;const c=curQ();if(!c)return;
+if(c.say&&c.key!==SPK){SPK=c.key;speak(c.say)}
+if(c.done&&c.ans&&SPK!==c.key+'#a'){SPK=c.key+'#a';speak(c.ans)}}
+/* v26: audio fixes, replay button, chest popup on challenge end / every 5 levels, win sound + confetti */
+function speakE(s){speak(decodeURIComponent(s))}
+function ttsRep(){let b=document.getElementById('ttsrep');if(!b){b=document.createElement('button');b.id='ttsrep';b.setAttribute('aria-label','إعادة قراءة السؤال');
+b.style.cssText='position:fixed;top:calc(64px + env(safe-area-inset-top,0px));left:62px;z-index:70;width:44px;height:44px;border-radius:50%;border:0;background:var(--pr);color:#fff;font-size:20px;box-shadow:0 4px 14px #0005';
+b.textContent='🔁';b.onclick=()=>{const c=curQ();if(c){speak(c.done&&c.ans?c.ans:c.say)}};document.body.appendChild(b)}return b}
+function openChest(){if(!U.chest)return;U.chest--;const r=Math.random();let msg;
+if(r<.5){const c=20+Math.floor(Math.random()*61);U.coins+=c;msg='🪙 ربحت '+c+' عملة!'}
+else if(r<.8){U.gems=(U.gems||0)+1;msg='💎 ماسة جديدة!'}
+else if(r<.95){U.gsword=(U.gsword||0)+1;msg='⚔️ سيف ذهبي!'}
+else{U.coins+=200;msg='🎉 جائزة كبرى: 200 عملة!'}
+S.chestMsg=msg;S.pop=0;save();win();render()}
+function chestOv(){return `<div id="chp" style="position:fixed;inset:0;z-index:160;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:16px"><div class="card c" style="max-width:340px;background:var(--cd)"><div style="font-size:90px">🎁</div><h3>صندوق مفاجآت!</h3><p class="mu">مكافأة على إنجازك</p><button class="b" onclick="openChest()">افتح الصندوق 🎉</button></div></div>`}
+function pvV(){if(S.pop&&U.chest)return chestOv();if(PV.src)return photoOv();if(PR.cur)return prOv();return ''}
+function chestV(){if(S.last&&S.last.p>=.7&&!S.last.g){S.last.g=1;if((U.lvl||1)%5===0){U.chest=(U.chest||0)+1;S.pop=1;save();setTimeout(render,0)}}
+if(!U.chest&&!S.chestMsg)return '';
+return `<div class="card c"><b>🎁 صندوق المفاجآت: ${U.chest||0}</b>${S.chestMsg?`<p>${S.chestMsg}</p>`:''}${U.chest?'<button class="b" onclick="openChest()">افتح الصندوق 🎁</button>':''}</div>`}
+function afterRender(){navFix();const b=ttsBtn(),r=ttsRep(),pl=inPlay();b.style.display=pl?'block':'none';r.style.display=pl?'block':'none';b.textContent=ttsOn()?'🔊':'🔇';
+let flip=false;
+if(CH.cur&&CH.d&&CH.d.st==='done'&&CH.chestSeen!==CH.cur){CH.chestSeen=CH.cur;U.chest=(U.chest||0)+1;S.pop=1;save();flip=true}
+if(MC.cur&&MC.d&&MC.d.st==='done'&&MC.chestSeen!==MC.cur){MC.chestSeen=MC.cur;U.chest=(U.chest||0)+1;S.pop=1;save();flip=true}
+if(flip){setTimeout(render,0);return}
 if(!ttsOn())return;const c=curQ();if(!c)return;
 if(c.say&&c.key!==SPK){SPK=c.key;speak(c.say)}
 if(c.done&&c.ans&&SPK!==c.key+'#a'){SPK=c.key+'#a';speak(c.ans)}}
