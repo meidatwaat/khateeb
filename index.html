@@ -925,14 +925,14 @@ if(t==='w2')return{p:'Choose the English word for: '+w.ar,o:opts(w.en,DW.map(x=>
 if(t==='sp')return{p:'Type the English word for: '+w.ar,ty:1,a:w.en,e:w.en+' = '+w.ar,w,say:'Type the English word'};
 if(t==='s1'){const g=rnd(G);return{p:'Choose the correct translation: '+g[0],o:opts(g[1],G.map(x=>x[1])),a:g[1],e:g[0]+' = '+g[1],en:1,say:g[0]}}
 const g=rnd(GR);return{p:'Choose the correct word: '+g[0],o:shuf(g.slice(1,5)),a:g[1],e:g[5],en:1,say:g[0].replace('___','blank')}}
-function mkK(t,st,L){const w=rnd(EM),mx=st==='kg1'?Math.min(10,3+L):Math.min(20,5+L),nums=Array.from({length:mx+3},(_,i)=>String(i+1));
-if(t==='e1')return{h:'What is this?',p:w[1],kg:1,o:op(w[0],EM.map(x=>x[0]),4),a:w[0],e:w[0]+' = '+w[2],say:'What is this?'};
-if(t==='e2')return{h:'Choose the right picture',p:w[0],kg:1,oe:1,o:op(w[1],EM.map(x=>x[1]),4),a:w[1],e:w[0]+' = '+w[2],say:w[0]};
+function mkK(t,st,L){const BK=st==='kg2'&&window.KG2_BANK&&window.KG2_BANK.length?window.KG2_BANK:EM;const w=rnd(BK),mx=st==='kg1'?Math.min(10,3+L):Math.min(20,5+L),nums=Array.from({length:mx+3},(_,i)=>String(i+1));
+if(t==='e1')return{h:'What is this?',p:w[1],kg:1,o:op(w[0],BK.map(x=>x[0]),4),a:w[0],e:w[0]+' = '+w[2],say:'What is this?'};
+if(t==='e2')return{h:'Choose the right picture',p:w[0],kg:1,oe:1,o:op(w[1],BK.map(x=>x[1]),4),a:w[1],e:w[0]+' = '+w[2],say:w[0]};
 if(t==='e3')return{h:'What letter does this word start with?',p:w[1],kg:1,o:op(w[0][0],AZ,4),a:w[0][0],e:w[0]+' = '+w[2],say:'What letter does this word start with?'};
 if(t==='e4')return{h:'Complete the missing letter',p:w[1]+' _'+w[0].slice(1),kg:1,o:op(w[0][0],AZ,4),a:w[0][0],e:w[0]+' = '+w[2],say:'Find the missing first letter'};
 if(t==='n1'){const k=1+Math.floor(Math.random()*mx);return{h:'Count the pictures and choose the number',p:w[1].repeat(k),kg:1,o:op(String(k),nums,4),a:String(k),e:'The number is '+k,say:'Count the pictures'}}
 if(t==='n2'){const a=1+Math.floor(Math.random()*Math.min(mx,9)),b=1+Math.floor(Math.random()*Math.min(mx,9));return{h:'Add the pictures',p:w[1].repeat(a)+' + '+w[1].repeat(b)+' = ?',kg:1,o:op(String(a+b),Array.from({length:20},(_,i)=>String(i+2)),4),a:String(a+b),e:a+' + '+b+' = '+(a+b),say:a+' plus '+b+' equals what?'}}
-const ps=shuf(EM).slice(0,4),map={};ps.forEach(x=>map[x[0]]=x[1]);
+const ps=shuf(BK).slice(0,4),map={};ps.forEach(x=>map[x[0]]=x[1]);
 return{h:'Match each picture with its word',p:'🔗',kg:1,mt:1,L:ps.map(x=>x[1]),R:shuf(ps.map(x=>x[0])),map,sl:null,dn:[],er:0,a:ps.map(x=>x[1]+' = '+x[0]).join(' ، '),e:'Match the picture with its word',say:'Match each picture with its word'}}
 function mR(j){const q=S.z.qs[S.z.i];if(q.sl==null)return;const e=q.L[q.sl],x=q.R[j];speak(x);
 if(q.map[x]===e){q.dn.push(e);q.sl=null;if(q.dn.length===q.L.length)return zfin(q.er<=1,'أخطاء: '+q.er)}else{q.er++;q.sl=null}render()}
@@ -1085,4 +1085,4 @@ if(inapp){setTimeout(function(){if(/Android/.test(ua))show('افتح الراب�
 window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();dp=e;show('📲 ثبّت تطبيق خطيب على هاتفك','تثبيت',function(){dp.prompt();dp.userChoice.then(function(){dp=null;hide()})})});
 window.addEventListener('appinstalled',hide);
 if(ios)setTimeout(function(){show('لتثبيت التطبيق: اضغط زر المشاركة ⬆️ ثم «إضافة إلى الشاشة الرئيسية»')},1500)})();
-</script><script src="kg1.js"></script></body></html>
+</script><script src="kg1.js"></script><script src="kg2.js"></script></body></html>
