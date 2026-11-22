@@ -813,12 +813,12 @@ if(!confirm('إرسال هذه الرسالة باسم الإدارة؟'))return
 if(await adm('say',Object.assign({text:t},body))){S.adSay='';await admThread(th.kind,th.a,th.b,th.gid,th.title);alert('تم الإرسال باسم الإدارة ✅')}}
 const WARN='مرحبًا، هذه الرسائل تخالف سياسات النظام. إذا تكررت المخالفات من هذا النوع سيتم حظر الحساب. نرجو الالتزام بقواعد الاستخدام.';
 async function admWarn(){if(!AU.th)return;const body=AU.th.kind==='group'?{kind:'group',gid:AU.th.gid}:{kind:'dm',a:AU.th.a,b:AU.th.b};if(!confirm('إرسال تحذير رسمي باسم الإدارة للطرفين؟'))return;if(await adm('say',Object.assign({text:WARN},body))){alert('تم إرسال التحذير ✅');await admThread(AU.th.kind,AU.th.a,AU.th.b,AU.th.gid,AU.th.title)}}
-function admDetailV(){const d=AU.d;if(!d)return '<p class="mu c">جاري التحميل…</p>';const u=d.user,s=d.stats,age=Math.floor((Date.now()-new Date(u.birth_date))/31557600000);
+function admDetailV(){const d=AU.d;if(!d||!d.user)return '<p class="mu c">جاري التحميل…</p>';const u=d.user,s=d.stats,age=Math.floor((Date.now()-new Date(u.birth_date))/31557600000);
 const tabs=[['info','المعلومات'],['chats','المحادثات'],['posts','المنشورات']].map(t=>'<span class="chip'+(AU.tab===t[0]?' on':'')+'" onclick="admTabSet(\''+t[0]+'\')">'+t[1]+'</span>').join('');
 let body='';
 if(AU.tab==='info')body='<div class="card"><div style="display:flex;gap:12px;align-items:center">'+(d.avatar?'<img src="'+esc(d.avatar)+'" alt="" onclick="pvOpen(\''+esc(d.avatar)+'\',\''+esc(u.full_name)+'\')" style="width:72px;height:72px;border-radius:50%;object-fit:cover;cursor:zoom-in">':'<span style="font-size:52px">'+(u.gender==="f"?"👧":"👦")+'</span>')+'<div><b dir="auto">'+esc(u.full_name)+'</b><div class="mu" dir="ltr">@'+esc(u.username)+'</div>'+(u.banned?'<b style="color:var(--no)">محظور</b>':'')+'</div></div>'+
 '<p class="mu" dir="ltr">📞 '+esc(u.phone||'—')+' · 👪 '+esc(u.guardian_phone||'—')+'</p><p class="mu">العمر: '+age+' سنة · سجّل: '+esc(String(u.created_at).slice(0,10))+'</p><p class="mu">الأصدقاء: '+s.friends+' · المنشورات: '+s.posts+' · الرسائل: '+s.msgs+' · المخالفات: '+s.violations+'</p><p class="mu">نقاط التحديات: '+u.ch_xp+' · فوز '+u.ch_wins+'/'+u.ch_played+'</p></div>'+
-'<div class="card"><b>إجراءات</b><div class="row"><button class="b2" onclick="admBan(\''+u.id+'\','+(u.banned?0:1)+')">'+(u.banned?'✅ فك الحظر':'🚫 حظر')+'</button><button class="b2" onclick="admReset(\''+u.id+'\')">🔑 كلمة المرور</button><button class="b2" onclick="admDel(\''+u.id+'\')">🗑 حذف الحساب</button></div></div>';
+admActions(u);
 else if(AU.tab==='chats'){if(AU.th)body=admThreadV();else if(!AU.chats)body='<p class="mu c">جاري التحميل…</p>';else{
 body='<div class="card"><b>💬 المحادثات الخاصة</b>'+(AU.chats.dm.map(c=>'<div class="card" style="cursor:pointer" onclick="admThread(\'dm\',\''+AU.cur+'\',\''+c.partner+'\',null,\''+esc(c.name)+'\')"><b dir="auto">'+esc(c.name)+'</b> <span class="mu">· '+c.count+' رسالة</span><div class="mu" dir="auto">'+esc(c.last)+'</div></div>').join('')||'<p class="mu">لا توجد محادثات خاصة</p>')+'</div>'+
 '<div class="card"><b>👥 المجموعات</b>'+(AU.chats.groups.map(g=>'<div class="card" style="cursor:pointer" onclick="admThread(\'group\',null,null,'+g.gid+',\''+esc(g.name)+'\')"><b dir="auto">'+esc(g.name)+'</b><div class="mu" dir="auto">'+esc(g.last)+'</div></div>').join('')||'<p class="mu">لا توجد مجموعات</p>')+'</div>'}}
@@ -1050,6 +1050,19 @@ function polLink(){if(document.getElementById('pol'))return;const a=document.cre
 a.style.cssText='position:fixed;top:2px;right:8px;z-index:90;background:none;border:0;color:var(--mu);font-size:11px;text-decoration:underline;padding:4px';a.onclick=polOpen;document.body.appendChild(a)}
 polLink();
 function hideComposer(){const t=document.getElementById('pt');if(t&&!isAdultMe()){const c=t.closest('.card');if(c)c.style.display='none'}}
+/* v29: admin user cards without buttons (tags only); actions live in the details page */
+function admRows(){const q=(S.aq||'').toLowerCase().trim(),L=(S.au||[]).filter(u=>!q||(u.username+' '+u.full_name+' '+(u.phone||'')+' '+(u.guardian_phone||'')).toLowerCase().includes(q));
+return L.map(u=>{const age=Math.floor((Date.now()-new Date(u.birth_date))/31557600000);
+const tags=[u.role==='admin'?'🛠️ مدير':'',u.banned?'<b style="color:var(--no)">🔒 محظور</b>':'',u.can_publish?'✍️ ناشر':'',u.publish_ban==='age'?'🚫 محظور من النشر للسن':'',u.publish_ban==='copyright'?'🚫 محظور من النشر لانتهاك حقوق':''].filter(Boolean).join(' · ');
+return `<div class="card" style="display:flex;align-items:center;gap:10px"><input type="checkbox" style="width:auto;margin:0" ${S.sel&&S.sel[u.id]?'checked':''} onchange="admSel('${u.id}',this.checked)" aria-label="تحديد"><span onclick="admOpen('${u.id}')" style="cursor:pointer">${av(u.id,u.gender,42)}</span><div style="flex:1;min-width:0"><span onclick="admOpen('${u.id}')" style="cursor:pointer"><b dir="auto">${esc(u.full_name)}</b> <span class="mu" dir="ltr">@${esc(u.username)}</span></span> ${u.gender==='f'?'👧':'👦'} · ${age} سنة<div class="mu">${tags}</div></div></div>`}).join('')||'<p class="mu c">لا توجد نتائج</p>'}
+function admActions(u){return `<div class="card"><b>إجراءات</b><div style="margin-top:8px">
+${swt(u.can_publish,'✍️ صلاحية ناشر','تسمح لهذا الطالب بنشر المنشورات والفيديو.',`admPub('${u.id}',${u.can_publish?0:1})`)}
+<div style="margin:12px 0"><b>🚫 منع من النشر</b><select onchange="admPubBan('${u.id}',this.value)" style="margin-top:6px"><option value="" ${!u.publish_ban?'selected':''}>لا يوجد منع</option><option value="age" ${u.publish_ban==='age'?'selected':''}>بسبب السن</option><option value="copyright" ${u.publish_ban==='copyright'?'selected':''}>بسبب انتهاك حقوق</option></select></div>
+<div class="row"><button class="b2" onclick="admBan('${u.id}',${u.banned?0:1})">${u.banned?'✅ فك الحظر':'🔒 حظر'}</button><button class="b2" onclick="admReset('${u.id}')">🔑 كلمة المرور</button><button class="b2" onclick="admClose();admTo('${u.id}')">📩 إشعار</button><button class="b2" style="color:var(--no)" onclick="admDel('${u.id}')">🗑 حذف نهائي</button></div></div></div>`}
+async function admPubBan(id,val){if(await adm('publish_ban',{id,reason:val||null}))admOpen(id)}
+async function admPub(id,on){if(await adm('set_publisher',{id,on:!!on})){if(AU.cur)admOpen(AU.cur);else admLoad()}}
+async function admBan(id,b){if(!confirm(b?'حظر هذا الحساب؟ لن يتمكن من الدخول.':'فك الحظر عن هذا الحساب؟'))return;if(await adm(b?'ban':'unban',{id})){if(AU.cur)admOpen(AU.cur);else admLoad()}}
+async function admDel(id){if(!confirm('حذف الحساب نهائيًا مع كل بياناته؟ لا يمكن التراجع.')||!confirm('تأكيد أخير: حذف الحساب؟'))return;if(await adm('delete',{id})){admClose();admLoad()}}
 cInit();render();
 </script><script>
 if('serviceWorker' in navigator&&location.protocol!=='file:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').then(reg=>{
