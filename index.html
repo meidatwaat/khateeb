@@ -89,7 +89,7 @@ async function chInit(){if(CH.i)return;CH.i=1;try{const c=window.claude,[u,r,d]=
 if(r)r.onPeers(()=>{CH.peers=r.peers();if(S.tab==='c'&&!CH.cur&&!S.z)render()});
 if(d&&CH.me)d.collection('challenges').where('p2','==',CH.me).where('st','==','invite').onSnapshot(s=>{CH.inv=s.docs.map(x=>Object.assign({id:x.id},x.data()));if(S.tab==='c'&&!CH.cur&&!S.z)render()},()=>{});render()}catch(e){}}
 function pres(){const k=DB.cur+'|'+(U?lv():0)+'|'+CH.me;if(CH.room&&CH.me&&CH.pk!==k){CH.pk=k;CH.room.presence({n:DB.cur,l:lv(),id:CH.me})}}
-const oth=()=>CH.peers.filter(p=>!p.isMe&&p.presence&&p.presence.id&&p.presence.id!==CH.me).map(p=>p.presence).filter((p,i,a)=>a.findIndex(x=>x.id===p.id)===i).sort((a,b)=>Math.abs(a.l-lv())-Math.abs(b.l-lv()));
+const oth=()=>CH.peers.filter(p=>p.presence&&(F.d&&F.d.friends||[]).some(f=>f.id===p.presence.id)&&!p.isMe&&p.presence&&p.presence.id&&p.presence.id!==CH.me).map(p=>p.presence).filter((p,i,a)=>a.findIndex(x=>x.id===p.id)===i).sort((a,b)=>Math.abs(a.l-lv())-Math.abs(b.l-lv()));
 const side=()=>CH.d&&CH.d.p1===CH.me?'1':'2';
 const sc=a=>(a||[]).reduce((s,x)=>s+(x.ok?10+Math.max(0,Math.round((30000-x.ms)/3000)):0),0);
 async function ch(id,n){try{const cid='c'+Date.now().toString(36);
@@ -426,7 +426,7 @@ if(q.w){const w=U.words.find(x=>x.en===q.w.en);if(w)w.lv=Math.max(0,Math.min(5,w
 chk();save();render();const i=z.i;setTimeout(()=>{if(S.z===z&&z.i===i)znext()},ok?900:2000)}
 function fin(ok){const q=S.q,w=q.w;rew(ok);q.res=ok?1:0;w.lv=Math.max(0,Math.min(5,w.lv+(ok?1:-1)));if(ok)S.sc++;S.n++;save();render();setTimeout(()=>{if(S.q===q)next()},ok?900:2000)}
 /* v12 overrides: presence dots, avatars everywhere, challenge fixes, admin notifications */
-const dot=u=>'<i class="dt '+(CH.on&&CH.on.has(u)?'on':'off')+'"></i>';
+const dot=u=>{const isA=ST.p&&ST.p.role==='admin',fr=(F.d&&F.d.friends||[]).some(f=>f.id===u),on=!!(CH.on&&CH.on.has(u))&&(isA||fr||u===ST.id);return '<i class="dt '+(on?'on':'off')+'"></i>'};
 function pres(){const k=ST.id+'|'+(U?lv():0)+'|'+(ST.p&&ST.p.avatar_url);if(CH.L&&ST.p&&CH.pk!==k){CH.pk=k;CH.L.track({id:ST.id,n:ST.p.full_name.split(' ')[0],l:lv(),v:!!ST.p.avatar_url,g:ST.p.gender})}}
 async function avBatch(list){CH.av=CH.av||{};CH.avx=CH.avx||{};const need=list.filter(x=>x[0]&&x[1]&&!CH.av[x[0]]&&!CH.avx[x[0]]);if(!need.length)return;need.forEach(x=>CH.avx[x[0]]=1);
 try{const r=await SB.storage.from('avatars').createSignedUrls(need.map(x=>x[0]+'/avatar.jpg'),3600);let n=0;(r.data||[]).forEach(o=>{if(o.signedUrl){CH.av[o.path.split('/')[0]]=o.signedUrl;n++}});if(n&&(S.tab==='a'||S.tab==='c'||S.tab==='f')&&!S.z&&!inChat())render()}catch(e){}}
@@ -474,7 +474,7 @@ function admRows(){const q=(S.aq||'').toLowerCase().trim(),L=(S.au||[]).filter(u
 return L.map(u=>{const age=Math.floor((Date.now()-new Date(u.birth_date))/31557600000);
 return '<div class="card"><div style="display:flex;align-items:center;gap:10px"><input type="checkbox" style="width:auto;margin:0" '+(S.sel&&S.sel[u.id]?'checked':'')+' onchange="admSel(\''+u.id+'\',this.checked)">'+av(u.id,u.gender,42)+'<div style="flex:1">'+dot(u.id)+'<b dir="auto">'+esc(u.full_name)+'</b> <span class="mu" dir="ltr">@'+esc(u.username)+'</span> '+(u.gender==='f'?'👧':'👦')+' · '+age+' سنة'+(u.role==='admin'?' · 🛠️ مدير':'')+(u.banned?' · <b style="color:var(--no)">محظور</b>':'')+
 '<div class="mu" dir="ltr">📞 '+esc(u.phone||'—')+' · 👪 '+esc(u.guardian_phone||'—')+'</div><div class="mu">نقاط خبرة التحديات: '+u.ch_xp+' · فوز '+u.ch_wins+'/'+u.ch_played+' · سجّل '+esc(String(u.created_at).slice(0,10))+'</div></div></div>'+
-'<div class="row"><button class="b2" onclick="admOpen(\''+u.id+'\')">👁 تفاصيل</button><button class="b2" onclick="admTo(\''+u.id+'\')">📩 إشعار</button>'+(u.role==='admin'?'':'<button class="b2" onclick="admBan(\''+u.id+'\','+(u.banned?0:1)+')">'+(u.banned?'✅ فك الحظر':'🚫 حظر')+'</button><button class="b2" onclick="admReset(\''+u.id+'\')">🔑</button><button class="b2" onclick="admDel(\''+u.id+'\')">🗑</button>')+'</div></div>'}).join('')||'<p class="mu c">لا توجد نتائج</p>'}
+'<div class="row"><button class="b2" onclick="admPub(\''+u.id+'\','+(u.can_publish?0:1)+')">'+(u.can_publish?'🚫 سحب النشر':'✍️ صلاحية نشر')+'</button><button class="b2" onclick="admOpen(\''+u.id+'\')">👁 تفاصيل</button><button class="b2" onclick="admTo(\''+u.id+'\')">📩 إشعار</button>'+(u.role==='admin'?'':'<button class="b2" onclick="admBan(\''+u.id+'\','+(u.banned?0:1)+')">'+(u.banned?'✅ فك الحظر':'🚫 حظر')+'</button><button class="b2" onclick="admReset(\''+u.id+'\')">🔑</button><button class="b2" onclick="admDel(\''+u.id+'\')">🗑</button>')+'</div></div>'}).join('')||'<p class="mu c">لا توجد نتائج</p>'}
 function admSel(id,v){S.sel=S.sel||{};if(v)S.sel[id]=1;else delete S.sel[id];const e=$('#asn');if(e)e.textContent=Object.keys(S.sel).length}
 function admTo(id){S.sel={};S.sel[id]=1;render();const e=$('#nt');if(e){e.scrollIntoView();e.focus()}}
 async function admLoad(){S.aul=1;S.aerr='';const d=await adm('list');if(d&&d.users){S.au=d.users;avBatch(d.users.map(u=>[u.id,!!u.avatar_url]));render()}else if(d){S.aerr='رد غير متوقع من الدالة (تأكد أن كودها هو آخر نسخة من admin-users-index.ts)';render()}}
@@ -1003,7 +1003,7 @@ function pvV(){if(S.pop&&U.chest)return chestOv();if(PV.src)return photoOv();if(
 function chestV(){if(S.last&&S.last.p>=.7&&!S.last.g){S.last.g=1;if((U.lvl||1)%5===0){U.chest=(U.chest||0)+1;S.pop=1;save();setTimeout(render,0)}}
 if(!U.chest&&!S.chestMsg)return '';
 return `<div class="card c"><b>🎁 صندوق المفاجآت: ${U.chest||0}</b>${S.chestMsg?`<p>${S.chestMsg}</p>`:''}${U.chest?'<button class="b" onclick="openChest()">افتح الصندوق 🎁</button>':''}</div>`}
-function afterRender(){navFix();const b=ttsBtn(),r=ttsRep(),pl=inPlay();b.style.display=pl?'block':'none';r.style.display=pl?'block':'none';b.textContent=ttsOn()?'🔊':'🔇';
+function afterRender(){navFix();hideComposer();const b=ttsBtn(),r=ttsRep(),pl=inPlay();b.style.display=pl?'block':'none';r.style.display=pl?'block':'none';b.textContent=ttsOn()?'🔊':'🔇';
 let flip=false;
 if(CH.cur&&CH.d&&CH.d.st==='done'&&CH.chestSeen!==CH.cur){CH.chestSeen=CH.cur;U.chest=(U.chest||0)+1;S.pop=1;save();flip=true}
 if(MC.cur&&MC.d&&MC.d.st==='done'&&MC.chestSeen!==MC.cur){MC.chestSeen=MC.cur;U.chest=(U.chest||0)+1;S.pop=1;save();flip=true}
@@ -1030,6 +1030,26 @@ if(p)h+='<div class="card"><b>👥 الأصدقاء</b><button class="b2" onclic
 h+='<div class="card"><button class="b2" onclick="out()">🚪 تسجيل الخروج</button></div>';
 if(p)h+='<div class="card"><b style="color:var(--no)">⚠️ منطقة حساسة</b><button class="b2" style="color:var(--no)" onclick="setDel()">🗑️ حذف الحساب نهائيًا</button></div>';
 return h+'<p class="mu c">تطبيق خطيب · الإصدار 11</p>'}
+/* v28: publishing rule, admin publisher toggle, privacy policy */
+const isAdultMe=()=>{const p=ST.p;if(!p)return false;if(p.role==='admin'||p.can_publish)return true;if(!p.birth_date)return false;const d=new Date(p.birth_date);const lim=new Date();lim.setFullYear(lim.getFullYear()-18);return d<=lim};
+async function admPub(id,on){if(!confirm(on?'منح هذا الطالب صلاحية النشر؟':'سحب صلاحية النشر منه؟'))return;if(await adm('set_publisher',{id,on:!!on}))admLoad()}
+const POL=`<h3>سياسة الخصوصية وشروط الاستخدام</h3>
+<p><b>1. من نحن:</b> تطبيق خطيب لتعلّم اللغة الإنجليزية والمنافسة بين الطلاب. تُدار الخدمة بواسطة إدارة التطبيق.</p>
+<p><b>2. البيانات التي نجمعها:</b> اسم المستخدم، والاسم الكامل، والنوع، وتاريخ الميلاد، ورقم هاتف الطالب (اختياري)، ورقم هاتف ولي الأمر، والصورة الشخصية (اختيارية)، ونتائج التعلّم والتحديات، والرسائل والمنشورات التي ينشرها الطالب.</p>
+<p><b>3. موافقة ولي الأمر:</b> الطفل الذي يقل عمره عن 18 سنة لا يستخدم التطبيق إلا بموافقة ولي الأمر، ويُطلب رقم هاتفه للتواصل عند الحاجة فقط.</p>
+<p><b>4. حماية الأطفال والمراجعة:</b> تحتفظ الإدارة بحق مراجعة الألفاظ والرسائل والمنشورات والتعليقات والوسائط، وفلترتها حسب الأخلاق المجتمعية الإسلامية. أي ألفاظ أو محتوى مخالف يُمنع ويُحذف نهائيًا، ويُخطَر الطالب وولي الأمر بإنذار أول. إذا تكرر الخطأ يُقفل الحساب نهائيًا.</p>
+<p><b>5. النشر:</b> نشر المنشورات والفيديو متاح للبالغين (18 سنة فأكثر) أو للناشرين المعتمدين من الإدارة. يستطيع الطفل التعليق والإعجاب والمشاركة.</p>
+<p><b>6. الأصدقاء والخصوصية:</b> لا يمكن إضافة صديق إلا عبر صديق مشترك أو مجموعة مشتركة. تظهر حالة الاتصال والصورة للأصدقاء فقط. الرسائل والمنشورات تُرى بين الأصدقاء فقط.</p>
+<p><b>7. من يطّلع على البيانات:</b> لا تُعرض بيانات الطفل الشخصية (التاريخ والهواتف) إلا لإدارة التطبيق. المحادثات الخاصة يمكن للإدارة مراجعتها عند وجود بلاغ أو مخالفة.</p>
+<p><b>8. الاحتفاظ بالبيانات وحذفها:</b> تُحذف الرسائل والإشعارات والمخالفات القديمة تلقائيًا بعد مدة محددة (الرسائل والمخالفات سنة، والإشعارات المقروءة 90 يومًا). يستطيع الطالب أو ولي الأمر طلب حذف الحساب وكل بياناته من داخل الإعدادات أو عبر الإدارة.</p>
+<p><b>9. الأمان:</b> كلمات المرور مشفّرة ولا تظهر لأحد. لا تشارك كلمة المرور مع أحد.</p>
+<p><b>10. التواصل:</b> لأي استفسار أو طلب خصوصية، تواصل مع إدارة التطبيق عبر ولي الأمر.</p>`;
+function polOpen(){let o=document.getElementById('polov');if(!o){o=document.createElement('div');o.id='polov';o.style.cssText='position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.6);overflow:auto;padding:16px';
+o.innerHTML='<div class="card" style="max-width:600px;margin:12px auto;background:var(--cd);line-height:1.8">'+POL+'<button class="b" onclick="document.getElementById(\'polov\').remove()">فهمت، إغلاق</button></div>';o.onclick=e=>{if(e.target===o)o.remove()};document.body.appendChild(o)}}
+function polLink(){if(document.getElementById('pol'))return;const a=document.createElement('button');a.id='pol';a.textContent='سياسة الخصوصية';
+a.style.cssText='position:fixed;top:2px;right:8px;z-index:90;background:none;border:0;color:var(--mu);font-size:11px;text-decoration:underline;padding:4px';a.onclick=polOpen;document.body.appendChild(a)}
+polLink();
+function hideComposer(){const t=document.getElementById('pt');if(t&&!isAdultMe()){const c=t.closest('.card');if(c)c.style.display='none'}}
 cInit();render();
 </script><script>
 if('serviceWorker' in navigator&&location.protocol!=='file:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').then(reg=>{
