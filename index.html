@@ -1096,6 +1096,8 @@ d.querySelectorAll('button[data-id]').forEach(b=>b.onclick=()=>completeWord(Numb
 if(hd)hd.insertAdjacentElement('afterend',d)}
 function completeWord(id){const w=U.words.find(x=>x.id===id);if(!w)return;const ex=prompt('اكتب جملة فيها «'+w.en+'»');if(!ex||!ex.trim())return;const xa=prompt('اكتب ترجمة الجملة للعربية');if(!xa||!xa.trim())return;
 w.ex=ex.trim();w.xa=xa.trim();w.need=0;save();S.note='تم حفظ الجملة والترجمة ✅';render()}
+/* v31: the floating privacy link is removed; the policy lives in Settings */
+function polLink(){const old=document.getElementById('pol');if(old)old.remove()}
 cInit();render();
 </script><script>
 if('serviceWorker' in navigator&&location.protocol!=='file:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').then(reg=>{
